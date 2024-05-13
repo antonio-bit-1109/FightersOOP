@@ -1,3 +1,4 @@
+import { combattente } from "./classes/combattente";
 import { pozione } from "./classes/pozione";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
@@ -32,3 +33,15 @@ ArrayItemIniziale.push(
     pozionePrecisione_md,
     pozionePrecisione_lg
 );
+
+const Goku = new combattente("Goku", 50, 30, 1, 0, 35, 150, "saiyan", "calmo", "fronte", 25);
+const Vegeta = new combattente("Vegeta", 60, 22, 1, 0, 40, 100, "saiyan", "irascibile", "braccio sinistro", 19);
+localStorage.setItem("kakarot", JSON.stringify(Goku));
+localStorage.setItem("principe", JSON.stringify(Vegeta));
+console.log(Goku);
+Goku.checkInventario();
+Goku.checkInventario();
+Goku.lookAround();
+Goku.checkInventario();
+Goku.CheckTentativiRimasti();
+Goku.Pugno(Vegeta);
