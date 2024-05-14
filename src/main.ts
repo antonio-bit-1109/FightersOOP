@@ -40,5 +40,4 @@ const Freezer = new combattente("Freezer", 40, 35, 4, 2, 20, 110, "shimoni", "ir
 
 document.addEventListener("DOMContentLoaded", () => {
     const rootElement = document.getElementById("app");
-    console.log(rootElement);
 });
