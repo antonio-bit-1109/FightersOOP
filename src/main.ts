@@ -57,6 +57,13 @@ appElement?.classList.add("appElementStyle");
 const ArrayPersonaggi: combattente[] = [];
 ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell);
 
+const h1 = document.createElement("h1");
+const h3 = document.createElement("h3");
+const customModal = document.createElement("div");
+customModal.classList.add("styleCustomModal");
+let PlayerFigther_Z: null | combattente = null;
+
+//------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     if (appElement) {
         start();
@@ -65,8 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const start = () => {
-    const h1 = document.createElement("h1");
-    const h3 = document.createElement("h3");
     appElement?.append(h1);
     appElement?.append(h3);
     h1.innerHTML = "Benvenuto Al fighters-Z Game.";
@@ -153,10 +158,30 @@ const chooseYourCharacter = () => {
         )}`;
         inventario.classList.add("text-dark");
 
+        buttonChooseCharacter.addEventListener(
+            "click",
+            ((character) => {
+                return () => {
+                    PersonaggioScelto(character);
+                };
+            })(ArrayPersonaggi[i])
+        );
+
         textWrapper.append(inventario);
         wrapper.append(textWrapper);
         // wrapper.append(button);
         PlayerDiv.append(buttonChooseCharacter);
     }
     appElement?.append(PlayerDiv);
+};
+
+const PersonaggioScelto = function (character: combattente) {
+    setTimeout(() => {
+        customModal.style.display = "none";
+    }, 2500);
+    customModal.innerHTML = `Hai scelto ${character.nome}`;
+    customModal.classList.add("display-1", "text-warning", "fw-bolder");
+    appElement?.append(customModal);
+    PlayerFigther_Z = character;
+    console.log(PlayerFigther_Z);
 };

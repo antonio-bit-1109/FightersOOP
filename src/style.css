@@ -128,3 +128,15 @@ button:focus-visible {
 .larghezza {
     width: 300px;
 }
+
+.styleCustomModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    z-index: 999;
+    background-color: rgba(36, 36, 36, 0.89);
+    position: fixed;
+    top: 0;
+}
