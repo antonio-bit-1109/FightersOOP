@@ -96,6 +96,7 @@ export class combattente {
     }
 
     public Pugno(enemy: combattente) {
+        statusBattle.innerHTML = "";
         try {
             let canHit: boolean;
             let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
@@ -106,17 +107,18 @@ export class combattente {
 
             if (randomNum % 2 === 0 || randomNum % 5 === 0) {
                 canHit = true;
-                console.log("colpo andato a segno.");
+                statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.3) / enemy.difesa + 1;
-                enemy.pv -= Math.floor(danno);
-                console.log(` hai inflitto ${danno} danni `);
+                danno = parseFloat(danno.toFixed(2));
+                enemy.pv -= danno;
+                statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
             }
 
             if (randomNum % 2 !== 0) {
                 canHit = false;
-                console.log("il colpo non è andato a segno.");
+                statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
             }
         } catch (err) {
@@ -125,6 +127,7 @@ export class combattente {
     }
 
     public calcio(enemy: combattente) {
+        statusBattle.innerHTML = "";
         try {
             let canHit: boolean;
             let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
@@ -135,17 +138,18 @@ export class combattente {
 
             if (randomNum % 2 === 0 || randomNum % 5 === 0) {
                 canHit = true;
-                console.log("colpo andato a segno.");
+                statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.5) / enemy.difesa + 1;
-                enemy.pv -= Math.floor(danno);
-                console.log(` hai inflitto ${danno} danni `);
+                danno = parseFloat(danno.toFixed(2));
+                enemy.pv -= danno;
+                statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
             }
 
             if (randomNum % 2 !== 0) {
                 canHit = false;
-                console.log("il colpo non è andato a segno.");
+                statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
             }
         } catch (err) {
@@ -157,7 +161,7 @@ export class combattente {
         if (enemy.pv <= 0) {
             this.Fainted(enemy);
         }
-        console.log(`la vita del nemico (${enemy.nome}) è ${enemy.pv}`);
+        statusBattle.innerHTML += ` la vita del nemico (${enemy.nome}) è ${enemy.pv}`;
     }
 
     public lookAround() {
@@ -207,7 +211,7 @@ export class combattente {
     }
 
     private Fainted(enemy: combattente) {
-        console.log(`Il nemico ${enemy.nome} è stato sconfitto.`);
+        statusBattle.innerHTML = `Il nemico ${enemy.nome} è stato sconfitto.`;
     }
 
     public Riposo() {

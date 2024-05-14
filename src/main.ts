@@ -68,7 +68,7 @@ let startMatch = false;
 const divGiocatore = document.createElement("section");
 const divOpponent = document.createElement("section");
 export const statusBattle = document.createElement("div");
-statusBattle.classList.add("statusDivStyle", "display-2");
+statusBattle.classList.add("statusDivStyle", "display-2", "m-auto", "fw-bolder");
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
@@ -80,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
         chooseYourCharacter();
         OpponentPLayer(ArrayPersonaggi);
         appElement?.append(statusBattle);
-        statusBattle.innerHTML = "ciao ciao ciao ";
     }
 });
 
@@ -254,11 +253,11 @@ const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
         if (i === 0) {
             divGiocatore.append(progressDiv);
             populateDiv(mainPlayer, divGiocatore, opponent);
-            setInterval(() => aggiornaProgressBar(mainPlayer, progressBar), 1000); // Aggiorna ogni 1 secondo
+            setInterval(() => aggiornaProgressBar(mainPlayer, progressBar), 500); // Aggiorna ogni 1 secondo
         } else {
             divOpponent.append(progressDiv);
             populateDiv(opponent, divOpponent, mainPlayer);
-            setInterval(() => aggiornaProgressBar(opponent, progressBar), 1000); // Aggiorna ogni 1 secondo
+            setInterval(() => aggiornaProgressBar(opponent, progressBar), 500); // Aggiorna ogni 1 secondo
         }
     }
 };
