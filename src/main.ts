@@ -34,14 +34,11 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 50, 30, 1, 0, 35, 150, "saiyan", "calmo", "fronte", 25);
-const Vegeta = new combattente("Vegeta", 60, 22, 1, 0, 40, 100, "saiyan", "irascibile", "braccio sinistro", 19);
-localStorage.setItem("kakarot", JSON.stringify(Goku));
-localStorage.setItem("principe", JSON.stringify(Vegeta));
-console.log(Goku);
-Goku.checkInventario();
-Goku.checkInventario();
-Goku.lookAround();
-Goku.checkInventario();
-Goku.CheckTentativiRimasti();
-Goku.Pugno(Vegeta);
+const Goku = new combattente("Goku", 50, 30, 1, 0, 35, 150, "saiyan", "calmo", "fronte", 89);
+const Vegeta = new combattente("Vegeta", 60, 22, 1, 0, 40, 100, "saiyan", "irascibile", "braccio sinistro", 92);
+const Freezer = new combattente("Freezer", 40, 35, 4, 2, 20, 110, "shimoni", "irascibile", "coda", 90);
+
+document.addEventListener("DOMContentLoaded", () => {
+    const rootElement = document.getElementById("app");
+    console.log(rootElement);
+});

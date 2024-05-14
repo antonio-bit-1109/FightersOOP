@@ -6,6 +6,7 @@ export class combattente {
     agilita: number;
     precisione: number;
     pv: number;
+    initialPv: number;
     razza: string;
     temperamento: string;
     difesa: number;
@@ -32,7 +33,8 @@ export class combattente {
         this.forza = forza;
         this.agilita = agilita;
         this.precisione = precisione;
-        this.pv = pv;
+        this.pv = Math.floor(pv);
+        this.initialPv = this.pv;
         this.razza = razza;
         this.temperamento = temperamento;
         this.difesa = difesa;
@@ -48,11 +50,25 @@ export class combattente {
         return array[itemPrescelto];
     }
 
-    presentation() {
+    public presentation() {
         console.log(`Hello! my name is ${this.nome} e appartengo alla razza dei ${this.razza}.`);
     }
 
-    CheckTentativiRimasti() {
+    public stats() {
+        console.log(`-------${this.nome}-------`);
+        console.log(`these are my stats: Punti Vita:${this.pv} `);
+        console.log(` Punti Vita: ${this.pv} `);
+        console.log(` Forza: ${this.forza} `);
+        console.log(` Agilità: ${this.agilita} `);
+        console.log(` Precisione: ${this.precisione} `);
+        console.log(` Difesa: ${this.difesa} `);
+        console.log(` Lvl: ${this.livello} `);
+        console.log(` Exp: ${this.esperienza} `);
+        console.log(` Tentativi Ricerca: ${this.tentativi} `);
+        console.log(` Pv Iniziali: ${this.initialPv} `);
+    }
+
+    public CheckTentativiRimasti() {
         if (this.tentativi > 10) {
             console.log(`Sei ancora fresco e riposato. Puoi cercare a lungo. (${this.tentativi} tentativi rimasti).`);
         }
@@ -70,22 +86,56 @@ export class combattente {
         }
     }
 
-    checkInventario() {
+    public checkInventario() {
         console.log(`nel mio inventario ho i seguenti oggetti: ${this.inventario.map((item) => item.nome)}`);
     }
 
-    Pugno(enemy: combattente) {
+    public Pugno(enemy: combattente) {
         try {
             let canHit: boolean;
             let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
 
-            if (randomNum % 2 === 0) {
+            if (enemy.pv <= 0) {
+                return;
+            }
+
+            if (randomNum % 2 === 0 || randomNum % 5 === 0) {
                 canHit = true;
                 console.log("colpo andato a segno.");
-                let danno = this.forza / enemy.difesa + 1;
-                enemy.pv -= danno;
+                let danno = (this.forza * 1.3) / enemy.difesa + 1;
+                enemy.pv -= Math.floor(danno);
                 console.log(` hai inflitto ${danno} danni `);
                 this.vitaRimanenteNemico(enemy);
+                this.GainExp(enemy);
+            }
+
+            if (randomNum % 2 !== 0) {
+                canHit = false;
+                console.log("il colpo non è andato a segno.");
+                this.vitaRimanenteNemico(enemy);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    public calcio(enemy: combattente) {
+        try {
+            let canHit: boolean;
+            let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
+
+            if (enemy.pv <= 0) {
+                return;
+            }
+
+            if (randomNum % 2 === 0 || randomNum % 5 === 0) {
+                canHit = true;
+                console.log("colpo andato a segno.");
+                let danno = (this.forza * 1.5) / enemy.difesa + 1;
+                enemy.pv -= Math.floor(danno);
+                console.log(` hai inflitto ${danno} danni `);
+                this.vitaRimanenteNemico(enemy);
+                this.GainExp(enemy);
             }
 
             if (randomNum % 2 !== 0) {
@@ -99,10 +149,13 @@ export class combattente {
     }
 
     private vitaRimanenteNemico(enemy: combattente) {
+        if (enemy.pv <= 0) {
+            this.Fainted(enemy);
+        }
         console.log(`la vita del nemico (${enemy.nome}) è ${enemy.pv}`);
     }
 
-    lookAround() {
+    public lookAround() {
         let isItemFound = Math.floor(Math.random() * 100);
         let canILookForItems = this.tentativiRimasti();
 
@@ -130,6 +183,48 @@ export class combattente {
         } else {
             this.tentativi--;
             return true;
+        }
+    }
+
+    private GainExp(enemy: combattente) {
+        let expPoint = this.livello - enemy.livello * 1.1 + 1;
+        this.esperienza += expPoint;
+        if (this.esperienza === 20) {
+            this.esperienza = 0;
+            this.livello++;
+            console.log("sei salito di livello.");
+            console.log(`${this.nome} è passato al livello ${this.livello}`);
+        }
+
+        if (this.esperienza < 20) {
+            this.esperienza = expPoint;
+        }
+    }
+
+    private Fainted(enemy: combattente) {
+        console.log(`Il nemico ${enemy.nome} è stato sconfitto.`);
+    }
+
+    public Riposo() {
+        if (this.pv <= 0) {
+            this.pv = 0;
+            console.log(`${this.nome} è esausto. Si sta riposando.`);
+            this.pv = this.livello + 20;
+            console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
+        }
+
+        if (this.pv > 0) {
+            console.log(`${this.nome} non è completamente esausto.`);
+            console.log(`${this.nome} schiaccia un sonnellino.`);
+            this.pv += this.livello + 10;
+            console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
+        }
+
+        if (this.pv >= this.initialPv) {
+            this.pv = this.initialPv;
+            console.log(`${this.nome} è perfettamente riposato.`);
+            console.log("i suoi punti vita sono al massimo.");
+            console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
         }
     }
 }
