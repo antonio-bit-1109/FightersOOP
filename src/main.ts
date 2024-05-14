@@ -51,14 +51,14 @@ const Vegeta = new combattente(
 );
 const Freezer = new combattente("Freezer", 40, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
 const Cell = new combattente("Cell", 50, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
-const KidBUU = new combattente("Kid Buu", 55, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
+const KidBU = new combattente("Kid-Bu", 55, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
 const appElement = document.getElementById("app");
 appElement?.classList.add("appElementStyle");
 
 const ArrayPersonaggi: combattente[] = [];
-ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell, KidBUU);
+ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell, KidBU);
 
 const h1 = document.createElement("h1");
 const h3 = document.createElement("h3");
