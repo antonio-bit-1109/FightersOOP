@@ -71,7 +71,7 @@ let startMatch = false;
 const divGiocatore = document.createElement("section");
 const divOpponent = document.createElement("section");
 export const statusBattle = document.createElement("div");
-statusBattle.classList.add("statusDivStyle", "display-2", "m-auto", "fw-bolder");
+statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder");
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
