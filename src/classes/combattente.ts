@@ -1,5 +1,7 @@
 import { pozione } from "./pozione";
 import { ArrayItemIniziale } from "../main";
+import { statusBattle } from "../main";
+
 export class combattente {
     nome: string;
     forza: number;
@@ -231,5 +233,5 @@ export class combattente {
         }
     }
 
-    public UsaPozione() {}
+    // public UsaPozione() {}
 }

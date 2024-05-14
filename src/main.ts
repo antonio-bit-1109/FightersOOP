@@ -67,6 +67,8 @@ let personaggioComputer: any | combattente = null;
 let startMatch = false;
 const divGiocatore = document.createElement("section");
 const divOpponent = document.createElement("section");
+export const statusBattle = document.createElement("div");
+statusBattle.classList.add("statusDivStyle", "display-2");
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
@@ -77,6 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
         start();
         chooseYourCharacter();
         OpponentPLayer(ArrayPersonaggi);
+        appElement?.append(statusBattle);
+        statusBattle.innerHTML = "ciao ciao ciao ";
     }
 });
 
@@ -195,9 +199,7 @@ const PersonaggioScelto = function (character: combattente) {
         startMatch = true;
         startMatch && DamoseLeBotte(personaggioUtente, personaggioComputer);
     });
-    // setTimeout(() => {
-    //     customModal.style.display = "none";
-    // }, 2500);
+
     customModal.innerHTML = `Hai scelto ${character.nome}`;
     customModal.classList.add("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
     customModal.append(buttonStartMatch);
@@ -251,11 +253,104 @@ const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
 
         if (i === 0) {
             divGiocatore.append(progressDiv);
+            populateDiv(mainPlayer, divGiocatore, opponent);
+            setInterval(() => aggiornaProgressBar(mainPlayer, progressBar), 1000); // Aggiorna ogni 1 secondo
         } else {
             divOpponent.append(progressDiv);
+            populateDiv(opponent, divOpponent, mainPlayer);
+            setInterval(() => aggiornaProgressBar(opponent, progressBar), 1000); // Aggiorna ogni 1 secondo
         }
     }
-
-    // Aggiunta del div della progress bar all'elemento desiderato nel DOM, ad esempio `document.body` o un altro elemento specifico
-    // document.body.appendChild(progressDiv); // Sostituire `document.body` con l'elemento specifico se necessario
 };
+
+const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: combattente) => {
+    const btnCalcio = document.createElement("button");
+    btnCalcio.innerText = "Calcio";
+
+    const btnPugno = document.createElement("button");
+    btnPugno.innerText = "Pugno";
+
+    const btnRiposo = document.createElement("button");
+    btnRiposo.innerText = "Riposo";
+
+    const btnCercaOggetti = document.createElement("button");
+    btnCercaOggetti.innerText = "Cerca Oggetti";
+
+    const btnControllaInventario = document.createElement("button");
+    btnControllaInventario.innerText = "Controlla inventario";
+
+    let charImage = document.createElement("img");
+    charImage.src = `./src/assets/imgs/${character.image}`;
+    charImage.classList.add("imgDimension");
+
+    let textWrapper = document.createElement("div");
+
+    let nome = document.createElement("h5");
+    nome.innerHTML = `${character.nome}`;
+    nome.classList.add("text-dark", "fs-1");
+    textWrapper.append(nome);
+
+    let pv = document.createElement("p");
+    pv.innerHTML = ` PV : ${character.pv}`;
+    pv.classList.add("text-dark");
+    textWrapper.append(pv);
+
+    let lv = document.createElement("p");
+    lv.innerHTML = ` LVL : ${character.livello}`;
+    lv.classList.add("text-dark");
+    textWrapper.append(lv);
+
+    let forza = document.createElement("p");
+    forza.innerHTML = ` ATK : ${character.forza}`;
+    forza.classList.add("text-dark");
+    textWrapper.append(forza);
+
+    let agilita = document.createElement("p");
+    agilita.innerHTML = ` DEX : ${character.agilita}`;
+    agilita.classList.add("text-dark");
+    textWrapper.append(agilita);
+
+    let precisione = document.createElement("p");
+    precisione.innerHTML = ` AIM : ${character.precisione}`;
+    precisione.classList.add("text-dark");
+    textWrapper.append(precisione);
+
+    let puntoCritico = document.createElement("p");
+    puntoCritico.innerHTML = ` WEAKNESS : ${character.puntoCritico}`;
+    puntoCritico.classList.add("text-dark");
+
+    divContainer.classList.add("bg-light");
+    divContainer.append(charImage);
+    divContainer.append(textWrapper);
+    divContainer.append(btnCalcio);
+    divContainer.append(btnPugno);
+    divContainer.append(btnRiposo);
+    divContainer.append(btnCercaOggetti);
+    divContainer.append(btnControllaInventario);
+
+    btnCalcio.addEventListener("click", () => {
+        character.calcio(enemy);
+    });
+
+    btnPugno.addEventListener("click", () => {
+        character.Pugno(enemy);
+    });
+
+    btnRiposo.addEventListener("click", () => {
+        character.Riposo();
+    });
+
+    btnCercaOggetti.addEventListener("click", () => {
+        character.lookAround();
+    });
+
+    btnControllaInventario.addEventListener("click", () => {
+        character.checkInventario();
+    });
+};
+
+function aggiornaProgressBar(player: combattente, progressBar: any) {
+    let vitaAttuale = player.pv;
+    progressBar.style.width = `${vitaAttuale}%`;
+    progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+}

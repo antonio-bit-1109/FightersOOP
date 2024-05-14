@@ -144,3 +144,15 @@ button:focus-visible {
 .btnStartMatch_Style {
     border-radius: 30px;
 }
+
+.statusDivStyle {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    color: greenyellow;
+    background-color: #5f5a5a8f;
+    margin-block: 20px;
+}
