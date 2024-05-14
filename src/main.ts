@@ -1,6 +1,5 @@
 import { combattente } from "./classes/combattente";
 import { pozione } from "./classes/pozione";
-import torneoImg from "./assets/imgs/torneo.png";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
