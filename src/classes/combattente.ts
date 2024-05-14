@@ -230,4 +230,6 @@ export class combattente {
             console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
         }
     }
+
+    public UsaPozione() {}
 }

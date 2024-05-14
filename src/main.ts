@@ -66,9 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const start = () => {
     const h1 = document.createElement("h1");
+    const h3 = document.createElement("h3");
     appElement?.append(h1);
-    h1.innerHTML = "Benvenuto Al fighters-Z Game";
+    appElement?.append(h3);
+    h1.innerHTML = "Benvenuto Al fighters-Z Game.";
+    h3.innerHTML = "Scegli il tuo Figther.";
     h1.classList.add("stileh1");
+    h3.classList.add("stileh3");
 };
 
 const chooseYourCharacter = () => {
@@ -77,7 +81,22 @@ const chooseYourCharacter = () => {
 
     for (let i = 0; i < ArrayPersonaggi.length; i++) {
         let wrapper = document.createElement("section");
-        wrapper.classList.add("bg-white", "d-inline-block", "text-center", "mx-3", "rounded-5", "px-3");
+        wrapper.classList.add(
+            "bg-white",
+            "d-inline-block",
+            "text-center",
+            "m-3",
+            "rounded-5",
+            "p-3",
+            "hoverAnimation",
+            "larghezza"
+        );
+
+        const buttonChooseCharacter = document.createElement("button");
+        buttonChooseCharacter.classList.add("btn", "btn-transparent");
+        buttonChooseCharacter.append(wrapper);
+        // button.innerHTML = "Scegli Personaggio";
+        // button.classList.add("my-3");
 
         let charImage = document.createElement("img");
         charImage.src = `./src/assets/imgs/${ArrayPersonaggi[i].image}`;
@@ -93,34 +112,51 @@ const chooseYourCharacter = () => {
 
         let pv = document.createElement("p");
         pv.innerHTML = ` PV : ${ArrayPersonaggi[i].pv}`;
+        pv.classList.add("text-dark");
         textWrapper.append(pv);
 
         let lv = document.createElement("p");
         lv.innerHTML = ` LVL : ${ArrayPersonaggi[i].livello}`;
+        lv.classList.add("text-dark");
         textWrapper.append(lv);
 
         let forza = document.createElement("p");
         forza.innerHTML = ` ATK : ${ArrayPersonaggi[i].forza}`;
+        forza.classList.add("text-dark");
         textWrapper.append(forza);
 
         let agilita = document.createElement("p");
         agilita.innerHTML = ` DEX : ${ArrayPersonaggi[i].agilita}`;
+        agilita.classList.add("text-dark");
         textWrapper.append(agilita);
 
         let precisione = document.createElement("p");
         precisione.innerHTML = ` AIM : ${ArrayPersonaggi[i].precisione}`;
+        precisione.classList.add("text-dark");
         textWrapper.append(precisione);
 
         let puntoCritico = document.createElement("p");
         puntoCritico.innerHTML = ` WEAKNESS : ${ArrayPersonaggi[i].puntoCritico}`;
+        puntoCritico.classList.add("text-dark");
+
         textWrapper.append(puntoCritico);
 
         let razza = document.createElement("p");
         razza.innerHTML = ` RACE : ${ArrayPersonaggi[i].razza}`;
+        razza.classList.add("text-dark");
+
         textWrapper.append(razza);
 
+        let inventario = document.createElement("div");
+        inventario.innerHTML = ` Inventario : ${ArrayPersonaggi[i].inventario.map(
+            (item) => `${item.nome} <br> +${item.valore}`
+        )}`;
+        inventario.classList.add("text-dark");
+
+        textWrapper.append(inventario);
         wrapper.append(textWrapper);
-        PlayerDiv.append(wrapper);
+        // wrapper.append(button);
+        PlayerDiv.append(buttonChooseCharacter);
     }
     appElement?.append(PlayerDiv);
 };
