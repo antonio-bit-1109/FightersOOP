@@ -34,7 +34,7 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 50, 30, 1, 0, 35, 150, "saiyan", "calmo", "fronte", 89, "goku.webp");
+const Goku = new combattente("Goku", 50, 30, 1, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
 const Vegeta = new combattente(
     "Vegeta",
     60,
@@ -49,8 +49,8 @@ const Vegeta = new combattente(
     92,
     "vegeta.png"
 );
-const Freezer = new combattente("Freezer", 40, 35, 4, 2, 20, 110, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
-const Cell = new combattente("Cell", 50, 40, 5, 1, 30, 130, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const Freezer = new combattente("Freezer", 40, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
+const Cell = new combattente("Cell", 50, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
 const appElement = document.getElementById("app");
 appElement?.classList.add("appElementStyle");
 
@@ -60,10 +60,13 @@ ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell);
 const h1 = document.createElement("h1");
 const h3 = document.createElement("h3");
 const customModal = document.createElement("div");
+let PlayersDiv = document.createElement("div");
 customModal.classList.add("styleCustomModal");
-let personaggioUtente: null | combattente = null;
-let personaggioComputer: null | combattente = null;
+let personaggioUtente: any | combattente = null;
+let personaggioComputer: any | combattente = null;
 let startMatch = false;
+const divGiocatore = document.createElement("section");
+const divOpponent = document.createElement("section");
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
@@ -87,8 +90,7 @@ const start = () => {
 };
 
 const chooseYourCharacter = () => {
-    let PlayerDiv = document.createElement("div");
-    PlayerDiv.classList.add("text-center");
+    PlayersDiv.classList.add("text-center");
 
     for (let i = 0; i < ArrayPersonaggi.length; i++) {
         let wrapper = document.createElement("section");
@@ -176,9 +178,9 @@ const chooseYourCharacter = () => {
         textWrapper.append(inventario);
         wrapper.append(textWrapper);
         // wrapper.append(button);
-        PlayerDiv.append(buttonChooseCharacter);
+        PlayersDiv.append(buttonChooseCharacter);
     }
-    appElement?.append(PlayerDiv);
+    appElement?.append(PlayersDiv);
 };
 
 const PersonaggioScelto = function (character: combattente) {
@@ -191,7 +193,7 @@ const PersonaggioScelto = function (character: combattente) {
         customModal.classList.remove("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
         customModal.innerHTML = "";
         startMatch = true;
-        startMatch && DamoseLeBotte();
+        startMatch && DamoseLeBotte(personaggioUtente, personaggioComputer);
     });
     // setTimeout(() => {
     //     customModal.style.display = "none";
@@ -211,6 +213,49 @@ const OpponentPLayer = (array: combattente[]) => {
     console.log(personaggioComputer);
 };
 
-const DamoseLeBotte = () => {
-    console.log("stiamo combattendo!");
+const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
+    h1.innerHTML = ` Combattimento tra ${mainPlayer.nome} e ${opponent.nome}`;
+    h3.innerHTML = "";
+    PlayersDiv.innerHTML = "";
+    PlayersDiv.classList.add("d-flex", "gap-4");
+    PlayersDiv.append(divGiocatore);
+    divGiocatore.classList.add("w-50");
+    PlayersDiv.append(divOpponent);
+    divOpponent.classList.add("w-50");
+
+    for (let i = 0; i < 2; i++) {
+        // Creazione del div esterno per la progress bar
+        const progressDiv = document.createElement("div");
+        progressDiv.classList.add("progress");
+
+        // Creazione del div interno per la barra di progresso
+        const progressBar = document.createElement("div");
+        progressBar.classList.add("progress-bar", "progress-bar-striped", "progress-bar-animated", "bg-success");
+        progressBar.setAttribute("role", "progressbar");
+
+        let vitaPlayer;
+        if (i === 0) {
+            vitaPlayer = mainPlayer.pv;
+            progressBar.style.width = `${vitaPlayer}%`;
+        } else {
+            vitaPlayer = opponent.pv;
+            progressBar.style.width = `${vitaPlayer}%`;
+        }
+
+        progressBar.setAttribute("aria-valuenow", `${vitaPlayer.toString()}`);
+        progressBar.setAttribute("aria-valuemin", "0");
+        progressBar.setAttribute("aria-valuemax", "100");
+
+        // Aggiunta della barra di progresso al div esterno
+        progressDiv.appendChild(progressBar);
+
+        if (i === 0) {
+            divGiocatore.append(progressDiv);
+        } else {
+            divOpponent.append(progressDiv);
+        }
+    }
+
+    // Aggiunta del div della progress bar all'elemento desiderato nel DOM, ad esempio `document.body` o un altro elemento specifico
+    // document.body.appendChild(progressDiv); // Sostituire `document.body` con l'elemento specifico se necessario
 };
