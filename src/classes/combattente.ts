@@ -15,6 +15,7 @@ export class combattente {
     puntoCritico: string;
     inventario: pozione[];
     tentativi: number;
+    image: string;
 
     constructor(
         nome: string,
@@ -27,7 +28,8 @@ export class combattente {
         razza: string,
         temperamento: string,
         puntoCritico: string,
-        precisione: number
+        precisione: number,
+        image: string
     ) {
         this.nome = nome;
         this.forza = forza;
@@ -43,6 +45,7 @@ export class combattente {
         this.puntoCritico = puntoCritico;
         this.inventario = [this.randomItem(ArrayItemIniziale)];
         this.tentativi = Math.floor(esperienza + agilita / 10);
+        this.image = image;
     }
 
     private randomItem(array: pozione[]) {
