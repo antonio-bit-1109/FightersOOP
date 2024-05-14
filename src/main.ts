@@ -61,13 +61,19 @@ const h1 = document.createElement("h1");
 const h3 = document.createElement("h3");
 const customModal = document.createElement("div");
 customModal.classList.add("styleCustomModal");
-let PlayerFigther_Z: null | combattente = null;
-
+let personaggioUtente: null | combattente = null;
+let personaggioComputer: null | combattente = null;
+let startMatch = false;
+//
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
+//
+//
+
 document.addEventListener("DOMContentLoaded", () => {
     if (appElement) {
         start();
         chooseYourCharacter();
+        OpponentPLayer(ArrayPersonaggi);
     }
 });
 
@@ -176,12 +182,35 @@ const chooseYourCharacter = () => {
 };
 
 const PersonaggioScelto = function (character: combattente) {
-    setTimeout(() => {
+    const buttonStartMatch = document.createElement("button");
+    buttonStartMatch.innerHTML = "Start Match";
+    buttonStartMatch.classList.add("btnStartMatch_Style", "py-2", "fs-1");
+
+    buttonStartMatch.addEventListener("click", () => {
         customModal.style.display = "none";
-    }, 2500);
+        customModal.classList.remove("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
+        customModal.innerHTML = "";
+        startMatch = true;
+        startMatch && DamoseLeBotte();
+    });
+    // setTimeout(() => {
+    //     customModal.style.display = "none";
+    // }, 2500);
     customModal.innerHTML = `Hai scelto ${character.nome}`;
-    customModal.classList.add("display-1", "text-warning", "fw-bolder");
+    customModal.classList.add("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
+    customModal.append(buttonStartMatch);
     appElement?.append(customModal);
-    PlayerFigther_Z = character;
-    console.log(PlayerFigther_Z);
+    personaggioUtente = character;
+    console.log(personaggioUtente);
+};
+
+const OpponentPLayer = (array: combattente[]) => {
+    let randomNum = Math.floor(Math.random() * array.length);
+    let avversario: combattente = array[randomNum];
+    personaggioComputer = avversario;
+    console.log(personaggioComputer);
+};
+
+const DamoseLeBotte = () => {
+    console.log("stiamo combattendo!");
 };

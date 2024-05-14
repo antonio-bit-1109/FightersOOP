@@ -140,3 +140,7 @@ button:focus-visible {
     position: fixed;
     top: 0;
 }
+
+.btnStartMatch_Style {
+    border-radius: 30px;
+}
