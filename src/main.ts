@@ -50,7 +50,7 @@ const Vegeta = new combattente(
     "vegeta.png"
 );
 const Freezer = new combattente("Freezer", 400, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
-const Cell = new combattente("Cell", 5000, 400, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const Cell = new combattente("Cell", 500, 400, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
 const KidBU = new combattente("Kid-Bu", 550, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
@@ -291,6 +291,14 @@ const DamoseLeBotte = (arraycombattenti: combattente[]) => {
 
 function aggiornaProgressBar(player: combattente, progressBar: HTMLElement, divGiocatoreSconfitto: HTMLElement) {
     let vitaAttuale = player.pv;
+
+    if (vitaAttuale > 50) {
+        progressBar.style.width = `${vitaAttuale}%`;
+        progressBar.classList.add("bg-success");
+        progressBar.classList.remove("bg-warning");
+        progressBar.classList.remove("bg-danger");
+        progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+    }
 
     if (vitaAttuale < 50) {
         progressBar.style.width = `${vitaAttuale}%`;
