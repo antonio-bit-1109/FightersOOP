@@ -92,9 +92,17 @@ export class combattente {
 
     public checkInventario() {
         statusBattle.innerHTML = "";
-        statusBattle.innerHTML = `nel mio inventario ho i seguenti oggetti: <ul> <li>${this.inventario.map(
-            (item) => item.nome
-        )}</li> </ul> `;
+
+        this.inventario.forEach((item, i) => {
+            const btnPozione = document.createElement("button");
+            btnPozione.innerHTML = `<div> ${item.nome}  </div><div>  ${item.valore} </div>`;
+            statusBattle.append(btnPozione);
+            btnPozione.addEventListener("click", () => {
+                this.UsaPozione(item);
+                this.inventario.splice(i, 1);
+                btnPozione.remove();
+            });
+        });
     }
 
     public Pugno(enemy: combattente) {
@@ -246,5 +254,21 @@ export class combattente {
         this.tentativi++;
     }
 
-    public UsaPozione() {}
+    public UsaPozione(pozione: pozione) {
+        if (pozione.nome.toLowerCase().includes("vita")) {
+            this.pv += pozione.valore;
+        }
+        if (pozione.nome.toLowerCase().includes("difesa")) {
+            //aumenta la vita
+            this.difesa += pozione.valore;
+        }
+        if (pozione.nome.toLowerCase().includes("precisione")) {
+            //aumenta la vita
+            this.precisione += pozione.valore;
+        }
+        if (pozione.nome.toLowerCase().includes("attacco")) {
+            //aumenta la vita
+            this.forza += pozione.valore;
+        }
+    }
 }

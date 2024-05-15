@@ -5,9 +5,9 @@ const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
 const pozioneVita_lg = new pozione(100, "pozioneVita_lg");
 
-const pozioneDifesa_sm = new pozione(5, "pozioneDIfesa_sm");
-const pozioneDifesa_md = new pozione(10, "pozioneDIfesa_md");
-const pozioneDifesa_lg = new pozione(20, "pozioneDIfesa_lg");
+const pozioneDifesa_sm = new pozione(5, "pozioneDifesa_sm");
+const pozioneDifesa_md = new pozione(10, "pozioneDifesa_md");
+const pozioneDifesa_lg = new pozione(20, "pozioneDifesa_lg");
 
 const pozioneAttacco_sm = new pozione(3, "pozioneAttacco_sm");
 const pozioneAttacco_md = new pozione(5, "pozioneAttacco_md");
@@ -34,10 +34,10 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 1000, 30, 12, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
+const Goku = new combattente("Goku", 400, 30, 12, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
 const Vegeta = new combattente(
     "Vegeta",
-    6000,
+    600,
     22,
     10,
     0,
@@ -49,9 +49,9 @@ const Vegeta = new combattente(
     92,
     "vegeta.png"
 );
-const Freezer = new combattente("Freezer", 4000, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
-const Cell = new combattente("Cell", 5000, 4000, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
-const KidBU = new combattente("Kid-Bu", 5500, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
+const Freezer = new combattente("Freezer", 400, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
+const Cell = new combattente("Cell", 5000, 400, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const KidBU = new combattente("Kid-Bu", 550, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
 const appElement = document.getElementById("app");
