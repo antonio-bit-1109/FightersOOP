@@ -72,6 +72,10 @@ const divGiocatore = document.createElement("section");
 const divOpponent = document.createElement("section");
 export const statusBattle = document.createElement("div");
 statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder");
+
+let TurnoPlayer1: boolean = false;
+let TurnoPlayer2: boolean = false;
+
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
@@ -81,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (appElement) {
         start();
         chooseYourCharacter();
-        OpponentPLayer(ArrayPersonaggi);
         appElement?.append(statusBattle);
     }
 });
@@ -177,6 +180,9 @@ const chooseYourCharacter = () => {
             ((character) => {
                 return () => {
                     PersonaggioScelto(character);
+                    //rimuovo il personaggio che ho scelto dall array globale dei personaggi.
+                    TogliPersonaggioSceltoArray(character);
+                    OpponentPLayer(ArrayPersonaggi);
                 };
             })(ArrayPersonaggi[i])
         );
@@ -187,6 +193,13 @@ const chooseYourCharacter = () => {
         PlayersDiv.append(buttonChooseCharacter);
     }
     appElement?.append(PlayersDiv);
+};
+
+//  cerco il personaggio che il primo utente ha scelto e lo rimuovo dall'array su cui poi il computer sceglierà l'avversario ( no stessi personaggi combattono tra loro)
+const TogliPersonaggioSceltoArray = (personaggioScelto: combattente) => {
+    const filteredArray = ArrayPersonaggi.filter((personaggio) => personaggio.nome !== personaggioScelto.nome);
+    ArrayPersonaggi.splice(0, ArrayPersonaggi.length, ...filteredArray);
+    console.log(ArrayPersonaggi);
 };
 
 const PersonaggioScelto = function (character: combattente) {
@@ -210,6 +223,7 @@ const PersonaggioScelto = function (character: combattente) {
     console.log(personaggioUtente);
 };
 
+// scelta dell'avversario basato su un numero random usato come indice casuale per trovare avversario
 const OpponentPLayer = (array: combattente[]) => {
     let randomNum = Math.floor(Math.random() * array.length);
     let avversario: combattente = array[randomNum];
@@ -281,6 +295,9 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     const btnControllaInventario = document.createElement("button");
     btnControllaInventario.innerText = "Controlla inventario";
 
+    const btnCheckTentativiRimastiRicerca = document.createElement("button");
+    btnCheckTentativiRimastiRicerca.innerText = "Fatica Accumulata";
+
     let charImage = document.createElement("img");
     charImage.src = `./src/assets/imgs/${character.image}`;
     charImage.classList.add("imgDimension");
@@ -329,6 +346,7 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     divContainer.append(btnRiposo);
     divContainer.append(btnCercaOggetti);
     divContainer.append(btnControllaInventario);
+    divContainer.append(btnCheckTentativiRimastiRicerca);
 
     btnCalcio.addEventListener("click", () => {
         character.calcio(enemy);
@@ -348,6 +366,10 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
 
     btnControllaInventario.addEventListener("click", () => {
         character.checkInventario();
+    });
+
+    btnCheckTentativiRimastiRicerca.addEventListener("click", () => {
+        character.CheckTentativiRimasti();
     });
 };
 
