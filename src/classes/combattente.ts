@@ -92,9 +92,9 @@ export class combattente {
 
     public checkInventario() {
         statusBattle.innerHTML = "";
-        statusBattle.innerHTML = `nel mio inventario ho i seguenti oggetti: ${this.inventario.map(
+        statusBattle.innerHTML = `nel mio inventario ho i seguenti oggetti: <ul> <li>${this.inventario.map(
             (item) => item.nome
-        )}`;
+        )}</li> </ul> `;
     }
 
     public Pugno(enemy: combattente) {
@@ -174,6 +174,7 @@ export class combattente {
         //probabilità di trovare un oggetto del 15%
         if (!canILookForItems) {
             statusBattle.innerHTML = "sei troppo stanco per continuare a cercare. Hai bisogno di riposo.";
+            return;
         }
 
         if (isItemFound <= 15) {
@@ -240,7 +241,10 @@ export class combattente {
             statusBattle.innerHTML += "i suoi punti vita sono al massimo.";
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
+
+        // ricarica la possiblita di trovare item randomici
+        this.tentativi++;
     }
 
-    // public UsaPozione() {}
+    public UsaPozione() {}
 }
