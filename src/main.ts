@@ -34,12 +34,12 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 50, 30, 1, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
+const Goku = new combattente("Goku", 50, 30, 12, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
 const Vegeta = new combattente(
     "Vegeta",
     60,
     22,
-    1,
+    10,
     0,
     40,
     100,
@@ -65,17 +65,19 @@ const h3 = document.createElement("h3");
 const customModal = document.createElement("div");
 let PlayersDiv = document.createElement("div");
 customModal.classList.add("styleCustomModal");
-let personaggioUtente: any | combattente = null;
-let personaggioComputer: any | combattente = null;
+// let personaggioUtente: any | combattente = null;
+// let personaggioComputer: any | combattente = null;
+
+// array contenente i due personaggi che combatteranno
+let ArrayScontroPersonaggi: combattente[] = [];
+
 let startMatch = false;
 const divGiocatore = document.createElement("section");
 const divOpponent = document.createElement("section");
 export const statusBattle = document.createElement("div");
 statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder");
 
-let TurnoPlayer1: boolean = false;
-let TurnoPlayer2: boolean = false;
-
+let WhoIsturn: number = 1;
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
@@ -215,28 +217,32 @@ const PersonaggioScelto = function (character: combattente) {
         customModal.innerHTML = "";
         // sistemo il DOM e lo inizializzo con i due personaggi scelti
         startMatch = true;
-        startMatch && DamoseLeBotte(personaggioUtente, personaggioComputer);
+        // startMatch && DamoseLeBotte(personaggioUtente, personaggioComputer);
+        startMatch && DamoseLeBotte(ArrayScontroPersonaggi);
     });
 
     customModal.innerHTML = `Hai scelto ${character.nome}`;
     customModal.classList.add("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
     customModal.append(buttonStartMatch);
     appElement?.append(customModal);
-    personaggioUtente = character;
-    console.log(personaggioUtente);
+    // personaggioUtente = character;
+    ArrayScontroPersonaggi.push(character);
+    // console.log(personaggioUtente);
 };
 
 // scelta dell'avversario basato su un numero random usato come indice casuale per trovare avversario
 const OpponentPLayer = (array: combattente[]) => {
     let randomNum = Math.floor(Math.random() * array.length);
     let avversario: combattente = array[randomNum];
-    personaggioComputer = avversario;
-    console.log(personaggioComputer);
+    ArrayScontroPersonaggi.push(avversario);
+    // personaggioComputer = avversario;
+    // console.log(personaggioComputer);
+    console.log(ArrayScontroPersonaggi);
 };
 
 // creo i div contenenti info dei due personaggi e attacco event listeners che richiamano i metodi necessari per il combattimento
-const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
-    h1.innerHTML = ` Combattimento tra ${mainPlayer.nome} e ${opponent.nome}`;
+const DamoseLeBotte = (arraycombattenti: combattente[]) => {
+    h1.innerHTML = ` Combattimento tra ${arraycombattenti[0].nome} e ${arraycombattenti[1].nome}`;
     h3.innerHTML = "";
     PlayersDiv.innerHTML = "";
     PlayersDiv.classList.add("d-flex", "gap-4");
@@ -257,10 +263,10 @@ const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
 
         let vitaPlayer;
         if (i === 0) {
-            vitaPlayer = mainPlayer.pv;
+            vitaPlayer = arraycombattenti[0].pv;
             progressBar.style.width = `${vitaPlayer}%`;
         } else {
-            vitaPlayer = opponent.pv;
+            vitaPlayer = arraycombattenti[1].pv;
             progressBar.style.width = `${vitaPlayer}%`;
         }
 
@@ -273,17 +279,20 @@ const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
 
         if (i === 0) {
             divGiocatore.append(progressDiv);
-            populateDiv(mainPlayer, divGiocatore, opponent);
-            setInterval(() => aggiornaProgressBar(mainPlayer, progressBar), 500); // Aggiorna ogni 1 secondo
+            populateDiv(arraycombattenti[0], divGiocatore, arraycombattenti[1]);
+            setInterval(() => aggiornaProgressBar(arraycombattenti[0], progressBar), 500); // Aggiorna ogni 1 secondo
         } else {
             divOpponent.append(progressDiv);
-            populateDiv(opponent, divOpponent, mainPlayer);
-            setInterval(() => aggiornaProgressBar(opponent, progressBar), 500); // Aggiorna ogni 1 secondo
+            populateDiv(arraycombattenti[1], divOpponent, arraycombattenti[0]);
+            setInterval(() => aggiornaProgressBar(arraycombattenti[1], progressBar), 500); // Aggiorna ogni 1 secondo
         }
     }
 };
 
 const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: combattente) => {
+    // all inizio della partita è il turno del primo giocatore
+    h3.innerHTML = `È il turno di ${ArrayScontroPersonaggi[0].nome}`.toUpperCase();
+
     const btnCalcio = document.createElement("button");
     btnCalcio.innerText = "Calcio";
 
@@ -354,26 +363,32 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
 
     btnCalcio.addEventListener("click", () => {
         character.calcio(enemy);
+        changeTurn(ArrayScontroPersonaggi);
     });
 
     btnPugno.addEventListener("click", () => {
         character.Pugno(enemy);
+        changeTurn(ArrayScontroPersonaggi);
     });
 
     btnRiposo.addEventListener("click", () => {
         character.Riposo();
+        changeTurn(ArrayScontroPersonaggi);
     });
 
     btnCercaOggetti.addEventListener("click", () => {
         character.lookAround();
+        changeTurn(ArrayScontroPersonaggi);
     });
 
     btnControllaInventario.addEventListener("click", () => {
         character.checkInventario();
+        changeTurn(ArrayScontroPersonaggi);
     });
 
     btnCheckTentativiRimastiRicerca.addEventListener("click", () => {
         character.CheckTentativiRimasti();
+        changeTurn(ArrayScontroPersonaggi);
     });
 };
 
@@ -382,3 +397,17 @@ function aggiornaProgressBar(player: combattente, progressBar: any) {
     progressBar.style.width = `${vitaAttuale}%`;
     progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 }
+
+const changeTurn = (array: combattente[]) => {
+    if (WhoIsturn === 2) {
+        WhoIsturn = 1;
+        h3.innerHTML = `È il turno di ${array[0].nome}`.toUpperCase();
+        return;
+    }
+
+    if (WhoIsturn === 1) {
+        WhoIsturn = 2;
+        h3.innerHTML = `È il turno di ${array[1].nome}`.toUpperCase();
+        return;
+    }
+};

@@ -151,6 +151,7 @@ button:focus-visible {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     font-size: 3em;
     color: greenyellow;
     background-color: #5f5a5a8f;

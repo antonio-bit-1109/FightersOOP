@@ -56,10 +56,12 @@ export class combattente {
     }
 
     public presentation() {
+        statusBattle.innerHTML = "";
         console.log(`Hello! my name is ${this.nome} e appartengo alla razza dei ${this.razza}.`);
     }
 
     public stats() {
+        statusBattle.innerHTML = "";
         console.log(`-------${this.nome}-------`);
         console.log(`these are my stats: Punti Vita:${this.pv} `);
         console.log(` Punti Vita: ${this.pv} `);
@@ -74,25 +76,25 @@ export class combattente {
     }
 
     public CheckTentativiRimasti() {
+        statusBattle.innerHTML = "";
         if (this.tentativi > 10) {
-            console.log(`Sei ancora fresco e riposato. Puoi cercare a lungo. (${this.tentativi} tentativi rimasti).`);
+            statusBattle.innerHTML = `Sei ancora fresco e riposato. Puoi cercare a lungo. (${this.tentativi} tentativi rimasti).`;
         }
 
         if (this.tentativi > 5 && this.tentativi < 10) {
-            console.log(
-                `sei affaticato ma anche ancora un po di energia per cercare risorse. (${this.tentativi} tentativi rimasti).`
-            );
+            statusBattle.innerHTML = `sei affaticato ma anche ancora un po di energia per cercare risorse. (${this.tentativi} tentativi rimasti).`;
         }
 
         if (this.tentativi < 5) {
-            console.log(
-                `sei quasi allo stremo delle forze, non reggerai ancora a lungo. (${this.tentativi} tentativi rimasti).`
-            );
+            statusBattle.innerHTML = `sei quasi allo stremo delle forze, non reggerai ancora a lungo. (${this.tentativi} tentativi rimasti).`;
         }
     }
 
     public checkInventario() {
-        console.log(`nel mio inventario ho i seguenti oggetti: ${this.inventario.map((item) => item.nome)}`);
+        statusBattle.innerHTML = "";
+        statusBattle.innerHTML = `nel mio inventario ho i seguenti oggetti: ${this.inventario.map(
+            (item) => item.nome
+        )}`;
     }
 
     public Pugno(enemy: combattente) {
@@ -165,23 +167,24 @@ export class combattente {
     }
 
     public lookAround() {
+        statusBattle.innerHTML = "";
         let isItemFound = Math.floor(Math.random() * 100);
         let canILookForItems = this.tentativiRimasti();
 
         //probabilità di trovare un oggetto del 15%
         if (!canILookForItems) {
-            console.log("sei troppo stanco per continuare a cercare. Hai bisogno di riposo.");
+            statusBattle.innerHTML = "sei troppo stanco per continuare a cercare. Hai bisogno di riposo.";
         }
 
         if (isItemFound <= 15) {
-            console.log("hai trovato qualcosa.");
+            statusBattle.innerHTML += "hai trovato qualcosa.";
             let randomNumber = Math.floor(Math.random() * ArrayItemIniziale.length);
             let itemTrovato = ArrayItemIniziale[randomNumber];
-            console.log(`hai tovato ${itemTrovato.nome}`);
+            statusBattle.innerHTML += `hai tovato ${itemTrovato.nome}`;
             this.inventario.push(itemTrovato);
         } else {
-            console.log("osservi l'ambiente circostante.");
-            console.log("non hai trovato nulla.");
+            statusBattle.innerHTML += "osservi l'ambiente circostante.";
+            statusBattle.innerHTML += "non hai trovato nulla.";
         }
     }
 
@@ -196,13 +199,13 @@ export class combattente {
     }
 
     private GainExp(enemy: combattente) {
-        let expPoint = this.livello - enemy.livello * 1.1 + 1;
+        let expPoint = this.livello - enemy.livello * 1.2 + 1;
         this.esperienza += expPoint;
         if (this.esperienza === 20) {
             this.esperienza = 0;
             this.livello++;
-            console.log("sei salito di livello.");
-            console.log(`${this.nome} è passato al livello ${this.livello}`);
+            statusBattle.innerHTML += "sei salito di livello.";
+            statusBattle.innerHTML += `${this.nome} è passato al livello ${this.livello}`;
         }
 
         if (this.esperienza < 20) {
@@ -215,25 +218,27 @@ export class combattente {
     }
 
     public Riposo() {
+        statusBattle.innerHTML = "";
+
         if (this.pv <= 0) {
             this.pv = 0;
-            console.log(`${this.nome} è esausto. Si sta riposando.`);
+            statusBattle.innerHTML += `${this.nome} è esausto. Si sta riposando.`;
             this.pv = this.livello + 20;
-            console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
+            statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
         if (this.pv > 0) {
-            console.log(`${this.nome} non è completamente esausto.`);
-            console.log(`${this.nome} schiaccia un sonnellino.`);
+            statusBattle.innerHTML += `${this.nome} non è completamente esausto.`;
+            statusBattle.innerHTML += `${this.nome} schiaccia un sonnellino.`;
             this.pv += this.livello + 10;
-            console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
+            statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
         if (this.pv >= this.initialPv) {
             this.pv = this.initialPv;
-            console.log(`${this.nome} è perfettamente riposato.`);
-            console.log("i suoi punti vita sono al massimo.");
-            console.log(`${this.nome} ---> pvAttuali: ${this.pv}`);
+            statusBattle.innerHTML += `${this.nome} è perfettamente riposato.`;
+            statusBattle.innerHTML += "i suoi punti vita sono al massimo.";
+            statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
     }
 
