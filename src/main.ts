@@ -289,8 +289,23 @@ const DamoseLeBotte = (arraycombattenti: combattente[]) => {
     }
 };
 
-function aggiornaProgressBar(player: combattente, progressBar: any, divGiocatoreSconfitto: HTMLElement) {
+function aggiornaProgressBar(player: combattente, progressBar: HTMLElement, divGiocatoreSconfitto: HTMLElement) {
     let vitaAttuale = player.pv;
+
+    if (vitaAttuale < 50) {
+        progressBar.style.width = `${vitaAttuale}%`;
+        progressBar.classList.remove("bg-success");
+        progressBar.classList.add("bg-warning");
+        progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+    }
+
+    if (vitaAttuale < 25) {
+        progressBar.style.width = `${vitaAttuale}%`;
+        progressBar.classList.remove("bg-warning");
+        progressBar.classList.add("bg-danger");
+        progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+    }
+
     if (vitaAttuale < 0) {
         vitaAttuale = 0;
         progressBar.style.width = `${vitaAttuale}%`;
@@ -309,6 +324,7 @@ function aggiornaProgressBar(player: combattente, progressBar: any, divGiocatore
             customModal.append(messaggioSconfitta);
         }
     }
+
     progressBar.style.width = `${vitaAttuale}%`;
     progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 }
