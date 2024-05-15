@@ -213,6 +213,7 @@ const PersonaggioScelto = function (character: combattente) {
         customModal.style.display = "none";
         customModal.classList.remove("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
         customModal.innerHTML = "";
+        // sistemo il DOM e lo inizializzo con i due personaggi scelti
         startMatch = true;
         startMatch && DamoseLeBotte(personaggioUtente, personaggioComputer);
     });
@@ -233,6 +234,7 @@ const OpponentPLayer = (array: combattente[]) => {
     console.log(personaggioComputer);
 };
 
+// creo i div contenenti info dei due personaggi e attacco event listeners che richiamano i metodi necessari per il combattimento
 const DamoseLeBotte = (mainPlayer: combattente, opponent: combattente) => {
     h1.innerHTML = ` Combattimento tra ${mainPlayer.nome} e ${opponent.nome}`;
     h3.innerHTML = "";
