@@ -107,7 +107,6 @@ export class combattente {
     public Pugno(enemy: combattente) {
         statusBattle.innerHTML = "";
         try {
-            let canHit: boolean;
             let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
 
             if (enemy.pv <= 0) {
@@ -115,7 +114,7 @@ export class combattente {
             }
 
             if (randomNum % 2 === 0 || randomNum % 5 === 0) {
-                canHit = true;
+                //    let canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.2) / enemy.difesa + 1;
                 danno = parseFloat(danno.toFixed(2));
@@ -126,7 +125,7 @@ export class combattente {
             }
 
             if (randomNum % 2 !== 0) {
-                canHit = false;
+                // canHit = false;
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
             }
@@ -138,7 +137,7 @@ export class combattente {
     public calcio(enemy: combattente) {
         statusBattle.innerHTML = "";
         try {
-            let canHit: boolean;
+            // let canHit: boolean;
             let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
 
             if (enemy.pv <= 0) {
@@ -146,7 +145,7 @@ export class combattente {
             }
 
             if (randomNum % 2 === 0 || randomNum % 5 === 0) {
-                canHit = true;
+                // canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.4) / enemy.difesa + 1;
                 danno = parseFloat(danno.toFixed(2));
@@ -157,7 +156,7 @@ export class combattente {
             }
 
             if (randomNum % 2 !== 0) {
-                canHit = false;
+                // canHit = false;
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
             }
