@@ -61,9 +61,8 @@ export class combattente {
     }
 
     public stats() {
-        statusBattle.innerHTML += "";
+        statusBattle.innerHTML = "";
         statusBattle.innerHTML += `-------${this.nome}-------`;
-        statusBattle.innerHTML += ` Punti Vita:${this.pv} `;
         statusBattle.innerHTML += ` Punti Vita: ${this.pv} `;
         statusBattle.innerHTML += ` Forza: ${this.forza} `;
         statusBattle.innerHTML += ` Agilità: ${this.agilita} `;

@@ -440,17 +440,17 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
 
     btnControllaInventario.addEventListener("click", () => {
         character.checkInventario();
-        changeTurn(ArrayScontroPersonaggi);
+        // changeTurn(ArrayScontroPersonaggi);
     });
 
     btnCheckTentativiRimastiRicerca.addEventListener("click", () => {
         character.CheckTentativiRimasti();
-        changeTurn(ArrayScontroPersonaggi);
+        // changeTurn(ArrayScontroPersonaggi);
     });
 
     statusPG.addEventListener("click", () => {
         character.stats();
-        changeTurn(ArrayScontroPersonaggi);
+        // changeTurn(ArrayScontroPersonaggi);
     });
 };
 
