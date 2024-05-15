@@ -179,9 +179,11 @@ const chooseYourCharacter = () => {
             "click",
             ((character) => {
                 return () => {
+                    //scelgo il mio personaggio
                     PersonaggioScelto(character);
                     //rimuovo il personaggio che ho scelto dall array globale dei personaggi.
                     TogliPersonaggioSceltoArray(character);
+                    //scelgo player opponent
                     OpponentPLayer(ArrayPersonaggi);
                 };
             })(ArrayPersonaggi[i])
