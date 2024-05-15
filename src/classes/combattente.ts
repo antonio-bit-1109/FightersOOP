@@ -61,18 +61,18 @@ export class combattente {
     }
 
     public stats() {
-        statusBattle.innerHTML = "";
-        console.log(`-------${this.nome}-------`);
-        console.log(`these are my stats: Punti Vita:${this.pv} `);
-        console.log(` Punti Vita: ${this.pv} `);
-        console.log(` Forza: ${this.forza} `);
-        console.log(` Agilità: ${this.agilita} `);
-        console.log(` Precisione: ${this.precisione} `);
-        console.log(` Difesa: ${this.difesa} `);
-        console.log(` Lvl: ${this.livello} `);
-        console.log(` Exp: ${this.esperienza} `);
-        console.log(` Tentativi Ricerca: ${this.tentativi} `);
-        console.log(` Pv Iniziali: ${this.initialPv} `);
+        statusBattle.innerHTML += "";
+        statusBattle.innerHTML += `-------${this.nome}-------`;
+        statusBattle.innerHTML += ` Punti Vita:${this.pv} `;
+        statusBattle.innerHTML += ` Punti Vita: ${this.pv} `;
+        statusBattle.innerHTML += ` Forza: ${this.forza} `;
+        statusBattle.innerHTML += ` Agilità: ${this.agilita} `;
+        statusBattle.innerHTML += ` Precisione: ${this.precisione} `;
+        statusBattle.innerHTML += ` Difesa: ${this.difesa} `;
+        statusBattle.innerHTML += ` Lvl: ${this.livello} `;
+        statusBattle.innerHTML += ` Exp: ${this.esperienza} `;
+        statusBattle.innerHTML += ` Tentativi Ricerca: ${this.tentativi} `;
+        statusBattle.innerHTML += ` Pv Iniziali: ${this.initialPv} `;
     }
 
     public CheckTentativiRimasti() {
@@ -118,7 +118,7 @@ export class combattente {
             if (randomNum % 2 === 0 || randomNum % 5 === 0) {
                 canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
-                let danno = (this.forza * 1.3) / enemy.difesa + 1;
+                let danno = (this.forza * 1.2) / enemy.difesa + 1;
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
@@ -149,7 +149,7 @@ export class combattente {
             if (randomNum % 2 === 0 || randomNum % 5 === 0) {
                 canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
-                let danno = (this.forza * 1.5) / enemy.difesa + 1;
+                let danno = (this.forza * 1.4) / enemy.difesa + 1;
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
@@ -232,7 +232,7 @@ export class combattente {
         if (this.pv <= 0) {
             this.pv = 0;
             statusBattle.innerHTML += `${this.nome} è esausto. Si sta riposando.`;
-            this.pv = this.livello + 20;
+            this.pv = this.livello + 10;
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 

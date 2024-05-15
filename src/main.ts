@@ -50,7 +50,7 @@ const Vegeta = new combattente(
     "vegeta.png"
 );
 const Freezer = new combattente("Freezer", 400, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
-const Cell = new combattente("Cell", 500, 400, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
 const KidBU = new combattente("Kid-Bu", 550, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
@@ -138,6 +138,11 @@ const chooseYourCharacter = () => {
         pv.innerHTML = ` PV : ${ArrayPersonaggi[i].pv}`;
         pv.classList.add("text-dark");
         textWrapper.append(pv);
+
+        let difesa = document.createElement("p");
+        difesa.innerHTML = ` DEF : ${ArrayPersonaggi[i].difesa}`;
+        difesa.classList.add("text-dark");
+        textWrapper.append(difesa);
 
         let lv = document.createElement("p");
         lv.innerHTML = ` LVL : ${ArrayPersonaggi[i].livello}`;
@@ -359,6 +364,9 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     const btnCheckTentativiRimastiRicerca = document.createElement("button");
     btnCheckTentativiRimastiRicerca.innerText = "Fatica Accumulata";
 
+    const statusPG = document.createElement("button");
+    statusPG.innerText = "STATUS PG";
+
     let charImage = document.createElement("img");
     charImage.src = `./src/assets/imgs/${character.image}`;
     charImage.classList.add("imgDimension");
@@ -408,6 +416,7 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     divContainer.append(btnCercaOggetti);
     divContainer.append(btnControllaInventario);
     divContainer.append(btnCheckTentativiRimastiRicerca);
+    divContainer.append(statusPG);
 
     btnCalcio.addEventListener("click", () => {
         character.calcio(enemy);
@@ -436,6 +445,11 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
 
     btnCheckTentativiRimastiRicerca.addEventListener("click", () => {
         character.CheckTentativiRimasti();
+        changeTurn(ArrayScontroPersonaggi);
+    });
+
+    statusPG.addEventListener("click", () => {
+        character.stats();
         changeTurn(ArrayScontroPersonaggi);
     });
 };
