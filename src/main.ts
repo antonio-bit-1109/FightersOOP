@@ -50,7 +50,7 @@ const Vegeta = new combattente(
     "vegeta.png"
 );
 const Freezer = new combattente("Freezer", 4000, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
-const Cell = new combattente("Cell", 50, 4000, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const Cell = new combattente("Cell", 5000, 4000, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
 const KidBU = new combattente("Kid-Bu", 5500, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
