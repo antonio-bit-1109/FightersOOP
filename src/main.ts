@@ -123,7 +123,7 @@ const chooseYourCharacter = () => {
         // button.classList.add("my-3");
 
         let charImage = document.createElement("img");
-        charImage.src = `./public/imgs/${ArrayPersonaggi[i].image}`;
+        charImage.src = `/imgs/${ArrayPersonaggi[i].image}`;
         charImage.classList.add("imgDimension");
         wrapper.append(charImage);
 
@@ -368,7 +368,7 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     statusPG.innerText = "STATUS PG";
 
     let charImage = document.createElement("img");
-    charImage.src = `./public/imgs/${character.image}`;
+    charImage.src = `/imgs/${character.image}`;
     charImage.classList.add("imgDimension");
 
     let textWrapper = document.createElement("div");
