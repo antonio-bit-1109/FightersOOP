@@ -104,7 +104,7 @@ button:focus-visible {
 
 .appElementStyle {
     min-height: 100vh;
-    background-image: url("./assets/imgs/torneo.png");
+    background-image: url("/public/imgs/torneo.png");
     background-size: cover;
 }
 
