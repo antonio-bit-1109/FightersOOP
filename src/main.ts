@@ -34,10 +34,10 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 50, 30, 12, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
+const Goku = new combattente("Goku", 1000, 30, 12, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
 const Vegeta = new combattente(
     "Vegeta",
-    60,
+    6000,
     22,
     10,
     0,
@@ -49,9 +49,9 @@ const Vegeta = new combattente(
     92,
     "vegeta.png"
 );
-const Freezer = new combattente("Freezer", 40, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
-const Cell = new combattente("Cell", 50, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
-const KidBU = new combattente("Kid-Bu", 55, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
+const Freezer = new combattente("Freezer", 4000, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
+const Cell = new combattente("Cell", 50, 4000, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const KidBU = new combattente("Kid-Bu", 5500, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
 const appElement = document.getElementById("app");
@@ -212,7 +212,7 @@ const PersonaggioScelto = function (character: combattente) {
     buttonStartMatch.classList.add("btnStartMatch_Style", "py-2", "fs-1");
 
     buttonStartMatch.addEventListener("click", () => {
-        customModal.style.display = "none";
+        customModal.classList.add("d-none");
         customModal.classList.remove("display-1", "text-warning", "fw-bolder", "d-flex", "flex-column", "gap-3");
         customModal.innerHTML = "";
         // sistemo il DOM e lo inizializzo con i due personaggi scelti
@@ -280,14 +280,38 @@ const DamoseLeBotte = (arraycombattenti: combattente[]) => {
         if (i === 0) {
             divGiocatore.append(progressDiv);
             populateDiv(arraycombattenti[0], divGiocatore, arraycombattenti[1]);
-            setInterval(() => aggiornaProgressBar(arraycombattenti[0], progressBar), 500); // Aggiorna ogni 1 secondo
+            setInterval(() => aggiornaProgressBar(arraycombattenti[0], progressBar, divGiocatore), 500); // Aggiorna ogni 1 secondo
         } else {
             divOpponent.append(progressDiv);
             populateDiv(arraycombattenti[1], divOpponent, arraycombattenti[0]);
-            setInterval(() => aggiornaProgressBar(arraycombattenti[1], progressBar), 500); // Aggiorna ogni 1 secondo
+            setInterval(() => aggiornaProgressBar(arraycombattenti[1], progressBar, divOpponent), 500); // Aggiorna ogni 1 secondo
         }
     }
 };
+
+function aggiornaProgressBar(player: combattente, progressBar: any, divGiocatoreSconfitto: HTMLElement) {
+    let vitaAttuale = player.pv;
+    if (vitaAttuale < 0) {
+        vitaAttuale = 0;
+        progressBar.style.width = `${vitaAttuale}%`;
+        progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+
+        if (!customModal.querySelector(".messaggio-sconfitta")) {
+            divGiocatoreSconfitto.append(customModal);
+            customModal.classList.remove("d-none");
+            customModal.classList.remove("styleCustomModal");
+            customModal.classList.add("styleCustomModal_1");
+            customModal.classList.add("text-danger");
+            let messaggioSconfitta = document.createElement("h3");
+            messaggioSconfitta.classList.add("messaggio-sconfitta");
+            messaggioSconfitta.classList.add("positionMessaggioSconfitta");
+            messaggioSconfitta.innerHTML = "SCONFITTA";
+            customModal.append(messaggioSconfitta);
+        }
+    }
+    progressBar.style.width = `${vitaAttuale}%`;
+    progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+}
 
 const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: combattente) => {
     // all inizio della partita è il turno del primo giocatore
@@ -391,12 +415,6 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
         changeTurn(ArrayScontroPersonaggi);
     });
 };
-
-function aggiornaProgressBar(player: combattente, progressBar: any) {
-    let vitaAttuale = player.pv;
-    progressBar.style.width = `${vitaAttuale}%`;
-    progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
-}
 
 const changeTurn = (array: combattente[]) => {
     if (WhoIsturn === 2) {
