@@ -1,3 +1,4 @@
+import { canzone } from "./classes/canzone";
 import { combattente } from "./classes/combattente";
 import { pozione } from "./classes/pozione";
 import { sfondoFetch } from "./fetches/sfondoFetch";
@@ -288,6 +289,8 @@ const DamoseLeBotte = (arraycombattenti: combattente[]) => {
     divOpponent.classList.add("w-50");
     inputGroup.classList.add("d-none");
 
+    RiproduzioneMusica();
+
     for (let i = 0; i < 2; i++) {
         // Creazione del div esterno per la progress bar
         const progressDiv = document.createElement("div");
@@ -508,4 +511,29 @@ const changeTurn = (array: combattente[]) => {
         h3.innerHTML = `È il turno di ${array[1].nome}`.toUpperCase();
         return;
     }
+};
+
+const RiproduzioneMusica = () => {
+    //creaiamo degli oggetti canzone
+    let canzone1 = new canzone("Prelude to Storm", "/audio/fightSong.mp3");
+    let canzone2 = new canzone("heavy Dust", "/audio/fightSong1.mp3");
+
+    //creo array che contiene canzoni
+    const playlist: canzone[] = [];
+    playlist.push(canzone1, canzone2);
+
+    // creiamo un playerMusicale per musica combattimento
+    const MusicPLayer = document.createElement("audio");
+    MusicPLayer.setAttribute("controls", "");
+    MusicPLayer.autoplay = true;
+    MusicPLayer.volume = 0.2;
+
+    // Aggiunta delle canzoni al player musicale come elementi <source>
+    playlist.forEach((song) => {
+        const sourceElement = document.createElement("source");
+        sourceElement.src = song.src;
+        sourceElement.type = "audio/mpeg"; // Assicurati che il tipo sia corretto in base al formato dei tuoi file audio
+        MusicPLayer.appendChild(sourceElement);
+    });
+    appElement?.append(MusicPLayer);
 };
