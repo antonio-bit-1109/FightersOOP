@@ -188,3 +188,7 @@ button:focus-visible {
     background-color: #5f5a5a8f;
     margin-block: 20px;
 }
+
+.w-relative {
+    width: 35%;
+}

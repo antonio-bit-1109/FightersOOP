@@ -1,5 +1,7 @@
 import { combattente } from "./classes/combattente";
 import { pozione } from "./classes/pozione";
+import { sfondoFetch } from "./fetches/sfondoFetch";
+import { IPhotos } from "./interfaces/interfaces";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
@@ -54,8 +56,9 @@ const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberan
 const KidBU = new combattente("Kid-Bu", 550, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
-const appElement = document.getElementById("app");
-appElement?.classList.add("appElementStyle");
+export const appElement = document.getElementById("app");
+
+// ricavo dal localStorage eventuale immagine salvata come sfondo
 
 const ArrayPersonaggi: combattente[] = [];
 ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell, KidBU);
@@ -78,6 +81,27 @@ export const statusBattle = document.createElement("div");
 statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder");
 
 let WhoIsturn: number = 1;
+
+// creazione input group sfruttando classi bootstrap
+
+//div contenitore
+const inputGroup = document.createElement("div");
+inputGroup.classList.add("input-group", "m-auto", "w-50");
+// input element
+const input = document.createElement("input");
+input.type = "text";
+input.placeholder = "scegli dove ambientare il tuo scontro.";
+input.classList.add("form-control");
+input.setAttribute("aria-label", "input to choose the background");
+// button element
+const buttonRequestFetch = document.createElement("button");
+buttonRequestFetch.classList.add("btn", "btn-outline-warning");
+buttonRequestFetch.innerText = "Cambia Sfondo";
+buttonRequestFetch.type = "button";
+buttonRequestFetch.id = "buttonSearch";
+//append children
+inputGroup.append(input);
+inputGroup.append(buttonRequestFetch);
 //
 //------------------------- ELEMENTI GLOBALI SOPRA ---------------------------------------------------------
 //
@@ -85,6 +109,7 @@ let WhoIsturn: number = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
     if (appElement) {
+        appElement.classList.add("appElementStyle");
         start();
         chooseYourCharacter();
         appElement?.append(statusBattle);
@@ -94,6 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const start = () => {
     appElement?.append(h1);
     appElement?.append(h3);
+    appElement?.append(inputGroup);
+    // cambio dello sfondo chiamando API di pexels
+    buttonRequestFetch.addEventListener("click", () => {
+        sfondoFetch(input.value);
+    });
     h1.innerHTML = "Benvenuto Al fighters-Z Game.";
     h3.innerHTML = "Scegli il tuo Figther.";
     h1.classList.add("stileh1");
@@ -255,6 +285,7 @@ const DamoseLeBotte = (arraycombattenti: combattente[]) => {
     divGiocatore.classList.add("w-50");
     PlayersDiv.append(divOpponent);
     divOpponent.classList.add("w-50");
+    inputGroup.classList.add("d-none");
 
     for (let i = 0; i < 2; i++) {
         // Creazione del div esterno per la progress bar
