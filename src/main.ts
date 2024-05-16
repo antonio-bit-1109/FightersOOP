@@ -448,6 +448,7 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         btnSuperSayan.addEventListener("click", () => {
             console.log("sono nel click");
             checkThisGuerrieroIsSayan_AndGoSuper(character);
+            changeTurn(ArrayScontroPersonaggi);
 
             // trova immagine nel dom e sostituiscila con quella da ssj
             let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
