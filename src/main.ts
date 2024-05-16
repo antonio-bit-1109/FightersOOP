@@ -532,8 +532,8 @@ const changeTurn = (array: Guerriero[]) => {
 
 const RiproduzioneMusica = () => {
     //creaiamo degli oggetti canzone
-    let canzone1 = new canzone("Prelude to Storm", "/audio/fightSong.mp3");
     let canzone2 = new canzone("heavy Dust", "/audio/fightSong1.mp3");
+    let canzone1 = new canzone("Prelude to Storm", "/audio/fightSong.mp3");
 
     //creo array che contiene canzoni
     const playlist: canzone[] = [];

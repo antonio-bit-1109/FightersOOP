@@ -107,13 +107,13 @@ export class combattente {
     public Pugno(enemy: combattente) {
         statusBattle.innerHTML = "";
         try {
-            let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
+            let possibilitaColpo = Math.random() * 100;
 
             if (enemy.pv <= 0) {
                 return;
             }
 
-            if (possibilitaColpo % 2 === 0 || possibilitaColpo % 5 === 0) {
+            if (possibilitaColpo <= this.precisione) {
                 //    let canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.2) / enemy.difesa + 1;
@@ -141,7 +141,7 @@ export class combattente {
                 return;
             }
 
-            if (possibilitaColpo % 2 === 0 || possibilitaColpo % 5 === 0) {
+            if (possibilitaColpo <= this.precisione) {
                 // canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.4) / enemy.difesa + 1;
