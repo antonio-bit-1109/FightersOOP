@@ -1,5 +1,8 @@
 // import { pozione } from "../classes/pozione";
 
+import { Sayan } from "../classes/Sayan";
+import { combattente } from "../classes/combattente";
+
 // export interface TipoCombattente {
 //     nome: string;
 //     forza: number;
@@ -30,4 +33,11 @@ export interface IPhotos {
     };
     url: string;
     width: number;
+}
+
+// creazione tipo Unione:
+export type Guerriero = Sayan | combattente;
+
+export interface IGuerrieri {
+    guerrieri: Guerriero;
 }

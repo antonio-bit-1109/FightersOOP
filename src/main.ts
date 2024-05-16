@@ -1,8 +1,9 @@
+import { Sayan } from "./classes/Sayan";
 import { canzone } from "./classes/canzone";
 import { combattente } from "./classes/combattente";
 import { pozione } from "./classes/pozione";
 import { sfondoFetch } from "./fetches/sfondoFetch";
-import { IPhotos } from "./interfaces/interfaces";
+import { Guerriero, IPhotos } from "./interfaces/interfaces";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
@@ -37,8 +38,22 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 400, 45, 5, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
-const Vegeta = new combattente(
+const Goku = new Sayan(
+    "Goku",
+    400,
+    45,
+    5,
+    0,
+    35,
+    100,
+    "saiyan",
+    "calmo",
+    "fronte",
+    89,
+    "goku.webp",
+    "goku_super_gif.webp"
+);
+const Vegeta = new Sayan(
     "Vegeta",
     600,
     38,
@@ -50,7 +65,8 @@ const Vegeta = new combattente(
     "irascibile",
     "braccio sinistro",
     92,
-    "vegeta.png"
+    "vegeta.png",
+    "vegeta_super_gif.gif"
 );
 const Freezer = new combattente("Freezer", 400, 35, 5, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
 const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
@@ -61,7 +77,7 @@ export const appElement = document.getElementById("app");
 
 // ricavo dal localStorage eventuale immagine salvata come sfondo
 
-const ArrayPersonaggi: combattente[] = [];
+const ArrayPersonaggi: Guerriero[] = [];
 ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell, KidBU);
 
 const h1 = document.createElement("h1");
@@ -73,7 +89,7 @@ customModal.classList.add("styleCustomModal");
 // let personaggioComputer: any | combattente = null;
 
 // array contenente i due personaggi che combatteranno
-let ArrayScontroPersonaggi: combattente[] = [];
+let ArrayScontroPersonaggi: Guerriero[] = [];
 
 let startMatch = false;
 const divGiocatore = document.createElement("section");
@@ -237,13 +253,13 @@ const chooseYourCharacter = () => {
 };
 
 //  cerco il personaggio che il primo utente ha scelto e lo rimuovo dall'array su cui poi il computer sceglierà l'avversario ( no stessi personaggi combattono tra loro)
-const TogliPersonaggioSceltoArray = (personaggioScelto: combattente) => {
+const TogliPersonaggioSceltoArray = (personaggioScelto: Guerriero) => {
     const filteredArray = ArrayPersonaggi.filter((personaggio) => personaggio.nome !== personaggioScelto.nome);
     ArrayPersonaggi.splice(0, ArrayPersonaggi.length, ...filteredArray);
     console.log(ArrayPersonaggi);
 };
 
-const PersonaggioScelto = function (character: combattente) {
+const PersonaggioScelto = function (character: Guerriero) {
     const buttonStartMatch = document.createElement("button");
     buttonStartMatch.innerHTML = "Start Match";
     buttonStartMatch.classList.add("btnStartMatch_Style", "py-2", "fs-1");
@@ -268,7 +284,7 @@ const PersonaggioScelto = function (character: combattente) {
 };
 
 // scelta dell'avversario basato su un numero random usato come indice casuale per trovare avversario
-const OpponentPLayer = (array: combattente[]) => {
+const OpponentPLayer = (array: Guerriero[]) => {
     let randomNum = Math.floor(Math.random() * array.length);
     let avversario: combattente = array[randomNum];
     ArrayScontroPersonaggi.push(avversario);
@@ -278,7 +294,7 @@ const OpponentPLayer = (array: combattente[]) => {
 };
 
 // creo i div contenenti info dei due personaggi e attacco event listeners che richiamano i metodi necessari per il combattimento
-const DamoseLeBotte = (arraycombattenti: combattente[]) => {
+const DamoseLeBotte = (arraycombattenti: Guerriero[]) => {
     h1.innerHTML = ` Combattimento tra ${arraycombattenti[0].nome} e ${arraycombattenti[1].nome}`;
     h3.innerHTML = "";
     PlayersDiv.innerHTML = "";
@@ -329,7 +345,7 @@ const DamoseLeBotte = (arraycombattenti: combattente[]) => {
     }
 };
 
-function aggiornaProgressBar(player: combattente, progressBar: HTMLElement, divGiocatoreSconfitto: HTMLElement) {
+function aggiornaProgressBar(player: Guerriero, progressBar: HTMLElement, divGiocatoreSconfitto: HTMLElement) {
     let vitaAttuale = player.pv;
 
     if (vitaAttuale > 50) {
@@ -377,7 +393,11 @@ function aggiornaProgressBar(player: combattente, progressBar: HTMLElement, divG
     progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 }
 
-const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: combattente) => {
+const checkThisGuerrieroIsSayan = (character: Guerriero) => {
+    return (character as Sayan).superSayan();
+};
+
+const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Guerriero) => {
     // all inizio della partita è il turno del primo giocatore
     h3.innerHTML = `È il turno di ${ArrayScontroPersonaggi[0].nome}`.toUpperCase();
 
@@ -404,6 +424,7 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
 
     let charImage = document.createElement("img");
     charImage.src = `/imgs/${character.image}`;
+    charImage.id = `id-${character.nome}`;
     charImage.classList.add("imgDimension");
 
     let buttonsWrapper = document.createElement("div");
@@ -418,39 +439,22 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
         statusPG
     );
 
-    // let nome = document.createElement("h5");
-    // nome.innerHTML = `${character.nome}`;
-    // nome.classList.add("text-dark", "fs-1");
-    // textWrapper.append(nome);
-
-    // let pv = document.createElement("p");
-    // pv.innerHTML = ` PV : ${character.pv}`;
-    // pv.classList.add("text-dark");
-    // textWrapper.append(pv);
-
-    // let lv = document.createElement("p");
-    // lv.innerHTML = ` LVL : ${character.livello}`;
-    // lv.classList.add("text-dark");
-    // textWrapper.append(lv);
-
-    // let forza = document.createElement("p");
-    // forza.innerHTML = ` ATK : ${character.forza}`;
-    // forza.classList.add("text-dark");
-    // textWrapper.append(forza);
-
-    // let agilita = document.createElement("p");
-    // agilita.innerHTML = ` DEX : ${character.agilita}`;
-    // agilita.classList.add("text-dark");
-    // textWrapper.append(agilita);
-
-    // let precisione = document.createElement("p");
-    // precisione.innerHTML = ` AIM : ${character.precisione}`;
-    // precisione.classList.add("text-dark");
-    // textWrapper.append(precisione);
-
-    // let puntoCritico = document.createElement("p");
-    // puntoCritico.innerHTML = ` WEAKNESS : ${character.puntoCritico}`;
-    // puntoCritico.classList.add("text-dark");
+    // se il personaggio giocato è goku o vegeta hanno la possibilità di avere il bottone super sayan
+    if (character.razza.toLowerCase() === "saiyan" || character.nome.toLowerCase() === "saiyan") {
+        const btnSuperSayan = document.createElement("button");
+        btnSuperSayan.innerText = "SUPER SAYAN";
+        divContainer.append(btnSuperSayan);
+        btnSuperSayan.addEventListener("click", () => {
+            console.log("sono nel click");
+            checkThisGuerrieroIsSayan(character);
+            let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
+            if (ImmagineCambiata === null) {
+                console.error("nodo del DOM è null.");
+            } else {
+                ImmagineCambiata.src = `/imgs/${character.image}`;
+            }
+        });
+    }
 
     divContainer.classList.add("bg-light");
     divContainer.append(charImage);
@@ -499,7 +503,7 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     });
 };
 
-const changeTurn = (array: combattente[]) => {
+const changeTurn = (array: Guerriero[]) => {
     if (WhoIsturn === 2) {
         WhoIsturn = 1;
         h3.innerHTML = `È il turno di ${array[0].nome}`.toUpperCase();
