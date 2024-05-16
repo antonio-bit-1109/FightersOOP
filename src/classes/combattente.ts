@@ -1,6 +1,7 @@
 import { pozione } from "./pozione";
 import { ArrayItemIniziale } from "../main";
 import { statusBattle } from "../main";
+import { Guerriero } from "../interfaces/interfaces";
 
 export class combattente {
     nome: string;
@@ -50,7 +51,7 @@ export class combattente {
         this.image = image;
     }
 
-    private randomItem(array: pozione[]) {
+    protected randomItem(array: pozione[]) {
         let itemPrescelto = Math.floor(Math.random() * array.length);
         return array[itemPrescelto];
     }
@@ -104,7 +105,7 @@ export class combattente {
         });
     }
 
-    public Pugno(enemy: combattente) {
+    public Pugno(enemy: Guerriero) {
         statusBattle.innerHTML = "";
         try {
             let possibilitaColpo = Math.random() * 100;
@@ -132,7 +133,7 @@ export class combattente {
         }
     }
 
-    public calcio(enemy: combattente) {
+    public calcio(enemy: Guerriero) {
         statusBattle.innerHTML = "";
         try {
             let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
@@ -160,7 +161,7 @@ export class combattente {
         }
     }
 
-    private vitaRimanenteNemico(enemy: combattente) {
+    protected vitaRimanenteNemico(enemy: Guerriero) {
         if (enemy.pv <= 0) {
             this.Fainted(enemy);
         }
@@ -190,7 +191,7 @@ export class combattente {
         }
     }
 
-    private tentativiRimasti() {
+    protected tentativiRimasti() {
         if (this.tentativi <= 0) {
             this.tentativi = 0;
             return false;
@@ -200,7 +201,7 @@ export class combattente {
         }
     }
 
-    private GainExp(enemy: combattente) {
+    protected GainExp(enemy: Guerriero) {
         let expPoint = this.livello - enemy.livello * 1.2 + 1;
         this.esperienza += expPoint;
         if (this.esperienza === 20) {
@@ -215,7 +216,7 @@ export class combattente {
         }
     }
 
-    private Fainted(enemy: combattente) {
+    protected Fainted(enemy: Guerriero) {
         statusBattle.innerHTML = `Il nemico ${enemy.nome} è stato sconfitto.`;
     }
 

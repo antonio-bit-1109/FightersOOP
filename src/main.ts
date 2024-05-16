@@ -51,7 +51,8 @@ const Goku = new Sayan(
     "fronte",
     89,
     "goku.webp",
-    "goku_super_gif.webp"
+    "goku_super_gif.webp",
+    "kamehameha_goku_gif.gif"
 );
 const Vegeta = new Sayan(
     "Vegeta",
@@ -66,7 +67,8 @@ const Vegeta = new Sayan(
     "braccio sinistro",
     92,
     "vegeta.png",
-    "vegeta_super_gif.gif"
+    "vegeta_super_gif.gif",
+    "final_flash_gif.gif"
 );
 const Freezer = new combattente("Freezer", 400, 35, 5, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
 const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
@@ -397,6 +399,10 @@ const checkThisGuerrieroIsSayan_AndGoSuper = (character: Guerriero) => {
     return (character as Sayan).superSayan();
 };
 
+const doKamehameha = (character: Guerriero, enemy: Guerriero) => {
+    return (character as Sayan).Kamehameha(enemy);
+};
+
 const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Guerriero) => {
     // all inizio della partita è il turno del primo giocatore
     h3.innerHTML = `È il turno di ${ArrayScontroPersonaggi[0].nome}`.toUpperCase();
@@ -409,7 +415,7 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
     btnPugno.innerText = "Pugno";
 
     const btnRiposo = document.createElement("button");
-    btnRiposo.innerText = "Riposo";
+    btnRiposo.innerText = "Fagiolo di Balzar";
 
     const btnCercaOggetti = document.createElement("button");
     btnCercaOggetti.innerText = "Cerca Oggetti";
@@ -440,13 +446,12 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         statusPG
     );
 
-    // se il personaggio giocato è goku o vegeta hanno la possibilità di avere il bottone super sayan
+    // se il personaggio giocato è della razza saiyan hanno la possibilità di avere il bottone super sayan
     if (character.razza.toLowerCase() === "saiyan" || character.nome.toLowerCase() === "saiyan") {
         const btnSuperSayan = document.createElement("button");
         btnSuperSayan.innerText = "SUPER SAYAN";
         divContainer.append(btnSuperSayan);
         btnSuperSayan.addEventListener("click", () => {
-            console.log("sono nel click");
             checkThisGuerrieroIsSayan_AndGoSuper(character);
             changeTurn(ArrayScontroPersonaggi);
 
@@ -458,7 +463,7 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
                 ImmagineCambiata.src = `/imgs/${character.image}`;
             }
 
-            // trova la gif e rimuovila dopo 5s
+            // trova la gif della trasformazione e rimuovila dopo 5s
             setTimeout(() => {
                 let GifDaRimuovere = document.getElementById(`my-id-is-${character.nome}`);
                 if (GifDaRimuovere === null) {
@@ -466,8 +471,34 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
                 } else {
                     GifDaRimuovere.style.display = "none";
                 }
-            }, 5000);
+            }, 6000);
         });
+
+        // se il giocatore è goku ha il il bottone per fare la kamehameha
+        if (character.nome.toLowerCase() === "goku") {
+            const btnKamehameha = document.createElement("button");
+            btnKamehameha.innerText = "KAMEHAMEHA";
+            divContainer.append(btnKamehameha);
+            btnKamehameha.addEventListener("click", () => {
+                doKamehameha(character, enemy);
+                changeTurn(ArrayScontroPersonaggi);
+                rimuoviGifAttaccoSpeciale(character, 5000);
+            });
+            // trova la gif della kamehameha e rimuovila dopo 5s
+        }
+
+        // se il personaggio è vegeta può effettuare un final Flash
+        if (character.nome.toLowerCase() === "vegeta") {
+            const btnFinalFlash = document.createElement("button");
+            btnFinalFlash.innerText = "Final Flash";
+            divContainer.append(btnFinalFlash);
+            btnFinalFlash.addEventListener("click", () => {
+                doKamehameha(character, enemy);
+                changeTurn(ArrayScontroPersonaggi);
+                rimuoviGifAttaccoSpeciale(character, 1750);
+            });
+            // trova la gif della kamehameha e rimuovila dopo 5s
+        }
     }
 
     divContainer.classList.add("bg-light");
@@ -515,6 +546,19 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         character.stats();
         // changeTurn(ArrayScontroPersonaggi);
     });
+};
+
+const rimuoviGifAttaccoSpeciale = (character: Guerriero, timeTimeout: number) => {
+    let GifDaRimuovere = document.getElementById(`my-id-is-${character.nome}`);
+    if (GifDaRimuovere) {
+        setTimeout(() => {
+            if (GifDaRimuovere === null) {
+                console.error("immagine è null.");
+            } else {
+                GifDaRimuovere.style.display = "none";
+            }
+        }, timeTimeout);
+    }
 };
 
 const changeTurn = (array: Guerriero[]) => {

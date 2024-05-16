@@ -1,8 +1,10 @@
 import { combattente } from "./combattente";
 import { statusBattle } from "../main";
+import { Guerriero } from "../interfaces/interfaces";
 //
 export class Sayan extends combattente {
     public GifTranformation: string;
+    public GifKamehameha: string;
 
     constructor(
         nome: string,
@@ -17,7 +19,8 @@ export class Sayan extends combattente {
         puntoCritico: string,
         precisione: number,
         image: string,
-        GifTranformation: string // Parametro aggiuntivo per la nuova proprietà
+        GifTranformation: string, // Parametro aggiuntivo per la nuova proprietà
+        GifKamehameha: string
     ) {
         // Chiama il costruttore della classe base con i parametri necessari
         super(
@@ -37,6 +40,7 @@ export class Sayan extends combattente {
 
         // Assegna il valore alla nuova proprietà
         this.GifTranformation = GifTranformation;
+        this.GifKamehameha = GifKamehameha;
     }
 
     public superSayan() {
@@ -48,7 +52,7 @@ export class Sayan extends combattente {
         console.log(this);
     }
 
-    private cambiaImmagineSSJ() {
+    protected cambiaImmagineSSJ() {
         statusBattle.innerHTML = "";
         if (this.nome.toLowerCase() === "goku") {
             //immagine sarà questa
@@ -63,7 +67,77 @@ export class Sayan extends combattente {
         }
     }
 
-    private AnimationGif(gif: string, charName: string) {
-        statusBattle.innerHTML = `<img id='my-id-is-${charName}' style='width: 50%;height: 100%;' src="/imgs/${gif}" alt="">`;
+    protected AnimationGif(gif: string, charName: string) {
+        statusBattle.innerHTML += `<img id='my-id-is-${charName}' style='width: 50%;height: 100%;' src="/imgs/${gif}" alt="">`;
+    }
+
+    public Kamehameha(enemy: Guerriero) {
+        try {
+            statusBattle.innerHTML = "";
+            let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
+
+            if (enemy.pv <= 0) {
+                return;
+            }
+
+            if (this.tentativi <= 0 || this.tentativi === 1) {
+                statusBattle.innerHTML = "Goku è troppo stanco per effettuare una Kamehameha. Riposati e riprova.";
+                return;
+            }
+
+            if (possibilitaColpo <= this.precisione) {
+                statusBattle.innerHTML += `Goku Effettua Kamehameha contro ${enemy.nome}. <br>`;
+                this.forza += 60;
+                this.tentativi = this.tentativi - 2;
+                let danno = (this.forza * 1.6) / enemy.difesa + 1;
+                danno = parseFloat(danno.toFixed(2));
+                enemy.pv -= danno;
+                statusBattle.innerHTML += `Danni inflitti ${danno}`;
+                this.vitaRimanenteNemico(enemy);
+                this.GainExp(enemy);
+                this.AnimationGif(this.GifKamehameha, this.nome);
+                this.forza -= 60;
+            } else {
+                statusBattle.innerHTML = "il colpo non è andato a segno.";
+                this.vitaRimanenteNemico(enemy);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    public FinalFlash(enemy: combattente) {
+        try {
+            statusBattle.innerHTML = "";
+            let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
+
+            if (enemy.pv <= 0) {
+                return;
+            }
+
+            if (this.tentativi <= 0 || this.tentativi === 1) {
+                statusBattle.innerHTML = "Vegeta è troppo stanco per effettuare un final Flash. Riposati e riprova.";
+                return;
+            }
+
+            if (possibilitaColpo <= this.precisione) {
+                statusBattle.innerHTML += `Vegeta Effettua FinalFlash contro ${enemy.nome}. <br>`;
+                this.forza += 80;
+                this.tentativi = this.tentativi - 3;
+                let danno = (this.forza * 1.7) / enemy.difesa + 1;
+                danno = parseFloat(danno.toFixed(2));
+                enemy.pv -= danno;
+                statusBattle.innerHTML += `Danni inflitti ${danno}`;
+                this.vitaRimanenteNemico(enemy);
+                this.GainExp(enemy);
+                this.AnimationGif(this.GifKamehameha, this.nome);
+                this.forza -= 80;
+            } else {
+                statusBattle.innerHTML = "il colpo non è andato a segno.";
+                this.vitaRimanenteNemico(enemy);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
 }
