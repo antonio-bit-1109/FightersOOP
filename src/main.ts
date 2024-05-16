@@ -393,13 +393,14 @@ function aggiornaProgressBar(player: Guerriero, progressBar: HTMLElement, divGio
     progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 }
 
-const checkThisGuerrieroIsSayan = (character: Guerriero) => {
+const checkThisGuerrieroIsSayan_AndGoSuper = (character: Guerriero) => {
     return (character as Sayan).superSayan();
 };
 
 const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Guerriero) => {
     // all inizio della partita è il turno del primo giocatore
     h3.innerHTML = `È il turno di ${ArrayScontroPersonaggi[0].nome}`.toUpperCase();
+    h3.classList.add("display-3");
 
     const btnCalcio = document.createElement("button");
     btnCalcio.innerText = "Calcio";
@@ -446,13 +447,25 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         divContainer.append(btnSuperSayan);
         btnSuperSayan.addEventListener("click", () => {
             console.log("sono nel click");
-            checkThisGuerrieroIsSayan(character);
+            checkThisGuerrieroIsSayan_AndGoSuper(character);
+
+            // trova immagine nel dom e sostituiscila con quella da ssj
             let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
             if (ImmagineCambiata === null) {
                 console.error("nodo del DOM è null.");
             } else {
                 ImmagineCambiata.src = `/imgs/${character.image}`;
             }
+
+            // trova la gif e rimuovila dopo 5s
+            setTimeout(() => {
+                let GifDaRimuovere = document.getElementById(`my-id-is-${character.nome}`);
+                if (GifDaRimuovere === null) {
+                    console.error("immagine è null.");
+                } else {
+                    GifDaRimuovere.style.display = "none";
+                }
+            }, 5000);
         });
     }
 

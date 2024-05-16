@@ -248,20 +248,25 @@ export class combattente {
     }
 
     public UsaPozione(pozione: pozione) {
+        statusBattle.innerHTML = "";
         if (pozione.nome.toLowerCase().includes("vita")) {
             this.pv += pozione.valore;
+            statusBattle.innerHTML = `${this.nome} usa ${pozione.nome} - vita : +${pozione.valore}`;
         }
         if (pozione.nome.toLowerCase().includes("difesa")) {
             //aumenta la vita
             this.difesa += pozione.valore;
+            statusBattle.innerHTML = `${this.nome} usa ${pozione.nome} - difesa : +${pozione.valore}`;
         }
         if (pozione.nome.toLowerCase().includes("precisione")) {
             //aumenta la vita
             this.precisione += pozione.valore;
+            statusBattle.innerHTML = `${this.nome} usa ${pozione.nome} - precisione : +${pozione.valore}`;
         }
         if (pozione.nome.toLowerCase().includes("attacco")) {
             //aumenta la vita
             this.forza += pozione.valore;
+            statusBattle.innerHTML = `${this.nome} usa ${pozione.nome} - attacco : +${pozione.valore}`;
         }
     }
 }

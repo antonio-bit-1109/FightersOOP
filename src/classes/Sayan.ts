@@ -53,17 +53,17 @@ export class Sayan extends combattente {
         if (this.nome.toLowerCase() === "goku") {
             //immagine sarà questa
             this.image = "goku_ssj.webp";
-            this.AnimationGif(this.GifTranformation);
+            this.AnimationGif(this.GifTranformation, this.nome);
         }
 
         if (this.nome.toLowerCase() === "vegeta") {
             //immagine sarà questa
             this.image = "vegeta_ssj.png";
-            this.AnimationGif(this.GifTranformation);
+            this.AnimationGif(this.GifTranformation, this.nome);
         }
     }
 
-    private AnimationGif(gif: string) {
-        statusBattle.innerHTML = `<img style='width: 50%;height: 100%;' src="/imgs/${gif}" alt="">`;
+    private AnimationGif(gif: string, charName: string) {
+        statusBattle.innerHTML = `<img id='my-id-is-${charName}' style='width: 50%;height: 100%;' src="/imgs/${gif}" alt="">`;
     }
 }
