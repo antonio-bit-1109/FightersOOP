@@ -5,19 +5,19 @@ import { IPhotos } from "./interfaces/interfaces";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
-const pozioneVita_lg = new pozione(100, "pozioneVita_lg");
+const pozioneVita_lg = new pozione(80, "pozioneVita_lg");
 
-const pozioneDifesa_sm = new pozione(5, "pozioneDifesa_sm");
-const pozioneDifesa_md = new pozione(10, "pozioneDifesa_md");
-const pozioneDifesa_lg = new pozione(20, "pozioneDifesa_lg");
+const pozioneDifesa_sm = new pozione(30, "pozioneDifesa_sm");
+const pozioneDifesa_md = new pozione(35, "pozioneDifesa_md");
+const pozioneDifesa_lg = new pozione(40, "pozioneDifesa_lg");
 
-const pozioneAttacco_sm = new pozione(3, "pozioneAttacco_sm");
-const pozioneAttacco_md = new pozione(5, "pozioneAttacco_md");
-const pozioneAttacco_lg = new pozione(9, "pozioneAttacco_lg");
+const pozioneAttacco_sm = new pozione(25, "pozioneAttacco_sm");
+const pozioneAttacco_md = new pozione(35, "pozioneAttacco_md");
+const pozioneAttacco_lg = new pozione(40, "pozioneAttacco_lg");
 
-const pozionePrecisione_sm = new pozione(2, "pozionePrecisione_sm");
-const pozionePrecisione_md = new pozione(3, "pozionePrecisione_md");
-const pozionePrecisione_lg = new pozione(5, "pozionePrecisione_lg");
+const pozionePrecisione_sm = new pozione(30, "pozionePrecisione_sm");
+const pozionePrecisione_md = new pozione(60, "pozionePrecisione_md");
+const pozionePrecisione_lg = new pozione(90, "pozionePrecisione_lg");
 
 export const ArrayItemIniziale: pozione[] = [];
 
@@ -36,12 +36,12 @@ ArrayItemIniziale.push(
     pozionePrecisione_lg
 );
 
-const Goku = new combattente("Goku", 400, 30, 12, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
+const Goku = new combattente("Goku", 400, 45, 5, 0, 35, 100, "saiyan", "calmo", "fronte", 89, "goku.webp");
 const Vegeta = new combattente(
     "Vegeta",
     600,
-    22,
-    10,
+    38,
+    5,
     0,
     40,
     100,
@@ -51,9 +51,9 @@ const Vegeta = new combattente(
     92,
     "vegeta.png"
 );
-const Freezer = new combattente("Freezer", 400, 35, 4, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
+const Freezer = new combattente("Freezer", 400, 35, 5, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
 const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
-const KidBU = new combattente("Kid-Bu", 550, 35, 6, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
+const KidBU = new combattente("Kid-Bu", 550, 40, 5, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
 export const appElement = document.getElementById("app");
@@ -78,7 +78,8 @@ let startMatch = false;
 const divGiocatore = document.createElement("section");
 const divOpponent = document.createElement("section");
 export const statusBattle = document.createElement("div");
-statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder");
+statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder", "d-flex", "align-items-start");
+statusBattle.style.minHeight = "50vh";
 
 let WhoIsturn: number = 1;
 
@@ -402,45 +403,55 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
     charImage.src = `/imgs/${character.image}`;
     charImage.classList.add("imgDimension");
 
-    let textWrapper = document.createElement("div");
+    let buttonsWrapper = document.createElement("div");
 
-    let nome = document.createElement("h5");
-    nome.innerHTML = `${character.nome}`;
-    nome.classList.add("text-dark", "fs-1");
-    textWrapper.append(nome);
+    buttonsWrapper.append(
+        btnCalcio,
+        btnPugno,
+        btnRiposo,
+        btnCercaOggetti,
+        btnControllaInventario,
+        btnCheckTentativiRimastiRicerca,
+        statusPG
+    );
 
-    let pv = document.createElement("p");
-    pv.innerHTML = ` PV : ${character.pv}`;
-    pv.classList.add("text-dark");
-    textWrapper.append(pv);
+    // let nome = document.createElement("h5");
+    // nome.innerHTML = `${character.nome}`;
+    // nome.classList.add("text-dark", "fs-1");
+    // textWrapper.append(nome);
 
-    let lv = document.createElement("p");
-    lv.innerHTML = ` LVL : ${character.livello}`;
-    lv.classList.add("text-dark");
-    textWrapper.append(lv);
+    // let pv = document.createElement("p");
+    // pv.innerHTML = ` PV : ${character.pv}`;
+    // pv.classList.add("text-dark");
+    // textWrapper.append(pv);
 
-    let forza = document.createElement("p");
-    forza.innerHTML = ` ATK : ${character.forza}`;
-    forza.classList.add("text-dark");
-    textWrapper.append(forza);
+    // let lv = document.createElement("p");
+    // lv.innerHTML = ` LVL : ${character.livello}`;
+    // lv.classList.add("text-dark");
+    // textWrapper.append(lv);
 
-    let agilita = document.createElement("p");
-    agilita.innerHTML = ` DEX : ${character.agilita}`;
-    agilita.classList.add("text-dark");
-    textWrapper.append(agilita);
+    // let forza = document.createElement("p");
+    // forza.innerHTML = ` ATK : ${character.forza}`;
+    // forza.classList.add("text-dark");
+    // textWrapper.append(forza);
 
-    let precisione = document.createElement("p");
-    precisione.innerHTML = ` AIM : ${character.precisione}`;
-    precisione.classList.add("text-dark");
-    textWrapper.append(precisione);
+    // let agilita = document.createElement("p");
+    // agilita.innerHTML = ` DEX : ${character.agilita}`;
+    // agilita.classList.add("text-dark");
+    // textWrapper.append(agilita);
 
-    let puntoCritico = document.createElement("p");
-    puntoCritico.innerHTML = ` WEAKNESS : ${character.puntoCritico}`;
-    puntoCritico.classList.add("text-dark");
+    // let precisione = document.createElement("p");
+    // precisione.innerHTML = ` AIM : ${character.precisione}`;
+    // precisione.classList.add("text-dark");
+    // textWrapper.append(precisione);
+
+    // let puntoCritico = document.createElement("p");
+    // puntoCritico.innerHTML = ` WEAKNESS : ${character.puntoCritico}`;
+    // puntoCritico.classList.add("text-dark");
 
     divContainer.classList.add("bg-light");
     divContainer.append(charImage);
-    divContainer.append(textWrapper);
+    divContainer.append(buttonsWrapper);
     divContainer.append(btnCalcio);
     divContainer.append(btnPugno);
     divContainer.append(btnRiposo);
@@ -466,7 +477,7 @@ const populateDiv = (character: combattente, divContainer: HTMLElement, enemy: c
 
     btnCercaOggetti.addEventListener("click", () => {
         character.lookAround();
-        changeTurn(ArrayScontroPersonaggi);
+        // changeTurn(ArrayScontroPersonaggi);
     });
 
     btnControllaInventario.addEventListener("click", () => {

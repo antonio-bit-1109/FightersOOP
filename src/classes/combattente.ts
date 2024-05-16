@@ -62,16 +62,16 @@ export class combattente {
 
     public stats() {
         statusBattle.innerHTML = "";
-        statusBattle.innerHTML += `-------${this.nome}-------`;
-        statusBattle.innerHTML += ` Punti Vita: ${this.pv} `;
-        statusBattle.innerHTML += ` Forza: ${this.forza} `;
-        statusBattle.innerHTML += ` Agilità: ${this.agilita} `;
-        statusBattle.innerHTML += ` Precisione: ${this.precisione} `;
-        statusBattle.innerHTML += ` Difesa: ${this.difesa} `;
-        statusBattle.innerHTML += ` Lvl: ${this.livello} `;
-        statusBattle.innerHTML += ` Exp: ${this.esperienza} `;
-        statusBattle.innerHTML += ` Tentativi Ricerca: ${this.tentativi} `;
-        statusBattle.innerHTML += ` Pv Iniziali: ${this.initialPv} `;
+        statusBattle.innerHTML += `-------${this.nome}------- <br>`;
+        statusBattle.innerHTML += ` Punti Vita: ${this.pv} <br>`;
+        statusBattle.innerHTML += ` Forza: ${this.forza}<br> `;
+        statusBattle.innerHTML += ` Agilità: ${this.agilita}<br> `;
+        statusBattle.innerHTML += ` Precisione: ${this.precisione} <br>`;
+        statusBattle.innerHTML += ` Difesa: ${this.difesa} <br>`;
+        statusBattle.innerHTML += ` Lvl: ${this.livello} <br>`;
+        statusBattle.innerHTML += ` Exp: ${this.esperienza} <br>`;
+        statusBattle.innerHTML += ` Tentativi Ricerca: ${this.tentativi} <br>`;
+        statusBattle.innerHTML += ` Pv Iniziali: ${this.initialPv} <br>`;
     }
 
     public CheckTentativiRimasti() {
@@ -107,13 +107,13 @@ export class combattente {
     public Pugno(enemy: combattente) {
         statusBattle.innerHTML = "";
         try {
-            let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
+            let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
 
             if (enemy.pv <= 0) {
                 return;
             }
 
-            if (randomNum % 2 === 0 || randomNum % 5 === 0) {
+            if (possibilitaColpo % 2 === 0 || possibilitaColpo % 5 === 0) {
                 //    let canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.2) / enemy.difesa + 1;
@@ -122,9 +122,7 @@ export class combattente {
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-            }
-
-            if (randomNum % 2 !== 0) {
+            } else {
                 // canHit = false;
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
@@ -137,14 +135,13 @@ export class combattente {
     public calcio(enemy: combattente) {
         statusBattle.innerHTML = "";
         try {
-            // let canHit: boolean;
-            let randomNum = Math.floor(Math.random() * this.precisione + Math.random());
+            let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
 
             if (enemy.pv <= 0) {
                 return;
             }
 
-            if (randomNum % 2 === 0 || randomNum % 5 === 0) {
+            if (possibilitaColpo % 2 === 0 || possibilitaColpo % 5 === 0) {
                 // canHit = true;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let danno = (this.forza * 1.4) / enemy.difesa + 1;
@@ -153,9 +150,7 @@ export class combattente {
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-            }
-
-            if (randomNum % 2 !== 0) {
+            } else {
                 // canHit = false;
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
@@ -183,7 +178,7 @@ export class combattente {
             return;
         }
 
-        if (isItemFound <= 15) {
+        if (isItemFound <= 25) {
             statusBattle.innerHTML += "hai trovato qualcosa.";
             let randomNumber = Math.floor(Math.random() * ArrayItemIniziale.length);
             let itemTrovato = ArrayItemIniziale[randomNumber];
