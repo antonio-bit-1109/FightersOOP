@@ -1,3 +1,4 @@
+import { Frost_Demon } from "./classes/Frost_demon";
 import { Sayan } from "./classes/Sayan";
 import { canzone } from "./classes/canzone";
 import { combattente } from "./classes/combattente";
@@ -70,7 +71,22 @@ const Vegeta = new Sayan(
     "vegeta_super_gif.gif",
     "final_flash_gif.gif"
 );
-const Freezer = new combattente("Freezer", 400, 35, 5, 2, 20, 100, "shimoni", "irascibile", "coda", 90, "freezer.jpg");
+const Freezer = new Frost_Demon(
+    "Freezer",
+    400,
+    35,
+    5,
+    2,
+    20,
+    100,
+    "Frost Demon",
+    "irascibile",
+    "coda",
+    90,
+    "freezer.jpg",
+    "super_freezer2.webp",
+    "super_freezer_gif.gif"
+);
 const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
 const KidBU = new combattente("Kid-Bu", 550, 40, 5, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
@@ -401,7 +417,7 @@ function aggiornaProgressBar(player: Guerriero, progressBar: HTMLElement, divGio
     progressBar.style.width = `${vitaAttuale}%`;
     progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 }
-
+//---------------------------------- FUNZIONI PER ASSOCIARE LA PARAMETRO CHARACTHER IL TIPO SPECIFICATO DALLA CLASSE -----
 const checkThisGuerrieroIsSayan_AndGoSuper = (character: Guerriero) => {
     return (character as Sayan).superSayan();
 };
@@ -427,6 +443,11 @@ const removeGIfTrasformazione = (nomeGuerriero: Guerriero, durataAnimazione: num
     }, durataAnimazione);
 };
 
+const GoSuperFreezer = (character: Guerriero) => {
+    return (character as Frost_Demon).superFreezer();
+};
+
+// ------------------------------   ---------------------------    ---------------------------   -----------------------
 // TUTTI I NUOVI BOTTONI RELATIVI ALLE TRASFORMAZIONI ED ATTACCHI INSERITI QUI
 const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerriero) => {
     // all inizio della partita è il turno del primo giocatore
@@ -472,7 +493,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
     );
 
     // se il personaggio giocato è della razza saiyan hanno la possibilità di avere il bottone super sayan
-    if (character.razza.toLowerCase() === "saiyan" || character.nome.toLowerCase() === "saiyan") {
+    if (character.razza.toLowerCase() === "saiyan") {
         const btnSuperSayan = document.createElement("button");
         btnSuperSayan.innerText = "SUPER SAYAN";
         divPlayer1.append(btnSuperSayan);
@@ -525,6 +546,31 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
                 rimuoviGifAttaccoSpeciale(character, 1650);
             });
         }
+    }
+
+    if (character.razza.toLowerCase() === "frost demon") {
+        const btnSuperFreezer = document.createElement("button");
+        btnSuperFreezer.innerText = "100% POWER";
+        divPlayer1.append(btnSuperFreezer);
+        btnSuperFreezer.addEventListener("click", () => {
+            // checkThisGuerrieroIsSayan_AndGoSuper(character);
+            GoSuperFreezer(character);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+
+            // trova immagine nel dom e sostituiscila con quella da ssj
+            let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
+            if (ImmagineCambiata === null) {
+                console.error("nodo del DOM è null.");
+            } else {
+                ImmagineCambiata.src = `/imgs/${character.image}`;
+            }
+
+            // trova la gif della trasformazione e rimuovila dopo 5s
+            if (character.nome.toLowerCase() === "freezer") {
+                removeGIfTrasformazione(character, 4300);
+            }
+        });
     }
 
     divPlayer1.classList.add("bg-light");
