@@ -95,7 +95,14 @@ let ArrayScontroPersonaggi: Guerriero[] = [];
 
 let startMatch = false;
 const divGiocatore = document.createElement("section");
+divGiocatore.classList.add("divPlayer1");
+divGiocatore.id = "player1";
+
+//
 const divOpponent = document.createElement("section");
+divOpponent.classList.add("divPlayer2");
+divOpponent.id = "player2";
+//
 export const statusBattle = document.createElement("div");
 statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder", "d-flex", "align-items-start");
 statusBattle.style.minHeight = "50vh";
@@ -421,7 +428,7 @@ const removeGIfTrasformazione = (nomeGuerriero: Guerriero, durataAnimazione: num
 };
 
 // TUTTI I NUOVI BOTTONI RELATIVI ALLE TRASFORMAZIONI ED ATTACCHI INSERITI QUI
-const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Guerriero) => {
+const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerriero) => {
     // all inizio della partita è il turno del primo giocatore
     h3.innerHTML = `È il turno di ${ArrayScontroPersonaggi[0].nome}`.toUpperCase();
     h3.classList.add("display-3");
@@ -468,10 +475,11 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
     if (character.razza.toLowerCase() === "saiyan" || character.nome.toLowerCase() === "saiyan") {
         const btnSuperSayan = document.createElement("button");
         btnSuperSayan.innerText = "SUPER SAYAN";
-        divContainer.append(btnSuperSayan);
+        divPlayer1.append(btnSuperSayan);
         btnSuperSayan.addEventListener("click", () => {
             checkThisGuerrieroIsSayan_AndGoSuper(character);
             changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
 
             // trova immagine nel dom e sostituiscila con quella da ssj
             let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
@@ -494,10 +502,11 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         if (character.nome.toLowerCase() === "goku") {
             const btnKamehameha = document.createElement("button");
             btnKamehameha.innerText = "KAMEHAMEHA";
-            divContainer.append(btnKamehameha);
+            divPlayer1.append(btnKamehameha);
             btnKamehameha.addEventListener("click", () => {
                 doFinalAttack(character, enemy);
                 changeTurn(ArrayScontroPersonaggi);
+                DisabilitaBottoni();
                 //rimuovere la gif dell attacco speciale
                 rimuoviGifAttaccoSpeciale(character, 4400);
             });
@@ -507,40 +516,47 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         if (character.nome.toLowerCase() === "vegeta") {
             const btnFinalFlash = document.createElement("button");
             btnFinalFlash.innerText = "Final Flash";
-            divContainer.append(btnFinalFlash);
+            divPlayer1.append(btnFinalFlash);
             btnFinalFlash.addEventListener("click", () => {
                 doFinalAttack(character, enemy);
                 changeTurn(ArrayScontroPersonaggi);
+                DisabilitaBottoni();
                 //rimuovere la gif dell attacco speciale
                 rimuoviGifAttaccoSpeciale(character, 1650);
             });
         }
     }
 
-    divContainer.classList.add("bg-light");
-    divContainer.append(charImage);
-    divContainer.append(buttonsWrapper);
-    divContainer.append(btnCalcio);
-    divContainer.append(btnPugno);
-    divContainer.append(btnRiposo);
-    divContainer.append(btnCercaOggetti);
-    divContainer.append(btnControllaInventario);
-    divContainer.append(btnCheckTentativiRimastiRicerca);
-    divContainer.append(statusPG);
+    divPlayer1.classList.add("bg-light");
+    divPlayer1.append(charImage);
+    divPlayer1.append(buttonsWrapper);
+    divPlayer1.append(btnCalcio);
+    divPlayer1.append(btnPugno);
+    divPlayer1.append(btnRiposo);
+    divPlayer1.append(btnCercaOggetti);
+    divPlayer1.append(btnControllaInventario);
+    divPlayer1.append(btnCheckTentativiRimastiRicerca);
+    divPlayer1.append(statusPG);
+
+    // all inizio del match disabilita i bottoni del secondo giocatore
+    DisabilitaBottoni();
 
     btnCalcio.addEventListener("click", () => {
         character.calcio(enemy);
         changeTurn(ArrayScontroPersonaggi);
+        DisabilitaBottoni();
     });
 
     btnPugno.addEventListener("click", () => {
         character.Pugno(enemy);
         changeTurn(ArrayScontroPersonaggi);
+        DisabilitaBottoni();
     });
 
     btnRiposo.addEventListener("click", () => {
         character.Riposo();
         changeTurn(ArrayScontroPersonaggi);
+        DisabilitaBottoni();
     });
 
     btnCercaOggetti.addEventListener("click", () => {
@@ -562,6 +578,33 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
         character.stats();
         // changeTurn(ArrayScontroPersonaggi);
     });
+};
+
+// funzione per disattivare ad ogni turno i bottoni degli attacchi dell avversario
+const DisabilitaBottoni = () => {
+    if (WhoIsturn === 1) {
+        // prendo il div dell opponent e ne disabilito i bottoni se WhoIsTurn : number = 1
+        const opponentDiv = document.getElementById("player2");
+        const ButtonsInDIvOpponent = opponentDiv?.querySelectorAll("button");
+        ButtonsInDIvOpponent?.forEach((btn) => (btn.disabled = true));
+        // viceversa il giocatore in turno ha i bottoni premibili
+        const divPlayerOne = document.getElementById("player1");
+        const ButtonsInDivPlayer1 = divPlayerOne?.querySelectorAll("button");
+        ButtonsInDivPlayer1?.forEach((btn) => (btn.disabled = false));
+        return;
+    }
+
+    //viceversa se WhoIsturn = 2 disabilito i bottoni del giocatore1
+    if (WhoIsturn === 2) {
+        const divPlayerOne = document.getElementById("player1");
+        const ButtonsInDivPlayer1 = divPlayerOne?.querySelectorAll("button");
+        ButtonsInDivPlayer1?.forEach((btn) => (btn.disabled = true));
+        // ed il giocatore 2 ha i bottoni premibili
+        const opponentDiv = document.getElementById("player2");
+        const ButtonsInDIvOpponent = opponentDiv?.querySelectorAll("button");
+        ButtonsInDIvOpponent?.forEach((btn) => (btn.disabled = false));
+        return;
+    }
 };
 
 const rimuoviGifAttaccoSpeciale = (character: Guerriero, timeTimeout: number) => {
@@ -604,7 +647,7 @@ const RiproduzioneMusica = () => {
     const MusicPLayer = document.createElement("audio");
     MusicPLayer.setAttribute("controls", "");
     MusicPLayer.autoplay = true;
-    MusicPLayer.volume = 0.2;
+    MusicPLayer.volume = 0;
 
     // Aggiunta delle canzoni al player musicale come elementi <source>
     playlist.forEach((song) => {
