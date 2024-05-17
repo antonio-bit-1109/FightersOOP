@@ -58,12 +58,14 @@ export class Sayan extends combattente {
             //immagine sarà questa
             this.image = "goku_ssj.webp";
             this.AnimationGif(this.GifTranformation, this.nome);
+            statusBattle.innerHTML += "Goku si trasforma in Super Saiyan!";
         }
 
         if (this.nome.toLowerCase() === "vegeta") {
             //immagine sarà questa
             this.image = "vegeta_ssj.png";
             this.AnimationGif(this.GifTranformation, this.nome);
+            statusBattle.innerHTML += "Vegeta si trasforma in Super Saiyan!";
         }
     }
 
@@ -86,6 +88,7 @@ export class Sayan extends combattente {
             }
 
             if (possibilitaColpo <= this.precisione) {
+                this.AnimationGif(this.GifKamehameha, this.nome);
                 statusBattle.innerHTML += `Goku Effettua Kamehameha contro ${enemy.nome}. <br>`;
                 this.forza += 60;
                 this.tentativi = this.tentativi - 2;
@@ -95,7 +98,6 @@ export class Sayan extends combattente {
                 statusBattle.innerHTML += `Danni inflitti ${danno}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-                this.AnimationGif(this.GifKamehameha, this.nome);
                 this.forza -= 60;
             } else {
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
@@ -121,6 +123,7 @@ export class Sayan extends combattente {
             }
 
             if (possibilitaColpo <= this.precisione) {
+                this.AnimationGif(this.GifKamehameha, this.nome);
                 statusBattle.innerHTML += `Vegeta Effettua FinalFlash contro ${enemy.nome}. <br>`;
                 this.forza += 80;
                 this.tentativi = this.tentativi - 3;
@@ -130,7 +133,6 @@ export class Sayan extends combattente {
                 statusBattle.innerHTML += `Danni inflitti ${danno}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-                this.AnimationGif(this.GifKamehameha, this.nome);
                 this.forza -= 80;
             } else {
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
