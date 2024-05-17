@@ -44,7 +44,7 @@ export class Sayan extends combattente {
     }
 
     public superSayan() {
-        this.pv = 100;
+        this.pv += 40;
         this.forza += 100;
         this.agilita += 50;
         this.difesa += 50;

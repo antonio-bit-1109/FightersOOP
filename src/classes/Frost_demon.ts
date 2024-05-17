@@ -42,7 +42,7 @@ export class Frost_Demon extends combattente {
     }
 
     public superFreezer() {
-        this.pv = 100;
+        this.pv += 40;
         this.forza += 85;
         this.agilita += 55;
         this.difesa += 69;
