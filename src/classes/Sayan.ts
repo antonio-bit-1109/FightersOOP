@@ -70,7 +70,7 @@ export class Sayan extends combattente {
     }
 
     protected AnimationGif(gif: string, charName: string) {
-        statusBattle.innerHTML += `<img id='my-id-is-${charName}' style='width: 50%;height: 100%;' src="/imgs/${gif}" alt="">`;
+        statusBattle.innerHTML += `<img id='my-id-is-${charName}' style='width: 70%;height: 100%;' src="/imgs/${gif}" alt="">`;
     }
 
     public Kamehameha(enemy: Guerriero) {

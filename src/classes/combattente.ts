@@ -233,7 +233,7 @@ export class combattente {
         if (this.pv > 0) {
             statusBattle.innerHTML += `${this.nome} non è completamente esausto.`;
             statusBattle.innerHTML += `${this.nome} schiaccia un sonnellino.`;
-            this.pv += this.livello + 10;
+            this.pv += this.livello + 5;
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
@@ -244,7 +244,7 @@ export class combattente {
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
-        // ricarica la possiblita di trovare item randomici
+        // ricarica la possiblita di trovare item randomici e fare mosse speciali
         this.tentativi++;
     }
 
