@@ -693,7 +693,7 @@ const RiproduzioneMusica = () => {
     const MusicPLayer = document.createElement("audio");
     MusicPLayer.setAttribute("controls", "");
     MusicPLayer.autoplay = true;
-    MusicPLayer.volume = 0;
+    MusicPLayer.volume = 0.2;
 
     // Aggiunta delle canzoni al player musicale come elementi <source>
     playlist.forEach((song) => {
