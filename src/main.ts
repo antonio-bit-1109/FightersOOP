@@ -3,7 +3,7 @@ import { canzone } from "./classes/canzone";
 import { combattente } from "./classes/combattente";
 import { pozione } from "./classes/pozione";
 import { sfondoFetch } from "./fetches/sfondoFetch";
-import { Guerriero, IPhotos } from "./interfaces/interfaces";
+import { Guerriero } from "./interfaces/interfaces";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
