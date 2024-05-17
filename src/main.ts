@@ -399,10 +399,28 @@ const checkThisGuerrieroIsSayan_AndGoSuper = (character: Guerriero) => {
     return (character as Sayan).superSayan();
 };
 
-const doKamehameha = (character: Guerriero, enemy: Guerriero) => {
-    return (character as Sayan).Kamehameha(enemy);
+// attacco finale di un saiyan diversificato a seconda che sia goku o vegeta
+const doFinalAttack = (character: Guerriero, enemy: Guerriero) => {
+    if (character.nome.toLowerCase() === "goku") {
+        return (character as Sayan).Kamehameha(enemy);
+    }
+    if (character.nome.toLowerCase() === "vegeta") {
+        return (character as Sayan).FinalFlash(enemy);
+    }
 };
 
+const removeGIfTrasformazione = (nomeGuerriero: Guerriero, durataAnimazione: number) => {
+    setTimeout(() => {
+        let GifDaRimuovere = document.getElementById(`my-id-is-${nomeGuerriero.nome}`);
+        if (GifDaRimuovere === null) {
+            console.error("immagine è null.");
+        } else {
+            GifDaRimuovere.style.display = "none";
+        }
+    }, durataAnimazione);
+};
+
+// TUTTI I NUOVI BOTTONI RELATIVI ALLE TRASFORMAZIONI ED ATTACCHI INSERITI QUI
 const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Guerriero) => {
     // all inizio della partita è il turno del primo giocatore
     h3.innerHTML = `È il turno di ${ArrayScontroPersonaggi[0].nome}`.toUpperCase();
@@ -464,14 +482,12 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
             }
 
             // trova la gif della trasformazione e rimuovila dopo 5s
-            setTimeout(() => {
-                let GifDaRimuovere = document.getElementById(`my-id-is-${character.nome}`);
-                if (GifDaRimuovere === null) {
-                    console.error("immagine è null.");
-                } else {
-                    GifDaRimuovere.style.display = "none";
-                }
-            }, 6000);
+            if (character.nome.toLowerCase() === "goku") {
+                removeGIfTrasformazione(character, 6300);
+            }
+            if (character.nome.toLowerCase() === "vegeta") {
+                removeGIfTrasformazione(character, 7800);
+            }
         });
 
         // se il giocatore è goku ha il il bottone per fare la kamehameha
@@ -480,11 +496,11 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
             btnKamehameha.innerText = "KAMEHAMEHA";
             divContainer.append(btnKamehameha);
             btnKamehameha.addEventListener("click", () => {
-                doKamehameha(character, enemy);
+                doFinalAttack(character, enemy);
                 changeTurn(ArrayScontroPersonaggi);
-                rimuoviGifAttaccoSpeciale(character, 5000);
+                //rimuovere la gif dell attacco speciale
+                rimuoviGifAttaccoSpeciale(character, 4400);
             });
-            // trova la gif della kamehameha e rimuovila dopo 5s
         }
 
         // se il personaggio è vegeta può effettuare un final Flash
@@ -493,11 +509,11 @@ const populateDiv = (character: Guerriero, divContainer: HTMLElement, enemy: Gue
             btnFinalFlash.innerText = "Final Flash";
             divContainer.append(btnFinalFlash);
             btnFinalFlash.addEventListener("click", () => {
-                doKamehameha(character, enemy);
+                doFinalAttack(character, enemy);
                 changeTurn(ArrayScontroPersonaggi);
-                rimuoviGifAttaccoSpeciale(character, 1750);
+                //rimuovere la gif dell attacco speciale
+                rimuoviGifAttaccoSpeciale(character, 1650);
             });
-            // trova la gif della kamehameha e rimuovila dopo 5s
         }
     }
 

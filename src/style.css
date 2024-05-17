@@ -187,6 +187,7 @@ button:focus-visible {
     color: greenyellow;
     background-color: #5f5a5a8f;
     margin-block: 20px;
+    overflow-y: scroll;
 }
 
 .w-relative {
