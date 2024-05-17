@@ -71,7 +71,7 @@ export class combattente {
         statusBattle.innerHTML += ` Difesa: ${this.difesa} <br>`;
         statusBattle.innerHTML += ` Lvl: ${this.livello} <br>`;
         statusBattle.innerHTML += ` Exp: ${this.esperienza} <br>`;
-        statusBattle.innerHTML += ` Tentativi Ricerca: ${this.tentativi} <br>`;
+        statusBattle.innerHTML += ` Tentativi Ricerca/ATK speciale: ${this.tentativi} <br>`;
         statusBattle.innerHTML += ` Pv Iniziali: ${this.initialPv} <br>`;
     }
 
