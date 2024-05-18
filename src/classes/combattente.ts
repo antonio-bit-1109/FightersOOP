@@ -56,11 +56,13 @@ export class combattente {
         let arrayPuntiCritici = [
             "fronte",
             "volto",
+            "testa",
             "torace",
             "braccio destro",
             "braccio sinistro",
             "nuca",
             "addome",
+            "stomaco",
             "femorale destro",
             "femorale sinistro",
             "fianco destro",
