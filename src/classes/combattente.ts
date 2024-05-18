@@ -51,6 +51,27 @@ export class combattente {
         this.image = image;
     }
 
+    // estrapolare dove il nemico ha colpito
+    protected CriticalHit() {
+        let arrayPuntiCritici = [
+            "fronte",
+            "volto",
+            "torace",
+            "braccio destro",
+            "braccio sinistro",
+            "nuca",
+            "addome",
+            "femorale destro",
+            "femorale sinistro",
+            "fianco destro",
+            "fianco sinistro",
+        ];
+
+        let randomNum = Math.floor(Math.random() * arrayPuntiCritici.length);
+
+        return arrayPuntiCritici[randomNum];
+    }
+
     protected randomItem(array: pozione[]) {
         let itemPrescelto = Math.floor(Math.random() * array.length);
         return array[itemPrescelto];
@@ -115,9 +136,16 @@ export class combattente {
             }
 
             if (possibilitaColpo <= this.precisione) {
-                //    let canHit = true;
+                let danno: number;
                 statusBattle.innerHTML += "colpo andato a segno.";
-                let danno = (this.forza * 1.2) / enemy.difesa + 1;
+                let parteCorpoColpita: string = this.CriticalHit();
+                console.log(parteCorpoColpita, enemy.puntoCritico);
+                if (parteCorpoColpita === enemy.puntoCritico) {
+                    danno = (this.forza * 1.2 * 2) / enemy.difesa + 1;
+                    statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
+                } else {
+                    danno = (this.forza * 1.2) / enemy.difesa + 1;
+                }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
@@ -143,9 +171,16 @@ export class combattente {
             }
 
             if (possibilitaColpo <= this.precisione) {
-                // canHit = true;
+                let danno: number;
                 statusBattle.innerHTML += "colpo andato a segno.";
-                let danno = (this.forza * 1.4) / enemy.difesa + 1;
+                let parteCorpoColpita: string = this.CriticalHit();
+                console.log(parteCorpoColpita, enemy.puntoCritico);
+                if (parteCorpoColpita === enemy.puntoCritico) {
+                    danno = (this.forza * 1.2 * 2) / enemy.difesa + 1;
+                    statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
+                } else {
+                    danno = (this.forza * 1.2) / enemy.difesa + 1;
+                }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
@@ -238,7 +273,6 @@ export class combattente {
         }
 
         if (this.pv >= this.initialPv) {
-            this.pv = this.initialPv;
             statusBattle.innerHTML += `${this.nome} è perfettamente riposato.`;
             statusBattle.innerHTML += "i suoi punti vita sono al massimo.";
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
