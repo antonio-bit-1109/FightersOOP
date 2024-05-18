@@ -683,6 +683,11 @@ const changeTurn = (array: Guerriero[]) => {
 let indexCanzoneInRiproduzione: number = 0;
 
 const RiproduzioneMusica = () => {
+    //controlla quali combattenti stanno combattendo.
+    // for (let i = 0; i< ArrayScontroPersonaggi.length; i++) {
+    //     let nomePersonaggio =
+    // }
+
     //creaiamo degli oggetti canzone
     let canzone2 = new canzone("heavy Dust", "/audio/fightSong1.mp3");
     let canzone1 = new canzone("Prelude to Storm", "/audio/fightSong.mp3");
@@ -706,7 +711,7 @@ const RiproduzioneMusica = () => {
         indexCanzoneInRiproduzione++;
         if (indexCanzoneInRiproduzione === playlist.length + 1) {
             indexCanzoneInRiproduzione = 0;
-            RiproduzioneMusica();
+            // RiproduzioneMusica();
         }
         SourceMusic.src = playlist[indexCanzoneInRiproduzione].src;
         MusicPLayer.load(); // Carica la nuova canzone
