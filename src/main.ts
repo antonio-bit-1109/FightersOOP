@@ -680,6 +680,8 @@ const changeTurn = (array: Guerriero[]) => {
     }
 };
 
+let indexCanzoneInRiproduzione: number = 0;
+
 const RiproduzioneMusica = () => {
     //creaiamo degli oggetti canzone
     let canzone2 = new canzone("heavy Dust", "/audio/fightSong1.mp3");
@@ -693,14 +695,23 @@ const RiproduzioneMusica = () => {
     const MusicPLayer = document.createElement("audio");
     MusicPLayer.setAttribute("controls", "");
     MusicPLayer.autoplay = true;
-    MusicPLayer.volume = 0;
+    MusicPLayer.volume = 0.2;
 
-    // Aggiunta delle canzoni al player musicale come elementi <source>
-    playlist.forEach((song) => {
-        const sourceElement = document.createElement("source");
-        sourceElement.src = song.src;
-        sourceElement.type = "audio/mpeg"; // Assicurati che il tipo sia corretto in base al formato dei tuoi file audio
-        MusicPLayer.appendChild(sourceElement);
+    const SourceMusic = document.createElement("source");
+    SourceMusic.src = playlist[indexCanzoneInRiproduzione].src;
+    SourceMusic.type = "audio/mpeg";
+    MusicPLayer.append(SourceMusic);
+
+    MusicPLayer.addEventListener("ended", () => {
+        indexCanzoneInRiproduzione++;
+        if (indexCanzoneInRiproduzione === playlist.length + 1) {
+            indexCanzoneInRiproduzione = 0;
+            RiproduzioneMusica();
+        }
+        SourceMusic.src = playlist[indexCanzoneInRiproduzione].src;
+        MusicPLayer.load(); // Carica la nuova canzone
+        MusicPLayer.play(); // Riproduce la nuova canzone
     });
+
     appElement?.append(MusicPLayer);
 };
