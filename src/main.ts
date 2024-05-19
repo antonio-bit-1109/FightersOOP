@@ -379,6 +379,13 @@ function aggiornaProgressBar(player: Guerriero, progressBar: HTMLElement, divGio
         progressBar.classList.remove("bg-warning");
         progressBar.classList.remove("bg-danger");
         progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
+
+        if (vitaAttuale > 100) {
+            progressBar.classList.add("bg-primary");
+            progressBar.classList.remove("bg-success");
+            progressBar.classList.remove("bg-warning");
+            progressBar.classList.remove("bg-danger");
+        }
     }
 
     if (vitaAttuale < 50) {
