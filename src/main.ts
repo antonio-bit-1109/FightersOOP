@@ -682,19 +682,32 @@ const changeTurn = (array: Guerriero[]) => {
 
 let indexCanzoneInRiproduzione: number = 0;
 
+const randomiseThePlaylistQueue = (array: canzone[]) => {
+    // parte dalla fine dell array
+    // ALGORITMO FISHER-YATES PER RANDOMIZZARE ARRAY
+    for (let i = array.length - 1; i > 0; i--) {
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let currentSong = array[i];
+        array[i] = array[randomIndex];
+        array[randomIndex] = currentSong;
+    }
+
+    return array;
+};
+
 const RiproduzioneMusica = () => {
-    //controlla quali combattenti stanno combattendo.
-    // for (let i = 0; i< ArrayScontroPersonaggi.length; i++) {
-    //     let nomePersonaggio =
-    // }
-
     //creaiamo degli oggetti canzone
-    let canzone2 = new canzone("heavy Dust", "/audio/fightSong1.mp3");
-    let canzone1 = new canzone("Prelude to Storm", "/audio/fightSong.mp3");
-
+    let canzone1 = new canzone("heavy Dust", "/audio/song0.mp3");
+    let canzone0 = new canzone("Prelude to Storm", "/audio/song1.mp3");
+    let canzone2 = new canzone("Begin The Fight", "/audio/song2.mp3");
+    let canzone3 = new canzone("The Strongest", "/audio/song3.mp3");
     //creo array che contiene canzoni
     const playlist: canzone[] = [];
-    playlist.push(canzone1, canzone2);
+    playlist.push(canzone1, canzone2, canzone0, canzone3);
+
+    // randomizzazione indici canzoni nell array
+    const shuffledArray = randomiseThePlaylistQueue(playlist);
+    console.log(shuffledArray);
 
     // creiamo un playerMusicale per musica combattimento
     const MusicPLayer = document.createElement("audio");
@@ -703,17 +716,17 @@ const RiproduzioneMusica = () => {
     MusicPLayer.volume = 0.2;
 
     const SourceMusic = document.createElement("source");
-    SourceMusic.src = playlist[indexCanzoneInRiproduzione].src;
+    SourceMusic.src = shuffledArray[indexCanzoneInRiproduzione].src;
     SourceMusic.type = "audio/mpeg";
     MusicPLayer.append(SourceMusic);
 
     MusicPLayer.addEventListener("ended", () => {
         indexCanzoneInRiproduzione++;
-        if (indexCanzoneInRiproduzione === playlist.length + 1) {
+        if (indexCanzoneInRiproduzione === shuffledArray.length + 1) {
             indexCanzoneInRiproduzione = 0;
             // RiproduzioneMusica();
         }
-        SourceMusic.src = playlist[indexCanzoneInRiproduzione].src;
+        SourceMusic.src = shuffledArray[indexCanzoneInRiproduzione].src;
         MusicPLayer.load(); // Carica la nuova canzone
         MusicPLayer.play(); // Riproduce la nuova canzone
     });
