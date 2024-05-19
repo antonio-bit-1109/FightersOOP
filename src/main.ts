@@ -707,7 +707,6 @@ const RiproduzioneMusica = () => {
 
     // randomizzazione indici canzoni nell array
     const shuffledArray = randomiseThePlaylistQueue(playlist);
-    console.log(shuffledArray);
 
     // creiamo un playerMusicale per musica combattimento
     const MusicPLayer = document.createElement("audio");

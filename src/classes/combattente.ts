@@ -255,6 +255,9 @@ export class combattente {
 
     protected Fainted(enemy: Guerriero) {
         statusBattle.innerHTML = `Il nemico ${enemy.nome} è stato sconfitto.`;
+        setTimeout(() => {
+            window.location.reload();
+        }, 4000);
     }
 
     public Riposo() {
