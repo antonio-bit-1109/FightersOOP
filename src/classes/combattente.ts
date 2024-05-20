@@ -140,7 +140,7 @@ export class combattente {
 
             if (possibilitaColpo <= this.precisione) {
                 let danno: number;
-                statusBattle.innerHTML += "colpo andato a segno.";
+                statusBattle.innerHTML += "colpo andato a segno.<br>";
                 let parteCorpoColpita: string = this.CriticalHit();
 
                 statusBattle.innerHTML +=

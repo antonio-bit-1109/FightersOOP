@@ -149,7 +149,7 @@ inputGroup.classList.add("input-group", "m-auto", "w-50");
 // input element
 const input = document.createElement("input");
 input.type = "text";
-input.placeholder = "scegli dove ambientare il tuo scontro.";
+input.placeholder = "Choose the map for the fight.";
 input.classList.add("form-control");
 input.setAttribute("aria-label", "input to choose the background");
 // button element
@@ -794,9 +794,10 @@ const RiproduzioneMusica = () => {
     let canzone0 = new canzone("Prelude to Storm", "/audio/song1.mp3");
     let canzone2 = new canzone("Begin The Fight", "/audio/song2.mp3");
     let canzone3 = new canzone("The Strongest", "/audio/song3.mp3");
+    let canzone4 = new canzone("Test your might", "/audio/mortal_Kombat.mp3");
     //creo array che contiene canzoni
     const playlist: canzone[] = [];
-    playlist.push(canzone1, canzone2, canzone0, canzone3);
+    playlist.push(canzone1, canzone2, canzone0, canzone3, canzone4);
 
     // randomizzazione indici canzoni nell array
     const shuffledArray = randomiseThePlaylistQueue(playlist);
