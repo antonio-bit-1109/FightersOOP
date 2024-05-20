@@ -2,6 +2,7 @@ import { Frost_Demon } from "./classes/Frost_demon";
 import { Sayan } from "./classes/Sayan";
 import { canzone } from "./classes/canzone";
 import { combattente } from "./classes/combattente";
+import { cyborg } from "./classes/cyborg";
 import { pozione } from "./classes/pozione";
 import { sfondoFetch } from "./fetches/sfondoFetch";
 import { Guerriero } from "./interfaces/interfaces";
@@ -51,9 +52,9 @@ const Goku = new Sayan(
     "calmo",
     "fronte",
     89,
-    "goku.webp",
-    "goku_super_gif.webp",
-    "kamehameha_goku_gif.gif"
+    "goku.webp", // goku base
+    "goku_super_gif.webp", //goku super sayan if
+    "kamehameha_goku_gif.gif" //kamehameha gif
 );
 const Vegeta = new Sayan(
     "Vegeta",
@@ -67,9 +68,9 @@ const Vegeta = new Sayan(
     "irascibile",
     "braccio sinistro",
     92,
-    "vegeta.png",
-    "vegeta_super_gif.gif",
-    "final_flash_gif.gif"
+    "vegeta.png", //vegeta foto base
+    "vegeta_super_gif.gif", // gif vegeta suepr sayan
+    "final_flash_gif.gif" // gif final flash
 );
 const Freezer = new Frost_Demon(
     "Freezer",
@@ -87,7 +88,22 @@ const Freezer = new Frost_Demon(
     "super_freezer2.webp",
     "super_freezer_gif.gif"
 );
-const Cell = new combattente("Cell", 500, 40, 5, 1, 30, 100, "cyborg", "esuberante", "stomaco", 91, "cell.jpg");
+const Cell = new cyborg(
+    "Cell",
+    300,
+    30,
+    5,
+    1,
+    28,
+    100,
+    "cyborg",
+    "esuberante",
+    "stomaco",
+    91,
+    "cell_2_form.webp", // cell base
+    "cell_final_transformation_gif.gif", // cell final form gif
+    "cell_super_kamehameha.gif" // cell superkamehameha gif
+);
 const KidBU = new combattente("Kid-Bu", 550, 40, 5, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
@@ -454,6 +470,16 @@ const GoSuperFreezer = (character: Guerriero) => {
     return (character as Frost_Demon).superFreezer();
 };
 
+const GoPerfectCell = (character: Guerriero) => {
+    return (character as cyborg).PerfectCell();
+};
+
+const doSuperKamehameha = (character: Guerriero, enemy: Guerriero) => {
+    if (character.nome.toLowerCase().includes("cell")) {
+        return (character as cyborg).SuperKamehameha(enemy);
+    }
+};
+
 // ------------------------------   ---------------------------    ---------------------------   -----------------------
 // TUTTI I NUOVI BOTTONI RELATIVI ALLE TRASFORMAZIONI ED ATTACCHI INSERITI QUI
 const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerriero) => {
@@ -577,6 +603,40 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
             if (character.nome.toLowerCase() === "freezer") {
                 removeGIfTrasformazione(character, 4300);
             }
+        });
+    }
+
+    if (character.razza.toLowerCase() === "cyborg") {
+        const btnCellFinalForm = document.createElement("button");
+        btnCellFinalForm.innerText = "ABSORB C18";
+        divPlayer1.append(btnCellFinalForm);
+        btnCellFinalForm.addEventListener("click", () => {
+            GoPerfectCell(character);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+
+            // trova immagine nel dom e sostituiscila con quella da ssj
+            let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
+            if (ImmagineCambiata === null) {
+                console.error("nodo del DOM è null.");
+            } else {
+                ImmagineCambiata.src = `/imgs/${character.image}`;
+            }
+
+            // trova la gif della trasformazione e rimuovila dopo X secondi
+            if (character.nome.toLowerCase().includes("cell")) {
+                removeGIfTrasformazione(character, 3600);
+            }
+        });
+
+        const btnSuperKamehameha = document.createElement("button");
+        btnSuperKamehameha.innerText = "Super Kamehameha";
+        divPlayer1.append(btnSuperKamehameha);
+        btnSuperKamehameha.addEventListener("click", () => {
+            doSuperKamehameha(character, enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            rimuoviGifAttaccoSpeciale(character, 4800);
         });
     }
 
@@ -719,7 +779,7 @@ const RiproduzioneMusica = () => {
     const MusicPLayer = document.createElement("audio");
     MusicPLayer.setAttribute("controls", "");
     MusicPLayer.autoplay = true;
-    MusicPLayer.volume = 0.2;
+    MusicPLayer.volume = 0;
 
     const SourceMusic = document.createElement("source");
     SourceMusic.src = shuffledArray[indexCanzoneInRiproduzione].src;
