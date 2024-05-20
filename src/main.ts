@@ -42,7 +42,7 @@ ArrayItemIniziale.push(
 
 const Goku = new Sayan(
     "Goku",
-    400,
+    20,
     45,
     5,
     0,
@@ -58,7 +58,7 @@ const Goku = new Sayan(
 );
 const Vegeta = new Sayan(
     "Vegeta",
-    500,
+    20,
     38,
     5,
     0,
@@ -74,7 +74,7 @@ const Vegeta = new Sayan(
 );
 const Freezer = new Frost_Demon(
     "Freezer",
-    400,
+    22,
     35,
     5,
     2,
@@ -90,7 +90,7 @@ const Freezer = new Frost_Demon(
 );
 const Cell = new cyborg(
     "Cell",
-    300,
+    25,
     30,
     5,
     1,
@@ -104,7 +104,7 @@ const Cell = new cyborg(
     "cell_final_transformation_gif.gif", // cell final form gif
     "cell_super_kamehameha.gif" // cell superkamehameha gif
 );
-const KidBU = new combattente("Kid-Bu", 550, 40, 5, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
+const KidBU = new combattente("Kid-Bu", 28, 40, 5, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
 //
 //
 export const appElement = document.getElementById("app");

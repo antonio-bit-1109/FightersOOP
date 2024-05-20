@@ -193,3 +193,11 @@ button:focus-visible {
 .w-relative {
     width: 35%;
 }
+
+.hitPoint {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+}

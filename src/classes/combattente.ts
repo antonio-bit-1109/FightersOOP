@@ -164,7 +164,7 @@ export class combattente {
         }
     }
 
-    public calcio(enemy: Guerriero) {
+    public async calcio(enemy: Guerriero) {
         statusBattle.innerHTML = "";
         try {
             let possibilitaColpo = Math.floor(Math.random() * this.precisione + Math.random());
@@ -175,16 +175,22 @@ export class combattente {
 
             if (possibilitaColpo <= this.precisione) {
                 let danno: number;
-                statusBattle.innerHTML += "colpo andato a segno.";
+                statusBattle.innerHTML += "colpo andato a segno. <br>";
                 let parteCorpoColpita: string = this.CriticalHit();
-                console.log(parteCorpoColpita, enemy.puntoCritico);
+                statusBattle.innerHTML += "clicca rapidamente tutti i bottoni rossi per infliggere danno extra!";
+
+                const TempoPassato = await this.addDamage();
+                const dannoAggiuntivo: number = await this.calcolaDannoAggiuntivo(TempoPassato);
+                console.log(dannoAggiuntivo);
+                statusBattle.innerHTML = "";
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 1.8 * 2) / enemy.difesa + 1;
+                    danno = this.forza * 1.2 * 2 + dannoAggiuntivo / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
-                    danno = (this.forza * 1.8) / enemy.difesa + 1;
+                    danno = this.forza * 1.2 + dannoAggiuntivo / enemy.difesa + 1;
                 }
                 danno = parseFloat(danno.toFixed(2));
+                console.log(danno);
                 enemy.pv -= danno;
                 statusBattle.innerHTML += ` hai inflitto ${danno} danni a ${enemy.nome}`;
                 this.vitaRimanenteNemico(enemy);
@@ -312,5 +318,69 @@ export class combattente {
             this.forza += pozione.valore;
             statusBattle.innerHTML = `${this.nome} usa ${pozione.nome} - attacco : +${pozione.valore}`;
         }
+    }
+
+    // creare una feature in cui quando vengono premuti i tasti attacco base appare un div con puntini messi random all interno.
+    // PIu velocemente vengono cliccati i puntini maggior danno inflitto all avversario.
+    // da gestire come promise asincrona e da cui far ritornare il valore per calcolare il danno aggiuntivo in funzione del tempo impiegato per cliccare tutti i bottoni.
+    protected async addDamage(): Promise<number> {
+        return new Promise((resolve, reject) => {
+            const boxPoints = document.createElement("div");
+            boxPoints.classList.add("d-block", "border", "border-2", "w-75", "position-relative", "h-50");
+            statusBattle.appendChild(boxPoints);
+            let counterTempoPassato: number = 0;
+            let tempoImpiegatoPerCliccareTuttiHitBtn: number | undefined;
+            setInterval(() => {
+                counterTempoPassato++;
+            }, 1000);
+
+            for (let i = 0; i < 5; i++) {
+                let a = Math.floor(Math.random() * 100);
+                let b = Math.floor(Math.random() * 100);
+
+                const btnHit = document.createElement("button");
+                btnHit.classList.add("hitPoint");
+                btnHit.style.top = `${a}%`;
+                btnHit.style.left = `${b}%`;
+
+                btnHit.addEventListener("click", () => {
+                    console.log("click");
+                    btnHit.remove();
+                    tempoImpiegatoPerCliccareTuttiHitBtn = this.controllaQuantiBottoniCliccati(
+                        boxPoints,
+                        counterTempoPassato
+                    );
+                    if (tempoImpiegatoPerCliccareTuttiHitBtn !== undefined) {
+                        resolve(tempoImpiegatoPerCliccareTuttiHitBtn);
+                    }
+                });
+
+                boxPoints.append(btnHit);
+            }
+        });
+    }
+
+    protected controllaQuantiBottoniCliccati(divContainerHitPoints: HTMLElement, counterTempoPassato: number) {
+        if (divContainerHitPoints.childNodes.length <= 0) {
+            console.log("puntini finiti ");
+            return counterTempoPassato;
+        }
+        console.log("ci sono ancora puntini");
+        return;
+    }
+
+    protected async calcolaDannoAggiuntivo(tempoImpiegatoClickAllBtn: number): Promise<number> {
+        return new Promise((resolve, reject) => {
+            console.log(tempoImpiegatoClickAllBtn);
+            if (tempoImpiegatoClickAllBtn < 3) {
+                return resolve(10);
+            } else if (tempoImpiegatoClickAllBtn < 5) {
+                return resolve(7);
+            } else if (tempoImpiegatoClickAllBtn < 9) {
+                return resolve(5);
+            } else {
+                return resolve(2);
+            }
+        });
     }
 }
