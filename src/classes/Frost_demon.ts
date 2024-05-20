@@ -87,6 +87,7 @@ export class Frost_Demon extends combattente {
                 console.log("parte corpo colpita", parteCorpoColpita);
                 console.log("punto critico nemico", enemy.puntoCritico);
                 statusBattle.innerHTML += `freezer Effettua planet Breaker contro ${enemy.nome}. <br>`;
+                statusBattle.innerHTML += `La terra Inizia a tremare. <br>`;
                 if (this.tentativi < 4) {
                     statusBattle.innerHTML =
                         "Freezer è troppo stanco per effettuare un attacco finale. Riposati e riprova.";

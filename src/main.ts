@@ -619,6 +619,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
             changeTurn(ArrayScontroPersonaggi);
             DisabilitaBottoni();
             rimuoviGifAttaccoSpeciale(character, 3050);
+            cambiaSfondoNamekDistrutta();
         });
     }
 
@@ -707,6 +708,15 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         character.stats();
         // changeTurn(ArrayScontroPersonaggi);
     });
+};
+
+const cambiaSfondoNamekDistrutta = () => {
+    if (appElement === null) {
+        console.error("elemento app element non trovato.");
+        return;
+    }
+
+    appElement.style.backgroundImage = "url(/imgs/destroied_namek_sfondo.gif)";
 };
 
 // funzione per disattivare ad ogni turno i bottoni degli attacchi dell avversario
