@@ -43,9 +43,9 @@ export class cyborg extends combattente {
 
     public PerfectCell() {
         this.pv += 50;
-        this.forza += 95;
-        this.agilita += 45;
-        this.difesa += 60;
+        this.forza += 18;
+        this.agilita += 20;
+        this.difesa += 25;
         this.cambiaImmagineCellFinal();
     }
 
@@ -85,19 +85,19 @@ export class cyborg extends combattente {
                 console.log("parte corpo colpita", parteCorpoColpita);
                 console.log("punto critico nemico", enemy.puntoCritico);
                 statusBattle.innerHTML += `Cell Effettua SuperKamehameha contro ${enemy.nome}. <br>`;
-                this.forza += 75;
+                this.forza += 10;
                 this.tentativi = this.tentativi - 3;
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 2.1) / enemy.difesa + 1;
+                    danno = this.forza / (enemy.difesa / 2) + this.forza;
                 } else {
-                    danno = (this.forza * 2.1) / enemy.difesa + 1;
+                    danno = this.forza / (enemy.difesa / 2) + this.forza;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += `Danni inflitti ${danno}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-                this.forza -= 75;
+                this.forza -= 10;
             } else {
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
@@ -107,27 +107,3 @@ export class cyborg extends combattente {
         }
     }
 }
-
-// if (possibilitaColpo <= this.precisione) {
-//     let danno: number;
-//     this.AnimationGif(this.GifKamehameha, this.nome);
-//     // controllo colpo critico: se parte corpo colpita (estratta da array === a punto debole nemico) danno raddoppiato.
-//     let parteCorpoColpita: string = this.CriticalHit();
-//     console.log("parte corpo colpita", parteCorpoColpita);
-//     console.log("punto critico nemico", enemy.puntoCritico);
-//     statusBattle.innerHTML += `Vegeta Effettua FinalFlash contro ${enemy.nome}. <br>`;
-//     this.forza += 80;
-//     this.difesa -= 25;
-//     this.tentativi = this.tentativi - 3;
-
-//     if (parteCorpoColpita === enemy.puntoCritico) {
-//         danno = (this.forza * 2.7 * 2) / enemy.difesa + 1;
-//     } else {
-//         danno = (this.forza * 2.7) / enemy.difesa + 1;
-//     }
-//     danno = parseFloat(danno.toFixed(2));
-//     enemy.pv -= danno;
-//     statusBattle.innerHTML += `Danni inflitti ${danno}`;
-//     this.vitaRimanenteNemico(enemy);
-//     this.GainExp(enemy);
-//     this.forza -= 80;

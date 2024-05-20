@@ -44,8 +44,8 @@ export class Frost_Demon extends combattente {
 
     public superFreezer() {
         this.pv += 40;
-        this.forza += 85;
-        this.agilita += 55;
+        this.forza += 15;
+        this.agilita += 20;
         this.difesa += 45;
         this.GifSuperFreezer();
     }
@@ -94,20 +94,20 @@ export class Frost_Demon extends combattente {
                     return;
                 }
                 this.tentativi = this.tentativi - 3;
-                this.forza += 120;
+                this.forza += 32;
                 this.difesa -= 15;
 
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 2.7 * 2) / enemy.difesa + 1;
+                    danno = (this.forza * 2.7 * 2) / (enemy.difesa / 2) + this.forza;
                 } else {
-                    danno = (this.forza * 2.8) / enemy.difesa + 1;
+                    danno = (this.forza * 2.8) / (enemy.difesa / 2) + this.forza;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += `Danni inflitti ${danno}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-                this.forza -= 120;
+                this.forza -= 32;
             } else {
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);

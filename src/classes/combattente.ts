@@ -129,7 +129,7 @@ export class combattente {
         });
     }
 
-    public Pugno(enemy: Guerriero) {
+    public async Pugno(enemy: Guerriero) {
         statusBattle.innerHTML = "";
         try {
             let possibilitaColpo = Math.random() * 100;
@@ -142,12 +142,18 @@ export class combattente {
                 let danno: number;
                 statusBattle.innerHTML += "colpo andato a segno.";
                 let parteCorpoColpita: string = this.CriticalHit();
-                console.log(parteCorpoColpita, enemy.puntoCritico);
+
+                statusBattle.innerHTML +=
+                    "clicca i tasti rossi il più velocemente possibile per infliggere danno extra!";
+
+                const TempoPassato = await this.addDamage("pugno");
+                const dannoAggiuntivo: number = await this.calcolaDannoAggiuntivo(TempoPassato);
+                statusBattle.innerHTML = "";
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 1.5 * 3) / enemy.difesa + 1;
+                    danno = this.forza - 10 * 3 + dannoAggiuntivo / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
-                    danno = (this.forza * 1.5) / enemy.difesa + 1;
+                    danno = this.forza - 10 + dannoAggiuntivo / enemy.difesa + 1;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
@@ -179,15 +185,16 @@ export class combattente {
                 let parteCorpoColpita: string = this.CriticalHit();
                 statusBattle.innerHTML += "clicca rapidamente tutti i bottoni rossi per infliggere danno extra!";
 
-                const TempoPassato = await this.addDamage();
+                const TempoPassato = await this.addDamage("calcio");
                 const dannoAggiuntivo: number = await this.calcolaDannoAggiuntivo(TempoPassato);
+
                 console.log(dannoAggiuntivo);
                 statusBattle.innerHTML = "";
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = this.forza * 1.2 * 2 + dannoAggiuntivo / enemy.difesa + 1;
+                    danno = this.forza * 1.2 + dannoAggiuntivo / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
-                    danno = this.forza * 1.2 + dannoAggiuntivo / enemy.difesa + 1;
+                    danno = this.forza + dannoAggiuntivo / enemy.difesa + 1;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 console.log(danno);
@@ -280,7 +287,7 @@ export class combattente {
         if (this.pv > 0 && this.pv < this.initialPv) {
             statusBattle.innerHTML += `${this.nome} non è completamente esausto.`;
             statusBattle.innerHTML += `${this.nome} schiaccia un sonnellino.`;
-            this.pv += 5;
+            this.pv += 10;
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
@@ -323,18 +330,33 @@ export class combattente {
     // creare una feature in cui quando vengono premuti i tasti attacco base appare un div con puntini messi random all interno.
     // PIu velocemente vengono cliccati i puntini maggior danno inflitto all avversario.
     // da gestire come promise asincrona e da cui far ritornare il valore per calcolare il danno aggiuntivo in funzione del tempo impiegato per cliccare tutti i bottoni.
-    protected async addDamage(): Promise<number> {
-        return new Promise((resolve, reject) => {
+    protected async addDamage(isPugnoOrCalcio: string): Promise<number> {
+        return new Promise((resolve) => {
             const boxPoints = document.createElement("div");
             boxPoints.classList.add("d-block", "border", "border-2", "w-75", "position-relative", "h-50");
             statusBattle.appendChild(boxPoints);
+
+            // a seconda che si stia eseguendo un pugno o un calcio i puntini rossi da cliccare sono di diversa quantità: Se calcio più puntini (piu lento come attacco ma maggior danno, se pugno meno puntini, più veloce ma meno danno.)
+            let variabilePugnoCalcio: number;
+
+            switch (isPugnoOrCalcio) {
+                case "pugno":
+                    variabilePugnoCalcio = 3;
+                    break;
+                case "calcio":
+                    variabilePugnoCalcio = 6;
+                    break;
+                default:
+                    variabilePugnoCalcio = 6;
+            }
+
             let counterTempoPassato: number = 0;
             let tempoImpiegatoPerCliccareTuttiHitBtn: number | undefined;
             setInterval(() => {
                 counterTempoPassato++;
             }, 1000);
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < variabilePugnoCalcio; i++) {
                 let a = Math.floor(Math.random() * 100);
                 let b = Math.floor(Math.random() * 100);
 
@@ -370,7 +392,7 @@ export class combattente {
     }
 
     protected async calcolaDannoAggiuntivo(tempoImpiegatoClickAllBtn: number): Promise<number> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             console.log(tempoImpiegatoClickAllBtn);
             if (tempoImpiegatoClickAllBtn < 3) {
                 return resolve(10);

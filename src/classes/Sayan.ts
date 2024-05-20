@@ -45,9 +45,9 @@ export class Sayan extends combattente {
 
     public superSayan() {
         this.pv += 40;
-        this.forza += 100;
-        this.agilita += 50;
-        this.difesa += 50;
+        this.forza += 10;
+        this.agilita += 15;
+        this.difesa += 30;
         this.cambiaImmagineSSJ();
         console.log(this);
     }
@@ -96,20 +96,20 @@ export class Sayan extends combattente {
                 console.log("parte corpo colpita", parteCorpoColpita);
                 console.log("punto critico nemico", enemy.puntoCritico);
                 statusBattle.innerHTML += `Goku Effettua Kamehameha contro ${enemy.nome}. <br>`;
-                this.forza += 60;
+                this.forza += 20;
                 this.tentativi = this.tentativi - 2;
 
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 2.1 * 2) / enemy.difesa + 1;
+                    danno = (this.forza * 2) / (enemy.difesa / 2) + this.forza;
                 } else {
-                    danno = (this.forza * 2.1) / enemy.difesa + 1;
+                    danno = this.forza / (enemy.difesa / 2) + this.forza;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += `Danni inflitti ${danno}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-                this.forza -= 60;
+                this.forza -= 20;
             } else {
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
@@ -141,21 +141,21 @@ export class Sayan extends combattente {
                 console.log("parte corpo colpita", parteCorpoColpita);
                 console.log("punto critico nemico", enemy.puntoCritico);
                 statusBattle.innerHTML += `Vegeta Effettua FinalFlash contro ${enemy.nome}. <br>`;
-                this.forza += 80;
-                this.difesa -= 25;
+                this.forza += 20;
+                this.difesa -= 15;
                 this.tentativi = this.tentativi - 3;
 
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 2.7 * 2) / enemy.difesa + 1;
+                    danno = (this.forza * 2) / (enemy.difesa / 2) + this.forza;
                 } else {
-                    danno = (this.forza * 2.7) / enemy.difesa + 1;
+                    danno = this.forza / (enemy.difesa / 2) + this.forza;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
                 statusBattle.innerHTML += `Danni inflitti ${danno}`;
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
-                this.forza -= 80;
+                this.forza -= 20;
             } else {
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);

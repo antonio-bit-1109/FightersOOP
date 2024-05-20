@@ -137,7 +137,7 @@ divOpponent.id = "player2";
 //
 export const statusBattle = document.createElement("div");
 statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder", "d-flex", "align-items-start");
-statusBattle.style.minHeight = "50vh";
+statusBattle.style.minHeight = "58vh";
 
 let WhoIsturn: number = 1;
 
