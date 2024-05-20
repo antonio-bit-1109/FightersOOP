@@ -582,7 +582,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
                 changeTurn(ArrayScontroPersonaggi);
                 DisabilitaBottoni();
                 //rimuovere la gif dell attacco speciale
-                rimuoviGifAttaccoSpeciale(character, 1650);
+                rimuoviGifAttaccoSpeciale(character, 2550);
             });
         }
     }
