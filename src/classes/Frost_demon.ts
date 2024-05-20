@@ -88,12 +88,12 @@ export class Frost_Demon extends combattente {
                 console.log("punto critico nemico", enemy.puntoCritico);
                 statusBattle.innerHTML += `freezer Effettua planet Breaker contro ${enemy.nome}. <br>`;
                 statusBattle.innerHTML += `La terra Inizia a tremare. <br>`;
-                if (this.tentativi < 4) {
+                if (this.tentativi < 3) {
                     statusBattle.innerHTML =
                         "Freezer è troppo stanco per effettuare un attacco finale. Riposati e riprova.";
                     return;
                 }
-                this.tentativi = this.tentativi - 4;
+                this.tentativi = this.tentativi - 3;
                 this.forza += 120;
                 this.difesa -= 15;
 

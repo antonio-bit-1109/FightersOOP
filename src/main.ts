@@ -58,7 +58,7 @@ const Goku = new Sayan(
 );
 const Vegeta = new Sayan(
     "Vegeta",
-    600,
+    500,
     38,
     5,
     0,
@@ -684,7 +684,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
     });
 
     btnRiposo.addEventListener("click", () => {
-        character.Riposo();
+        character.Fagiolo_Balzar();
         changeTurn(ArrayScontroPersonaggi);
         DisabilitaBottoni();
     });

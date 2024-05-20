@@ -144,10 +144,10 @@ export class combattente {
                 let parteCorpoColpita: string = this.CriticalHit();
                 console.log(parteCorpoColpita, enemy.puntoCritico);
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 1.2 * 2) / enemy.difesa + 1;
+                    danno = (this.forza * 1.5 * 3) / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
-                    danno = (this.forza * 1.2) / enemy.difesa + 1;
+                    danno = (this.forza * 1.5) / enemy.difesa + 1;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
@@ -179,10 +179,10 @@ export class combattente {
                 let parteCorpoColpita: string = this.CriticalHit();
                 console.log(parteCorpoColpita, enemy.puntoCritico);
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 1.2 * 2) / enemy.difesa + 1;
+                    danno = (this.forza * 1.8 * 2) / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
-                    danno = (this.forza * 1.2) / enemy.difesa + 1;
+                    danno = (this.forza * 1.8) / enemy.difesa + 1;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;
@@ -261,31 +261,34 @@ export class combattente {
         }, 4000);
     }
 
-    public Riposo() {
+    public Fagiolo_Balzar() {
         statusBattle.innerHTML = "";
 
         if (this.pv <= 0) {
             this.pv = 0;
             statusBattle.innerHTML += `${this.nome} è esausto. Si sta riposando.`;
-            this.pv = this.livello + 10;
+            // this.pv = this.livello + 5;
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
-        if (this.pv > 0) {
+        if (this.pv > 0 && this.pv < this.initialPv) {
             statusBattle.innerHTML += `${this.nome} non è completamente esausto.`;
             statusBattle.innerHTML += `${this.nome} schiaccia un sonnellino.`;
-            this.pv += this.livello + 5;
+            this.pv += 5;
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
         if (this.pv >= this.initialPv) {
-            statusBattle.innerHTML += `${this.nome} è perfettamente riposato.`;
-            statusBattle.innerHTML += "i suoi punti vita sono al massimo.";
-            statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
+            statusBattle.innerHTML += `${this.nome} è perfettamente riposato. <br>`;
+            statusBattle.innerHTML += `i suoi punti vita sono al massimo. <br>`;
+            statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv} <br>`;
         }
 
         // ricarica la possiblita di trovare item randomici e fare mosse speciali
         this.tentativi++;
+        statusBattle.innerHTML += `${this.nome} usa fagiolo di Balzar. Si sente meglio. <br>`;
+        statusBattle.innerHTML += `tentativi a disposizione ${this.tentativi} <br>`;
+        statusBattle.innerHTML += `pv : ${this.pv} <br>`;
     }
 
     public UsaPozione(pozione: pozione) {
