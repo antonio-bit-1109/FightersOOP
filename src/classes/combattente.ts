@@ -287,7 +287,7 @@ export class combattente {
         if (this.pv > 0 && this.pv < this.initialPv) {
             statusBattle.innerHTML += `${this.nome} non è completamente esausto.`;
             statusBattle.innerHTML += `${this.nome} schiaccia un sonnellino.`;
-            this.pv += 5;
+            this.pv += 10;
             statusBattle.innerHTML += `${this.nome} ---> pvAttuali: ${this.pv}`;
         }
 
