@@ -84,9 +84,9 @@ const Freezer = new Frost_Demon(
     "irascibile",
     "coda",
     90,
-    "freezer.jpg",
-    "super_freezer2.webp",
-    "super_freezer_gif.gif"
+    "freezer.jpg", // foto base
+    "super_freezer_gif.gif", // gif super freezer
+    "frieza_final_attack.gif" // gif attacco finale
 );
 const Cell = new cyborg(
     "Cell",
@@ -480,6 +480,12 @@ const doSuperKamehameha = (character: Guerriero, enemy: Guerriero) => {
     }
 };
 
+const FreezerFinalAttack = (character: Guerriero, enemy: Guerriero) => {
+    if (character.nome.toLowerCase() === "freezer") {
+        return (character as Frost_Demon).FinalAttack_planet_breaker(enemy);
+    }
+};
+
 // ------------------------------   ---------------------------    ---------------------------   -----------------------
 // TUTTI I NUOVI BOTTONI RELATIVI ALLE TRASFORMAZIONI ED ATTACCHI INSERITI QUI
 const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerriero) => {
@@ -603,6 +609,16 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
             if (character.nome.toLowerCase() === "freezer") {
                 removeGIfTrasformazione(character, 4300);
             }
+        });
+
+        const btnFinalAttack = document.createElement("button");
+        btnFinalAttack.innerText = "planet breaker";
+        divPlayer1.append(btnFinalAttack);
+        btnFinalAttack.addEventListener("click", () => {
+            FreezerFinalAttack(character, enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            rimuoviGifAttaccoSpeciale(character, 3050);
         });
     }
 

@@ -63,6 +63,7 @@ export class combattente {
             "nuca",
             "addome",
             "stomaco",
+            "coda",
             "femorale destro",
             "femorale sinistro",
             "fianco destro",
