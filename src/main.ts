@@ -386,8 +386,12 @@ const DamoseLeBotte = (arraycombattenti: Guerriero[]) => {
     }
 };
 
-function aggiornaProgressBar(player: Guerriero, progressBar: HTMLElement, divGiocatoreSconfitto: HTMLElement) {
-    let vitaAttuale = player.pv;
+function aggiornaProgressBar(
+    playerDanneggiato: Guerriero,
+    progressBar: HTMLElement,
+    divGiocatoreSconfitto: HTMLElement
+) {
+    let vitaAttuale = playerDanneggiato.pv;
 
     if (vitaAttuale > 50) {
         progressBar.style.width = `${vitaAttuale}%`;
@@ -418,22 +422,36 @@ function aggiornaProgressBar(player: Guerriero, progressBar: HTMLElement, divGio
         progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
     }
 
+    // se dopo un attacco la vita del nemico arriva a zero, e se questo attacco era una immagine gif con un animazione visibile, aspetto che termini questa "animazione" e solo dopo visualizzo il custom modal con il messaggio di player "X" sconfitto
     if (vitaAttuale < 0) {
         vitaAttuale = 0;
+
         progressBar.style.width = `${vitaAttuale}%`;
         progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 
-        if (!customModal.querySelector(".messaggio-sconfitta")) {
-            divGiocatoreSconfitto.append(customModal);
-            customModal.classList.remove("d-none");
-            customModal.classList.remove("styleCustomModal");
-            customModal.classList.add("styleCustomModal_1");
-            customModal.classList.add("text-danger");
-            let messaggioSconfitta = document.createElement("h3");
-            messaggioSconfitta.classList.add("messaggio-sconfitta");
-            messaggioSconfitta.classList.add("positionMessaggioSconfitta");
-            messaggioSconfitta.innerHTML = "SCONFITTA";
-            customModal.append(messaggioSconfitta);
+        // se l'immagine che contiene la gif all interno del div StatusBattle è display :none (quindi la gif ha terminato "l'animazione")
+        //faccio visualizzare il custom modal con sconfitta del player con 0 vita.
+        const ImgGif = statusBattle.querySelector("img");
+        console.log(ImgGif);
+
+        // se l'immagine contenente la gif è andata in display none ( e ci va solo una volta terminata "l'animazione") , oppure l'immagine contenente la gif non è presente nel DOM , mostra modal di avvenuta sconfitta. in entrambi i casi ricarica la pagina dopo 4s
+        if (ImgGif?.style.display === "none" || !ImgGif) {
+            if (!customModal.querySelector(".messaggio-sconfitta")) {
+                divGiocatoreSconfitto.append(customModal);
+                customModal.classList.remove("d-none");
+                customModal.classList.remove("styleCustomModal");
+                customModal.classList.add("styleCustomModal_1");
+                customModal.classList.add("text-danger");
+                let messaggioSconfitta = document.createElement("h3");
+                messaggioSconfitta.classList.add("messaggio-sconfitta");
+                messaggioSconfitta.classList.add("positionMessaggioSconfitta");
+                messaggioSconfitta.innerHTML = "SCONFITTA";
+                customModal.append(messaggioSconfitta);
+            }
+            // una volta che in custom modal appare il messaggio di sconfitta di uno de player ricarico la finestra.
+            setTimeout(() => {
+                window.location.reload();
+            }, 4000);
         }
     }
 

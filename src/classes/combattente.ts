@@ -203,7 +203,6 @@ export class combattente {
                 this.vitaRimanenteNemico(enemy);
                 this.GainExp(enemy);
             } else {
-                // canHit = false;
                 statusBattle.innerHTML = "il colpo non è andato a segno.";
                 this.vitaRimanenteNemico(enemy);
             }
@@ -217,6 +216,10 @@ export class combattente {
             this.Fainted(enemy);
         }
         statusBattle.innerHTML += ` la vita del nemico (${enemy.nome}) è ${enemy.pv}`;
+    }
+
+    protected Fainted(enemy: Guerriero) {
+        statusBattle.innerHTML += `Il nemico ${enemy.nome} è stato sconfitto.`;
     }
 
     public lookAround() {
@@ -265,13 +268,6 @@ export class combattente {
         if (this.esperienza < 20) {
             this.esperienza = expPoint;
         }
-    }
-
-    protected Fainted(enemy: Guerriero) {
-        statusBattle.innerHTML = `Il nemico ${enemy.nome} è stato sconfitto.`;
-        setTimeout(() => {
-            window.location.reload();
-        }, 4000);
     }
 
     public Fagiolo_Balzar() {
