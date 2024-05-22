@@ -59,7 +59,7 @@ export class Majin extends combattente {
             //immagine sarà questa
             this.image = "superBUU-absorbed-gotenks.jpg";
             this.AnimationGif(this.GifTranformation, this.nome);
-            statusBattle.innerHTML += "Super Buu raggiunge la forma perfetta!";
+            statusBattle.innerHTML += "Super Buu ha assorbito Gotenks!";
         }
     }
 
