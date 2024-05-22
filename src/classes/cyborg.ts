@@ -91,6 +91,7 @@ export class cyborg extends combattente {
                 this.forza += 10;
                 this.tentativi = this.tentativi - 3;
                 if (parteCorpoColpita === enemy.puntoCritico) {
+                    statusBattle.innerHTML += `DANNO CRITICO. <br>`;
                     danno = this.forza / (enemy.difesa / 2) + this.forza;
                 } else {
                     danno = this.forza / (enemy.difesa / 2) + this.forza;

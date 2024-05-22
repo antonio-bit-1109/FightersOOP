@@ -150,7 +150,7 @@ export class combattente {
                 const dannoAggiuntivo: number = await this.calcolaDannoAggiuntivo(TempoPassato);
                 statusBattle.innerHTML = "";
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = this.forza - 10 * 3 + dannoAggiuntivo / enemy.difesa + 1;
+                    danno = (this.forza - 10) * 1.5 + dannoAggiuntivo / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
                     danno = this.forza - 10 + dannoAggiuntivo / enemy.difesa + 1;
@@ -191,7 +191,7 @@ export class combattente {
                 console.log(dannoAggiuntivo);
                 statusBattle.innerHTML = "";
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = this.forza * 1.2 + dannoAggiuntivo / enemy.difesa + 1;
+                    danno = (this.forza - 10) * 2 + dannoAggiuntivo / enemy.difesa + 1;
                     statusBattle.innerHTML += `COLPO CRITICO SU ${enemy.nome}. DANNO RADDOPPIATO.`;
                 } else {
                     danno = this.forza + dannoAggiuntivo / enemy.difesa + 1;

@@ -102,9 +102,10 @@ export class Frost_Demon extends combattente {
                 this.difesa -= 15;
 
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = (this.forza * 2.7 * 2) / (enemy.difesa / 2) + this.forza;
+                    statusBattle.innerHTML += `DANNO CRITICO. <br>`;
+                    danno = (this.forza * 2.2 + 25) / (enemy.difesa / 2) + this.forza;
                 } else {
-                    danno = (this.forza * 2.8) / (enemy.difesa / 2) + this.forza;
+                    danno = (this.forza * 2) / (enemy.difesa / 2) + this.forza;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;

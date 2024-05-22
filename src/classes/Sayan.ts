@@ -103,6 +103,7 @@ export class Sayan extends combattente {
                 this.tentativi = this.tentativi - 2;
 
                 if (parteCorpoColpita === enemy.puntoCritico) {
+                    statusBattle.innerHTML += `DANNO CRITICO. <br>`;
                     danno = (this.forza * 2) / (enemy.difesa / 2) + this.forza;
                 } else {
                     danno = this.forza / (enemy.difesa / 2) + this.forza;
@@ -149,6 +150,7 @@ export class Sayan extends combattente {
                 this.tentativi = this.tentativi - 3;
 
                 if (parteCorpoColpita === enemy.puntoCritico) {
+                    statusBattle.innerHTML += `DANNO CRITICO. <br>`;
                     danno = (this.forza * 2) / (enemy.difesa / 2) + this.forza;
                 } else {
                     danno = this.forza / (enemy.difesa / 2) + this.forza;

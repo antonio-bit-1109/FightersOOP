@@ -92,9 +92,10 @@ export class Majin extends combattente {
                 this.forza += 16;
                 this.tentativi = this.tentativi - 3;
                 if (parteCorpoColpita === enemy.puntoCritico) {
-                    danno = this.forza / (enemy.difesa / 2) + this.forza;
+                    statusBattle.innerHTML += `DANNO CRITICO. <br>`;
+                    danno = (this.forza * 2.2) / (enemy.difesa / 2) + this.forza;
                 } else {
-                    danno = this.forza / (enemy.difesa / 2) + this.forza;
+                    danno = this.forza + 10 / (enemy.difesa / 2) + this.forza;
                 }
                 danno = parseFloat(danno.toFixed(2));
                 enemy.pv -= danno;

@@ -117,7 +117,7 @@ const SuperBuu = new Majin(
     100,
     "Majin",
     "furioso",
-    "testa",
+    "fianco destro",
     75,
     "super-Buu.jpg", // forma base
     "super_buu_absorb_gotenks.gif", //gif trasformazione
@@ -805,7 +805,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         divPlayer1.append(btnMankuoseppo);
         btnMankuoseppo.addEventListener("click", () => {
             doMankuoseppo(character, enemy);
-            rimuoviGifAttaccoSpeciale(character, 3210);
+            rimuoviGifAttaccoSpeciale(character, 3020);
         });
     }
 
