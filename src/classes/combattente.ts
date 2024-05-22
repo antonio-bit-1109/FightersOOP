@@ -334,22 +334,28 @@ export class combattente {
 
             // a seconda che si stia eseguendo un pugno o un calcio i puntini rossi da cliccare sono di diversa quantità: Se calcio più puntini (piu lento come attacco ma maggior danno, se pugno meno puntini, più veloce ma meno danno.)
             let variabilePugnoCalcio: number;
+            let counterTempoPassato: number = 0;
+
+            const boxWrapperTempoPassato = document.createElement("div");
+            boxWrapperTempoPassato.classList.add("styleDivTempoPassatoHit");
+            boxWrapperTempoPassato.innerHTML = ` time <br> 0`;
+            statusBattle.appendChild(boxWrapperTempoPassato);
 
             switch (isPugnoOrCalcio) {
                 case "pugno":
-                    variabilePugnoCalcio = 3;
+                    variabilePugnoCalcio = 4;
                     break;
                 case "calcio":
-                    variabilePugnoCalcio = 6;
+                    variabilePugnoCalcio = 7;
                     break;
                 default:
                     variabilePugnoCalcio = 6;
             }
 
-            let counterTempoPassato: number = 0;
             let tempoImpiegatoPerCliccareTuttiHitBtn: number | undefined;
             setInterval(() => {
                 counterTempoPassato++;
+                boxWrapperTempoPassato.innerHTML = ` time <br> ${counterTempoPassato}`;
             }, 1000);
 
             for (let i = 0; i < variabilePugnoCalcio; i++) {
@@ -392,9 +398,9 @@ export class combattente {
             console.log(tempoImpiegatoClickAllBtn);
             if (tempoImpiegatoClickAllBtn < 3) {
                 return resolve(10);
-            } else if (tempoImpiegatoClickAllBtn < 5) {
+            } else if (tempoImpiegatoClickAllBtn < 4) {
                 return resolve(7);
-            } else if (tempoImpiegatoClickAllBtn < 9) {
+            } else if (tempoImpiegatoClickAllBtn < 5) {
                 return resolve(5);
             } else {
                 return resolve(2);
