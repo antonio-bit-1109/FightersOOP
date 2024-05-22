@@ -102,14 +102,8 @@ button:focus-visible {
     text-align: center;
 }
 
-.appElementStyle_vhMin {
-    min-height: 100vh;
-    background-image: url("/imgs/torneo.png");
-    background-size: cover;
-}
-
 .appElementStyle {
-    height: 100vh;
+    min-height: 100vh;
     background-image: url("/imgs/torneo.png");
     background-size: cover;
 }
@@ -194,7 +188,7 @@ button:focus-visible {
 
 .statusDivStyle {
     width: 100%;
-    height: 52vh;
+    height: 49vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -202,7 +196,7 @@ button:focus-visible {
     font-size: 3em;
     color: greenyellow;
     background-color: #5f5a5a8f;
-    margin-block: 20px;
+    margin-block-start: 20px;
     overflow-y: scroll;
 }
 

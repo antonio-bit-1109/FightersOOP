@@ -8,6 +8,7 @@ import { sfondoFetch } from "./fetches/sfondoFetch";
 import { Guerriero } from "./interfaces/interfaces";
 import VolumeUp from "../public/svgs/volume-up-fill.svg";
 import VolumeMute from "../public/svgs/volume-mute-fill.svg";
+import { Majin } from "./classes/Majin";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
@@ -106,7 +107,22 @@ const Cell = new cyborg(
     "cell_final_transformation_gif.gif", // cell final form gif
     "cell_super_kamehameha.gif" // cell superkamehameha gif
 );
-const KidBU = new combattente("Kid-Bu", 28, 40, 5, 0, 44, 100, "Majin", "furioso", "testa", 75, "kid_buu.jpg");
+const SuperBuu = new Majin(
+    "Super-Buu",
+    15,
+    30,
+    5,
+    0,
+    44,
+    100,
+    "Majin",
+    "furioso",
+    "testa",
+    75,
+    "super-Buu.jpg", // forma base
+    "super_buu_absorb_gotenks.gif", //gif trasformazione
+    "super_buu_(gotenks)_mankuoseppo.gif" //gif cannonne speciale
+);
 //
 //
 export const appElement = document.getElementById("app");
@@ -114,7 +130,7 @@ export const appElement = document.getElementById("app");
 // ricavo dal localStorage eventuale immagine salvata come sfondo
 
 const ArrayPersonaggi: Guerriero[] = [];
-ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell, KidBU);
+ArrayPersonaggi.push(Goku, Vegeta, Freezer, Cell, SuperBuu);
 
 const h1 = document.createElement("h1");
 const h3 = document.createElement("h3");
@@ -170,7 +186,7 @@ inputGroup.append(buttonRequestFetch);
 
 document.addEventListener("DOMContentLoaded", () => {
     if (appElement) {
-        appElement.classList.add("appElementStyle_vhMin");
+        appElement.classList.add("appElementStyle");
         start();
         chooseYourCharacter();
         appElement?.append(statusBattle);
@@ -511,6 +527,16 @@ const GoPerfectCell = (character: Guerriero) => {
     DisabilitaBottoni();
     return (character as cyborg).PerfectCell();
 };
+
+const GoSuperBuuAbsorb_Gotenks = (character: Guerriero) => {
+    if ((character as Majin).IsTranformed) {
+        return (statusBattle.innerText = "Sei già trasformato.");
+    }
+    changeTurn(ArrayScontroPersonaggi);
+    DisabilitaBottoni();
+    return (character as Majin).SuperBuu_absorb_Gotenks();
+};
+
 // attacco finale di un saiyan diversificato a seconda che sia goku o vegeta
 const doSaiyanFinalAttack = (character: Guerriero, enemy: Guerriero) => {
     if (character.nome.toLowerCase() === "goku") {
@@ -542,6 +568,21 @@ const doSuperKamehameha = (character: Guerriero, enemy: Guerriero) => {
     if (character.nome.toLowerCase().includes("cell")) {
         if ((character as cyborg).IsTranformed) {
             (character as cyborg).SuperKamehameha(enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            return;
+        } else {
+            statusBattle.innerText = "Devi prima trasformati per poter usare questo attacco.";
+            return;
+        }
+        // return (character as cyborg).SuperKamehameha(enemy);
+    }
+};
+
+const doMankuoseppo = (character: Guerriero, enemy: Guerriero) => {
+    if (character.nome.toLowerCase().includes("buu")) {
+        if ((character as Majin).IsTranformed) {
+            (character as Majin).Mankuoseppo(enemy);
             changeTurn(ArrayScontroPersonaggi);
             DisabilitaBottoni();
             return;
@@ -675,6 +716,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         }
     }
 
+    // se il personaggio è di tipo frost demon (freezer e simili)
     if (character.razza.toLowerCase() === "frost demon") {
         const btnSuperFreezer = document.createElement("button");
         btnSuperFreezer.innerText = "100% POWER";
@@ -706,6 +748,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         });
     }
 
+    // se il personaggio è di tipo cyborg (cell) e simili
     if (character.razza.toLowerCase() === "cyborg") {
         const btnCellFinalForm = document.createElement("button");
         btnCellFinalForm.innerText = "ABSORB C18";
@@ -733,6 +776,36 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         btnSuperKamehameha.addEventListener("click", () => {
             doSuperKamehameha(character, enemy);
             rimuoviGifAttaccoSpeciale(character, 4800);
+        });
+    }
+
+    if (character.razza.toLowerCase() === "majin") {
+        const btnSuperBuuAbsorb_Gotenks = document.createElement("button");
+        btnSuperBuuAbsorb_Gotenks.innerText = "ABSORB Gotenks";
+        divPlayer1.append(btnSuperBuuAbsorb_Gotenks);
+        btnSuperBuuAbsorb_Gotenks.addEventListener("click", () => {
+            GoSuperBuuAbsorb_Gotenks(character);
+
+            // trova immagine nel dom e sostituiscila con quella da ssj
+            let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
+            if (ImmagineCambiata === null) {
+                console.error("nodo del DOM è null.");
+            } else {
+                ImmagineCambiata.src = `/imgs/${character.image}`;
+            }
+
+            // trova la gif della trasformazione e rimuovila dopo X secondi
+            if (character.nome.toLowerCase().includes("buu")) {
+                removeGIfTrasformazione(character, 9000);
+            }
+        });
+
+        const btnMankuoseppo = document.createElement("button");
+        btnMankuoseppo.innerText = "Mankuoseppo";
+        divPlayer1.append(btnMankuoseppo);
+        btnMankuoseppo.addEventListener("click", () => {
+            doMankuoseppo(character, enemy);
+            rimuoviGifAttaccoSpeciale(character, 3210);
         });
     }
 
