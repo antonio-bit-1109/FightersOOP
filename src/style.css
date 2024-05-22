@@ -109,8 +109,16 @@ button:focus-visible {
 }
 
 .imgDimension {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0.8rem;
+    border: 1px solid black;
+}
+.imgDimension0 {
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     object-fit: cover;
     margin: 0.8rem;

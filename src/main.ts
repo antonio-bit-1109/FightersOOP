@@ -139,11 +139,10 @@ divOpponent.classList.add("divPlayer2");
 divOpponent.id = "player2";
 //
 export const statusBattle = document.createElement("div");
-statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bolder", "d-flex", "align-items-start");
+statusBattle.classList.add("statusDivStyle", "fs-1", "text-center", "fw-bolder", "d-flex", "align-items-start");
 statusBattle.style.minHeight = "58vh";
 
 let WhoIsturn: number = 1;
-let IsMusicPlaying: boolean = true;
 
 // creazione input group sfruttando classi bootstrap
 
@@ -217,7 +216,7 @@ const chooseYourCharacter = () => {
 
         let charImage = document.createElement("img");
         charImage.src = `/imgs/${ArrayPersonaggi[i].image}`;
-        charImage.classList.add("imgDimension");
+        charImage.classList.add("imgDimension0");
         wrapper.append(charImage);
 
         let textWrapper = document.createElement("div");
@@ -902,13 +901,11 @@ const RiproduzioneMusica = () => {
 };
 
 const muteMusic = () => {
-    IsMusicPlaying = false;
     const MusicPlayer = document.getElementById("musicplayer");
     (MusicPlayer as HTMLAudioElement).volume = 0;
 };
 
 const PlayMusic = () => {
-    IsMusicPlaying = true;
     const MusicPlayer = document.getElementById("musicplayer");
     (MusicPlayer as HTMLAudioElement).volume = 0.2;
 };
