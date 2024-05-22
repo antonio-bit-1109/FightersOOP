@@ -851,6 +851,7 @@ const RiproduzioneMusica = () => {
     const MusicPLayer = document.createElement("audio");
     MusicPLayer.setAttribute("controls", "");
     MusicPLayer.autoplay = true;
+    MusicPLayer.hidden = true;
     MusicPLayer.volume = 0.2;
 
     const SourceMusic = document.createElement("source");
