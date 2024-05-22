@@ -5,6 +5,8 @@ import { combattente } from "./combattente";
 export class Frost_Demon extends combattente {
     public GifTransformation: string;
     public GifFinalAttack: string;
+    public IsTranformed: boolean;
+
     constructor(
         nome: string,
         forza: number,
@@ -40,6 +42,7 @@ export class Frost_Demon extends combattente {
         // Assegna il valore alla nuova proprietà
         this.GifTransformation = GifTransformation;
         this.GifFinalAttack = GifFinalAttack;
+        this.IsTranformed = false;
     }
 
     public superFreezer() {
@@ -47,6 +50,7 @@ export class Frost_Demon extends combattente {
         this.forza += 15;
         this.agilita += 20;
         this.difesa += 45;
+        this.IsTranformed = true;
         this.GifSuperFreezer();
     }
 

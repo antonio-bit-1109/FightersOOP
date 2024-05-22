@@ -99,20 +99,20 @@ export class combattente {
         statusBattle.innerHTML += ` Pv Iniziali: ${this.initialPv} <br>`;
     }
 
-    public CheckTentativiRimasti() {
-        statusBattle.innerHTML = "";
-        if (this.tentativi > 10) {
-            statusBattle.innerHTML = `Sei ancora fresco e riposato. Puoi cercare a lungo. (${this.tentativi} tentativi rimasti).`;
-        }
+    // public CheckTentativiRimasti() {
+    //     statusBattle.innerHTML = "";
+    //     if (this.tentativi > 10) {
+    //         statusBattle.innerHTML = `Sei ancora fresco e riposato. Puoi cercare a lungo. (${this.tentativi} tentativi rimasti).`;
+    //     }
 
-        if (this.tentativi > 5 && this.tentativi < 10) {
-            statusBattle.innerHTML = `sei affaticato ma anche ancora un po di energia per cercare risorse. (${this.tentativi} tentativi rimasti).`;
-        }
+    //     if (this.tentativi > 5 && this.tentativi < 10) {
+    //         statusBattle.innerHTML = `sei affaticato ma anche ancora un po di energia per cercare risorse. (${this.tentativi} tentativi rimasti).`;
+    //     }
 
-        if (this.tentativi < 5) {
-            statusBattle.innerHTML = `sei quasi allo stremo delle forze, non reggerai ancora a lungo. (${this.tentativi} tentativi rimasti).`;
-        }
-    }
+    //     if (this.tentativi < 5) {
+    //         statusBattle.innerHTML = `sei quasi allo stremo delle forze, non reggerai ancora a lungo. (${this.tentativi} tentativi rimasti).`;
+    //     }
+    // }
 
     public checkInventario() {
         statusBattle.innerHTML = "";
@@ -329,7 +329,7 @@ export class combattente {
     protected async addDamage(isPugnoOrCalcio: string): Promise<number> {
         return new Promise((resolve) => {
             const boxPoints = document.createElement("div");
-            boxPoints.classList.add("d-block", "border", "border-2", "w-75", "position-relative", "h-50");
+            boxPoints.classList.add("d-block", "border", "border-2", "w-75", "position-relative", "h-40");
             statusBattle.appendChild(boxPoints);
 
             // a seconda che si stia eseguendo un pugno o un calcio i puntini rossi da cliccare sono di diversa quantità: Se calcio più puntini (piu lento come attacco ma maggior danno, se pugno meno puntini, più veloce ma meno danno.)

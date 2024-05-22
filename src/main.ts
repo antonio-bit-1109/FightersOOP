@@ -119,6 +119,7 @@ const h3 = document.createElement("h3");
 const customModal = document.createElement("div");
 let PlayersDiv = document.createElement("div");
 customModal.classList.add("styleCustomModal");
+
 // let personaggioUtente: any | combattente = null;
 // let personaggioComputer: any | combattente = null;
 
@@ -459,17 +460,71 @@ function aggiornaProgressBar(
     progressBar.setAttribute("aria-valuenow", vitaAttuale.toString());
 }
 //---------------------------------- FUNZIONI PER ASSOCIARE LA PARAMETRO CHARACTHER IL TIPO SPECIFICATO DALLA CLASSE -----
-const checkThisGuerrieroIsSayan_AndGoSuper = (character: Guerriero) => {
+const goSuperSaiyan = (character: Guerriero) => {
     return (character as Sayan).superSayan();
 };
 
+const GoSuperFreezer = (character: Guerriero) => {
+    return (character as Frost_Demon).superFreezer();
+};
+
+const GoPerfectCell = (character: Guerriero) => {
+    return (character as cyborg).PerfectCell();
+};
 // attacco finale di un saiyan diversificato a seconda che sia goku o vegeta
-const doFinalAttack = (character: Guerriero, enemy: Guerriero) => {
+const doSaiyanFinalAttack = (character: Guerriero, enemy: Guerriero) => {
     if (character.nome.toLowerCase() === "goku") {
-        return (character as Sayan).Kamehameha(enemy);
+        if ((character as Sayan).IsTranformed) {
+            (character as Sayan).Kamehameha(enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            return;
+        } else {
+            statusBattle.innerText = "Devi prima trasformati per poter usare questo attacco.";
+            return;
+        }
     }
+
     if (character.nome.toLowerCase() === "vegeta") {
-        return (character as Sayan).FinalFlash(enemy);
+        if ((character as Sayan).IsTranformed) {
+            (character as Sayan).FinalFlash(enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            return;
+        } else {
+            statusBattle.innerText = "Devi prima trasformati per poter usare questo attacco.";
+            return;
+        }
+    }
+};
+
+const doSuperKamehameha = (character: Guerriero, enemy: Guerriero) => {
+    if (character.nome.toLowerCase().includes("cell")) {
+        if ((character as cyborg).IsTranformed) {
+            (character as cyborg).SuperKamehameha(enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            return;
+        } else {
+            statusBattle.innerText = "Devi prima trasformati per poter usare questo attacco.";
+            return;
+        }
+        // return (character as cyborg).SuperKamehameha(enemy);
+    }
+};
+
+const FreezerFinalAttack = (character: Guerriero, enemy: Guerriero) => {
+    if (character.nome.toLowerCase() === "freezer") {
+        if ((character as Frost_Demon).IsTranformed) {
+            (character as Frost_Demon).FinalAttack_planet_breaker(enemy);
+            changeTurn(ArrayScontroPersonaggi);
+            DisabilitaBottoni();
+            cambiaSfondoNamekDistrutta();
+            return;
+        } else {
+            statusBattle.innerText = "Devi prima trasformati per poter usare questo attacco.";
+            return;
+        }
     }
 };
 
@@ -482,26 +537,6 @@ const removeGIfTrasformazione = (nomeGuerriero: Guerriero, durataAnimazione: num
             GifDaRimuovere.style.display = "none";
         }
     }, durataAnimazione);
-};
-
-const GoSuperFreezer = (character: Guerriero) => {
-    return (character as Frost_Demon).superFreezer();
-};
-
-const GoPerfectCell = (character: Guerriero) => {
-    return (character as cyborg).PerfectCell();
-};
-
-const doSuperKamehameha = (character: Guerriero, enemy: Guerriero) => {
-    if (character.nome.toLowerCase().includes("cell")) {
-        return (character as cyborg).SuperKamehameha(enemy);
-    }
-};
-
-const FreezerFinalAttack = (character: Guerriero, enemy: Guerriero) => {
-    if (character.nome.toLowerCase() === "freezer") {
-        return (character as Frost_Demon).FinalAttack_planet_breaker(enemy);
-    }
 };
 
 // ------------------------------   ---------------------------    ---------------------------   -----------------------
@@ -526,8 +561,8 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
     const btnControllaInventario = document.createElement("button");
     btnControllaInventario.innerText = "Controlla inventario";
 
-    const btnCheckTentativiRimastiRicerca = document.createElement("button");
-    btnCheckTentativiRimastiRicerca.innerText = "Fatica Accumulata";
+    // const btnCheckTentativiRimastiRicerca = document.createElement("button");
+    // btnCheckTentativiRimastiRicerca.innerText = "Fatica Accumulata";
 
     const statusPG = document.createElement("button");
     statusPG.innerText = "STATUS PG";
@@ -545,7 +580,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         btnRiposo,
         btnCercaOggetti,
         btnControllaInventario,
-        btnCheckTentativiRimastiRicerca,
+        // btnCheckTentativiRimastiRicerca,
         statusPG
     );
 
@@ -555,7 +590,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         btnSuperSayan.innerText = "SUPER SAYAN";
         divPlayer1.append(btnSuperSayan);
         btnSuperSayan.addEventListener("click", () => {
-            checkThisGuerrieroIsSayan_AndGoSuper(character);
+            goSuperSaiyan(character);
             changeTurn(ArrayScontroPersonaggi);
             DisabilitaBottoni();
 
@@ -582,9 +617,8 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
             btnKamehameha.innerText = "KAMEHAMEHA";
             divPlayer1.append(btnKamehameha);
             btnKamehameha.addEventListener("click", () => {
-                doFinalAttack(character, enemy);
-                changeTurn(ArrayScontroPersonaggi);
-                DisabilitaBottoni();
+                // cambia turno e disabilita bottoni spostati dentro doFinalAttack()
+                doSaiyanFinalAttack(character, enemy);
                 //rimuovere la gif dell attacco speciale
                 rimuoviGifAttaccoSpeciale(character, 4400);
             });
@@ -596,9 +630,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
             btnFinalFlash.innerText = "Final Flash";
             divPlayer1.append(btnFinalFlash);
             btnFinalFlash.addEventListener("click", () => {
-                doFinalAttack(character, enemy);
-                changeTurn(ArrayScontroPersonaggi);
-                DisabilitaBottoni();
+                doSaiyanFinalAttack(character, enemy);
                 //rimuovere la gif dell attacco speciale
                 rimuoviGifAttaccoSpeciale(character, 2550);
             });
@@ -634,10 +666,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         divPlayer1.append(btnFinalAttack);
         btnFinalAttack.addEventListener("click", () => {
             FreezerFinalAttack(character, enemy);
-            changeTurn(ArrayScontroPersonaggi);
-            DisabilitaBottoni();
             rimuoviGifAttaccoSpeciale(character, 3050);
-            cambiaSfondoNamekDistrutta();
         });
     }
 
@@ -669,8 +698,6 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         divPlayer1.append(btnSuperKamehameha);
         btnSuperKamehameha.addEventListener("click", () => {
             doSuperKamehameha(character, enemy);
-            changeTurn(ArrayScontroPersonaggi);
-            DisabilitaBottoni();
             rimuoviGifAttaccoSpeciale(character, 4800);
         });
     }
@@ -683,7 +710,7 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
     divPlayer1.append(btnRiposo);
     divPlayer1.append(btnCercaOggetti);
     divPlayer1.append(btnControllaInventario);
-    divPlayer1.append(btnCheckTentativiRimastiRicerca);
+    // divPlayer1.append(btnCheckTentativiRimastiRicerca);
     divPlayer1.append(statusPG);
 
     // all inizio del match disabilita i bottoni del secondo giocatore
@@ -717,10 +744,10 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         // changeTurn(ArrayScontroPersonaggi);
     });
 
-    btnCheckTentativiRimastiRicerca.addEventListener("click", () => {
-        character.CheckTentativiRimasti();
-        // changeTurn(ArrayScontroPersonaggi);
-    });
+    // btnCheckTentativiRimastiRicerca.addEventListener("click", () => {
+    //     character.CheckTentativiRimasti();
+    //     // changeTurn(ArrayScontroPersonaggi);
+    // });
 
     statusPG.addEventListener("click", () => {
         character.stats();

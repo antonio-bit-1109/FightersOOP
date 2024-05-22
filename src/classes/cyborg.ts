@@ -5,6 +5,7 @@ import { combattente } from "./combattente";
 export class cyborg extends combattente {
     public GifTrasformation: string;
     public gifKamehameha: string;
+    public IsTranformed: boolean;
 
     constructor(
         nome: string,
@@ -39,6 +40,7 @@ export class cyborg extends combattente {
 
         this.GifTrasformation = GifTrasformation;
         this.gifKamehameha = gifKamehameha;
+        this.IsTranformed = false;
     }
 
     public PerfectCell() {
@@ -46,6 +48,7 @@ export class cyborg extends combattente {
         this.forza += 18;
         this.agilita += 20;
         this.difesa += 25;
+        this.IsTranformed = true;
         this.cambiaImmagineCellFinal();
     }
 

@@ -113,6 +113,8 @@ button:focus-visible {
     height: 180px;
     border-radius: 50%;
     object-fit: cover;
+    margin: 0.8rem;
+    border: 1px solid black;
 }
 
 .hoverAnimation {
@@ -200,4 +202,8 @@ button:focus-visible {
     height: 20px;
     border-radius: 50%;
     background-color: red;
+}
+
+.h-40 {
+    height: 40%;
 }

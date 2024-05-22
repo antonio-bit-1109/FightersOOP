@@ -5,6 +5,7 @@ import { Guerriero } from "../interfaces/interfaces";
 export class Sayan extends combattente {
     public GifTranformation: string;
     public GifKamehameha: string;
+    public IsTranformed: boolean;
 
     constructor(
         nome: string,
@@ -41,6 +42,7 @@ export class Sayan extends combattente {
         // Assegna il valore alla nuova proprietà
         this.GifTranformation = GifTranformation;
         this.GifKamehameha = GifKamehameha;
+        this.IsTranformed = false;
     }
 
     public superSayan() {
@@ -48,6 +50,7 @@ export class Sayan extends combattente {
         this.forza += 10;
         this.agilita += 15;
         this.difesa += 30;
+        this.IsTranformed = true;
         this.cambiaImmagineSSJ();
         console.log(this);
     }
