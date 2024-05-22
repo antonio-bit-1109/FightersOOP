@@ -140,7 +140,6 @@ divOpponent.id = "player2";
 //
 export const statusBattle = document.createElement("div");
 statusBattle.classList.add("statusDivStyle", "fs-1", "text-center", "fw-bolder", "d-flex", "align-items-start");
-statusBattle.style.minHeight = "58vh";
 
 let WhoIsturn: number = 1;
 
@@ -171,7 +170,7 @@ inputGroup.append(buttonRequestFetch);
 
 document.addEventListener("DOMContentLoaded", () => {
     if (appElement) {
-        appElement.classList.add("appElementStyle");
+        appElement.classList.add("appElementStyle_vhMin");
         start();
         chooseYourCharacter();
         appElement?.append(statusBattle);
@@ -487,14 +486,29 @@ function aggiornaProgressBar(
 }
 //---------------------------------- FUNZIONI PER ASSOCIARE LA PARAMETRO CHARACTHER IL TIPO SPECIFICATO DALLA CLASSE -----
 const goSuperSaiyan = (character: Guerriero) => {
+    if ((character as Sayan).IsTranformed) {
+        return (statusBattle.innerText = "Sei già trasformato.");
+    }
+    changeTurn(ArrayScontroPersonaggi);
+    DisabilitaBottoni();
     return (character as Sayan).superSayan();
 };
 
 const GoSuperFreezer = (character: Guerriero) => {
+    if ((character as Frost_Demon).IsTranformed) {
+        return (statusBattle.innerText = "Sei già trasformato.");
+    }
+    changeTurn(ArrayScontroPersonaggi);
+    DisabilitaBottoni();
     return (character as Frost_Demon).superFreezer();
 };
 
 const GoPerfectCell = (character: Guerriero) => {
+    if ((character as cyborg).IsTranformed) {
+        return (statusBattle.innerText = "Sei già trasformato.");
+    }
+    changeTurn(ArrayScontroPersonaggi);
+    DisabilitaBottoni();
     return (character as cyborg).PerfectCell();
 };
 // attacco finale di un saiyan diversificato a seconda che sia goku o vegeta
@@ -617,8 +631,6 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         divPlayer1.append(btnSuperSayan);
         btnSuperSayan.addEventListener("click", () => {
             goSuperSaiyan(character);
-            changeTurn(ArrayScontroPersonaggi);
-            DisabilitaBottoni();
 
             // trova immagine nel dom e sostituiscila con quella da ssj
             let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
@@ -670,8 +682,6 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         btnSuperFreezer.addEventListener("click", () => {
             // checkThisGuerrieroIsSayan_AndGoSuper(character);
             GoSuperFreezer(character);
-            changeTurn(ArrayScontroPersonaggi);
-            DisabilitaBottoni();
 
             // trova immagine nel dom e sostituiscila con quella da ssj
             let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
@@ -702,8 +712,6 @@ const populateDiv = (character: Guerriero, divPlayer1: HTMLElement, enemy: Guerr
         divPlayer1.append(btnCellFinalForm);
         btnCellFinalForm.addEventListener("click", () => {
             GoPerfectCell(character);
-            changeTurn(ArrayScontroPersonaggi);
-            DisabilitaBottoni();
 
             // trova immagine nel dom e sostituiscila con quella da ssj
             let ImmagineCambiata = document.getElementById(`id-${character.nome}`) as HTMLImageElement;
