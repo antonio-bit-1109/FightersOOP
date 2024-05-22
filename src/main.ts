@@ -6,6 +6,8 @@ import { cyborg } from "./classes/cyborg";
 import { pozione } from "./classes/pozione";
 import { sfondoFetch } from "./fetches/sfondoFetch";
 import { Guerriero } from "./interfaces/interfaces";
+import VolumeUp from "../public/svgs/volume-up-fill.svg";
+import VolumeMute from "../public/svgs/volume-mute-fill.svg";
 
 const pozioneVita_sm = new pozione(20, "pozioneVita_sm");
 const pozioneVita_md = new pozione(50, "pozioneVita_md");
@@ -141,6 +143,7 @@ statusBattle.classList.add("statusDivStyle", "display-2", "text-center", "fw-bol
 statusBattle.style.minHeight = "58vh";
 
 let WhoIsturn: number = 1;
+let IsMusicPlaying: boolean = true;
 
 // creazione input group sfruttando classi bootstrap
 
@@ -337,6 +340,29 @@ const OpponentPLayer = (array: Guerriero[]) => {
 
 // creo i div contenenti info dei due personaggi e attacco event listeners che richiamano i metodi necessari per il combattimento
 const DamoseLeBotte = (arraycombattenti: Guerriero[]) => {
+    // creo dei bottoni per gestire l'audio del lettore musicale.
+    const btnWrapperImageVolumeOn = document.createElement("button");
+    btnWrapperImageVolumeOn.classList.add("btn", "btn-transparent");
+    const ImageVolumeUp = document.createElement("img");
+    ImageVolumeUp.src = `${VolumeUp}`;
+    btnWrapperImageVolumeOn.append(ImageVolumeUp);
+    btnWrapperImageVolumeOn.addEventListener("click", () => {
+        muteMusic();
+        btnWrapperImageVolumeOn.remove();
+        appElement?.prepend(btnWrapperImageVolumeOff);
+    });
+
+    const btnWrapperImageVolumeOff = document.createElement("button");
+    btnWrapperImageVolumeOff.classList.add("btn", "btn-transparent");
+    const ImageVolumeMute = document.createElement("img");
+    ImageVolumeMute.src = `${VolumeMute}`;
+    btnWrapperImageVolumeOff.append(ImageVolumeMute);
+    btnWrapperImageVolumeOff.addEventListener("click", () => {
+        PlayMusic();
+        btnWrapperImageVolumeOff.remove();
+        appElement?.prepend(btnWrapperImageVolumeOn);
+    });
+
     h1.innerHTML = ` Combattimento tra ${arraycombattenti[0].nome} e ${arraycombattenti[1].nome}`;
     h3.innerHTML = "";
     PlayersDiv.innerHTML = "";
@@ -348,6 +374,7 @@ const DamoseLeBotte = (arraycombattenti: Guerriero[]) => {
     inputGroup.classList.add("d-none");
 
     RiproduzioneMusica();
+    appElement?.prepend(btnWrapperImageVolumeOn);
 
     for (let i = 0; i < 2; i++) {
         // Creazione del div esterno per la progress bar
@@ -850,6 +877,7 @@ const RiproduzioneMusica = () => {
     // creiamo un playerMusicale per musica combattimento
     const MusicPLayer = document.createElement("audio");
     MusicPLayer.setAttribute("controls", "");
+    MusicPLayer.id = "musicplayer";
     MusicPLayer.autoplay = true;
     MusicPLayer.hidden = true;
     MusicPLayer.volume = 0.2;
@@ -871,4 +899,16 @@ const RiproduzioneMusica = () => {
     });
 
     appElement?.append(MusicPLayer);
+};
+
+const muteMusic = () => {
+    IsMusicPlaying = false;
+    const MusicPlayer = document.getElementById("musicplayer");
+    (MusicPlayer as HTMLAudioElement).volume = 0;
+};
+
+const PlayMusic = () => {
+    IsMusicPlaying = true;
+    const MusicPlayer = document.getElementById("musicplayer");
+    (MusicPlayer as HTMLAudioElement).volume = 0.2;
 };
