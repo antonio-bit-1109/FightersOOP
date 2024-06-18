@@ -99,21 +99,6 @@ export class combattente {
         statusBattle.innerHTML += ` Pv Iniziali: ${this.initialPv} <br>`;
     }
 
-    // public CheckTentativiRimasti() {
-    //     statusBattle.innerHTML = "";
-    //     if (this.tentativi > 10) {
-    //         statusBattle.innerHTML = `Sei ancora fresco e riposato. Puoi cercare a lungo. (${this.tentativi} tentativi rimasti).`;
-    //     }
-
-    //     if (this.tentativi > 5 && this.tentativi < 10) {
-    //         statusBattle.innerHTML = `sei affaticato ma anche ancora un po di energia per cercare risorse. (${this.tentativi} tentativi rimasti).`;
-    //     }
-
-    //     if (this.tentativi < 5) {
-    //         statusBattle.innerHTML = `sei quasi allo stremo delle forze, non reggerai ancora a lungo. (${this.tentativi} tentativi rimasti).`;
-    //     }
-    // }
-
     public checkInventario() {
         statusBattle.innerHTML = "";
 
